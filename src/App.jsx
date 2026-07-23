@@ -97,7 +97,19 @@ const translations = {
     pickupTime: "Pickup Time",
     orderInstructions: "Additional Butcher / Delivery Instructions",
     trackTitle: "Track Your Counter Order",
-    orderPlaced: "Order Placed Successfully"
+    orderPlaced: "Order Placed Successfully",
+    contactSubtitle: "Get In Touch",
+    contactTitle: "Contact Master Butchers",
+    contactDesc: "Have questions about custom cut preparations, party catering boxes, or wholesale meat deliveries? Reach out to our team directly.",
+    yourName: "Your Full Name",
+    phoneLabel: "Phone Number",
+    messageLabel: "Message / Custom Cut Request",
+    sendInquiry: "Send Message",
+    storeLocationTitle: "Store Location & Hours",
+    storeAddressLabel: "Cedar Park Butcher Shop Address",
+    openDailyText: "Open Daily: 9:00 AM - 9:00 PM",
+    googleMapsBtn: "Open Google Maps",
+    callStoreBtn: "Call Store Counter"
   },
   ur: {
     home: "صفحہ اول",
@@ -149,7 +161,19 @@ const translations = {
     pickupTime: "وصولی کا وقت",
     orderInstructions: "اضافی ہدایات",
     trackTitle: "آرڈر کی ترسیل دیکھیں",
-    orderPlaced: "آرڈر کامیابی سے درج ہو گیا"
+    orderPlaced: "آرڈر کامیابی سے درج ہو گیا",
+    contactSubtitle: "ہم سے رابطہ کریں",
+    contactTitle: "قصاب خانے سے براہ راست رابطہ کریں",
+    contactDesc: "اگر آپ کو خاص قسم کے گوشت کی کٹوائی، سموسوں کے ڈبے، یا تقریبات کے آرڈر کے لیے کوئی بھی معلوماتی بات کرنی ہو تو پیغام بھیجیں۔",
+    yourName: "آپ کا پورا نام",
+    phoneLabel: "فون نمبر",
+    messageLabel: "پیغام یا خاص کٹوائی کی تفصیلات",
+    sendInquiry: "پیغام بھیجیں",
+    storeLocationTitle: "دوکان کا پتہ اور اوقات",
+    storeAddressLabel: "سیدار پارک حلال گوشت دوکان",
+    openDailyText: "روزانہ کھلا: 9:00 صبح - 9:00 رات",
+    googleMapsBtn: "گوگل نقشہ پر دیکھیں",
+    callStoreBtn: "کاؤنٹر پر فون کریں"
   },
   es: {
     home: "Inicio",
@@ -201,7 +225,19 @@ const translations = {
     pickupTime: "Hora de Recogida",
     orderInstructions: "Instrucciones Adicionales",
     trackTitle: "Rastrear su Pedido",
-    orderPlaced: "Pedido Realizado con Éxito"
+    orderPlaced: "Pedido Realizado con Éxito",
+    contactSubtitle: "Contáctenos",
+    contactTitle: "Contacto Directo con la Carnicería",
+    contactDesc: "¿Tiene preguntas sobre cortes especiales de carne, empanadas para eventos o entregas a domicilio? Envíenos un mensaje directamente.",
+    yourName: "Nombre Completo",
+    phoneLabel: "Teléfono de Contacto",
+    messageLabel: "Mensaje o Detalles del Corte",
+    sendInquiry: "Enviar Mensaje",
+    storeLocationTitle: "Ubicación y Horarios",
+    storeAddressLabel: "Carnicería en Cedar Park, TX",
+    openDailyText: "Abierto Todos los Días: 9:00 AM - 9:00 PM",
+    googleMapsBtn: "Ver en Google Maps",
+    callStoreBtn: "Llamar al Mostrador"
   }
 };
 
@@ -1798,65 +1834,97 @@ function App() {
       </section>
 
       {/* Map & Location Section */}
-      <section id="contact" className="section">
+      <section id="contact" className="section bg-light">
         <div className="container">
-          <div className="contact-grid">
-            <div className="contact-form-wrapper">
-              <span className="subtitle">Reach Out</span>
-              <h2 className="section-title" style={{ fontSize: '2.5rem', textAlign: 'left' }}>Find Us & Get In Touch</h2>
-              <p className="section-desc" style={{ textAlign: 'left', margin: '0 0 2rem 0' }}>
-                Have questions about custom butchering, party catering orders, or pastry boxes? Drop us a message or call directly!
-              </p>
+          <div className="contact-bento-grid">
+            
+            {/* Form Bento Card */}
+            <div className="contact-form-card">
+              <div className="card-header-badge">
+                <Mail size={16} style={{ color: 'var(--primary-light)' }} />
+                <span>{txt('contactSubtitle')}</span>
+              </div>
               
-              <form id="inquiryForm" onSubmit={(e) => {
+              <h2 className="contact-title">{txt('contactTitle')}</h2>
+              <p className="contact-desc">{txt('contactDesc')}</p>
+              
+              <form id="inquiryForm" className="contact-form" onSubmit={(e) => {
                 e.preventDefault();
-                const name = document.getElementById('name').value;
-                const phone = document.getElementById('phone').value;
-                const message = document.getElementById('message').value;
+                const name = document.getElementById('contact-name').value;
+                const phone = document.getElementById('contact-phone').value;
+                const message = document.getElementById('contact-message').value;
 
                 if (!name || !phone || !message) {
                   alert('Please fill out all fields.');
                   return;
                 }
 
-                showToast("Inquiry Sent", `Thank you, ${name}. We will get back to you shortly.`);
+                showToast("Message Sent", `Thank you, ${name}. Our master butcher will contact you shortly.`);
                 document.getElementById('inquiryForm').reset();
               }}>
-                <div className="form-group">
-                  <label htmlFor="name">Your Name</label>
-                  <input type="text" id="name" required placeholder="Ali Khan" />
+                <div className="form-group-clean">
+                  <label htmlFor="contact-name">{txt('yourName')}</label>
+                  <input type="text" id="contact-name" required placeholder="Ali Khan" />
                 </div>
-                <div className="form-group">
-                  <label htmlFor="phone">Phone Number</label>
-                  <input type="tel" id="phone" required placeholder="512.555.0199" />
+                
+                <div className="form-group-clean">
+                  <label htmlFor="contact-phone">{txt('phoneLabel')}</label>
+                  <input type="tel" id="contact-phone" required placeholder="512.555.0199" />
                 </div>
-                <div className="form-group">
-                  <label htmlFor="message">Message / Custom Cut Request</label>
-                  <textarea id="message" required placeholder="Specify any custom cut orders or catering inquiries..." rows="4"></textarea>
+
+                <div className="form-group-clean">
+                  <label htmlFor="contact-message">{txt('messageLabel')}</label>
+                  <textarea id="contact-message" required placeholder="Specify any custom cut orders or catering inquiries..." rows="4"></textarea>
                 </div>
-                <button type="submit" className="btn btn-primary" style={{ width: '100%', justifyContent: 'center' }}>
-                  Send Inquiry
-                  <Send size={16} style={{ marginLeft: '8px' }} />
+
+                <button type="submit" className="btn btn-primary submit-contact-btn">
+                  {txt('sendInquiry')}
+                  <Send size={16} />
                 </button>
               </form>
             </div>
 
-            <div className="map-wrapper">
-              <div id="map" className="store-map"></div>
-              <div className="map-card">
-                <h4>Store Address</h4>
-                <p>12920 West Parmer Lane #106<br />Cedar Park, TX 78613</p>
-                <div style={{ display: 'flex', gap: '1rem', marginTop: '1rem' }}>
-                  <a href="https://maps.google.com/?q=Quality+Halal+Market+12920+West+Parmer+Lane+106+Cedar+Park+TX+78613" target="_blank" rel="noopener noreferrer" className="btn btn-primary" style={{ flex: '1', fontSize: '0.85rem', padding: '0.6rem' }}>
-                    Google Maps
+            {/* Location & Map Bento Card */}
+            <div className="contact-map-card">
+              <div className="map-header-bar">
+                <div className="map-title-group">
+                  <MapPin size={20} style={{ color: 'var(--secondary-light)' }} />
+                  <div>
+                    <h3>{txt('storeLocationTitle')}</h3>
+                    <p>{txt('storeAddressLabel')}</p>
+                  </div>
+                </div>
+                <div className="store-hours-chip">
+                  <Clock size={14} />
+                  <span>{txt('openDailyText')}</span>
+                </div>
+              </div>
+
+              {/* Interactive Map */}
+              <div className="map-frame-wrapper">
+                <div id="map" className="store-map"></div>
+              </div>
+
+              {/* Map Footer Action Bar */}
+              <div className="map-card-footer">
+                <div className="store-address-text">
+                  <strong>Quality Halal Market</strong>
+                  <span>12920 West Parmer Lane #106, Cedar Park, TX 78613</span>
+                </div>
+
+                <div className="map-action-buttons">
+                  <a href="https://maps.google.com/?q=Quality+Halal+Market+12920+West+Parmer+Lane+106+Cedar+Park+TX+78613" target="_blank" rel="noopener noreferrer" className="btn btn-primary map-btn">
+                    <MapPin size={15} />
+                    {txt('googleMapsBtn')}
                   </a>
-                  <a href="https://facebook.com/QualityHalalMarket" target="_blank" rel="noopener noreferrer" className="btn btn-secondary" style={{ flex: '1', fontSize: '0.85rem', padding: '0.6rem', gap: '4px' }}>
-                    <Facebook size={14} />
-                    Facebook
+                  <a href="tel:5122607677" className="btn btn-secondary map-btn">
+                    <Phone size={15} />
+                    {txt('callStoreBtn')}
                   </a>
                 </div>
               </div>
             </div>
+
           </div>
         </div>
       </section>

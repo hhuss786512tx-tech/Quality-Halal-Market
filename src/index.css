@@ -3334,5 +3334,221 @@ textarea.form-input {
   padding: 8px;
 }
 
+/* -------------------------------------------------------------
+   CONTACT BENTO GRID & RENDER STYLES
+   ------------------------------------------------------------- */
+.contact-bento-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  align-items: stretch;
+}
+
+.contact-form-card,
+.contact-map-card {
+  background: rgba(15, 23, 42, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg);
+  padding: 2.25rem;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.card-header-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(16, 185, 129, 0.12);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  color: var(--primary-light);
+  padding: 4px 12px;
+  border-radius: var(--radius-full);
+  font-size: 0.8rem;
+  font-weight: 600;
+  width: fit-content;
+  margin-bottom: 1rem;
+}
+
+.contact-title {
+  font-size: 1.8rem;
+  font-family: var(--font-serif);
+  color: white;
+  margin-bottom: 0.5rem;
+}
+
+.contact-desc {
+  color: var(--text-muted);
+  font-size: 0.92rem;
+  line-height: 1.6;
+  margin-bottom: 1.75rem;
+}
+
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.form-group-clean {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.form-group-clean label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-light);
+}
+
+.form-group-clean input,
+.form-group-clean textarea {
+  width: 100%;
+  background: rgba(2, 6, 23, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: var(--radius-md);
+  padding: 0.8rem 1rem;
+  color: white;
+  font-family: var(--font-sans);
+  font-size: 0.92rem;
+  transition: var(--transition-smooth);
+}
+
+.form-group-clean input:focus,
+.form-group-clean textarea:focus {
+  outline: none;
+  border-color: var(--primary-light);
+  box-shadow: 0 0 15px rgba(16, 185, 129, 0.2);
+  background: rgba(2, 6, 23, 0.85);
+}
+
+.submit-contact-btn {
+  width: 100%;
+  justify-content: center;
+  padding: 1rem;
+  margin-top: 0.5rem;
+}
+
+/* Contact Map Card */
+.map-header-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.25rem;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.map-title-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.map-title-group h3 {
+  font-size: 1.1rem;
+  color: white;
+  margin: 0;
+}
+
+.map-title-group p {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+.store-hours-chip {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(245, 158, 11, 0.12);
+  border: 1px solid rgba(245, 158, 11, 0.3);
+  color: #f59e0b;
+  padding: 4px 10px;
+  border-radius: var(--radius-full);
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
+.map-frame-wrapper {
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  height: 280px;
+  border: 1px solid var(--glass-border);
+  margin-bottom: 1.25rem;
+}
+
+.map-card-footer {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: auto;
+}
+
+.store-address-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.store-address-text strong {
+  color: white;
+  font-size: 0.95rem;
+}
+
+.map-action-buttons {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.map-btn {
+  flex: 1;
+  justify-content: center;
+  padding: 0.65rem 0.85rem;
+  font-size: 0.85rem;
+}
+
+/* -------------------------------------------------------------
+   RTL & URDU TYPOGRAPHY SPECIFIC FIXES
+   ------------------------------------------------------------- */
+[dir="rtl"] {
+  font-family: 'Noto Sans Arabic', 'Outfit', sans-serif;
+  text-align: right;
+}
+
+[dir="rtl"] .logo {
+  flex-direction: row-reverse;
+}
+
+[dir="rtl"] .nav-links {
+  direction: rtl;
+}
+
+[dir="rtl"] .hero-content,
+[dir="rtl"] .dept-content,
+[dir="rtl"] .contact-form-card,
+[dir="rtl"] .contact-map-card,
+[dir="rtl"] .product-card {
+  text-align: right;
+}
+
+[dir="rtl"] .card-header-badge,
+[dir="rtl"] .map-title-group,
+[dir="rtl"] .store-hours-chip {
+  flex-direction: row-reverse;
+}
+
+@media (max-width: 900px) {
+  .contact-bento-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+
 
 

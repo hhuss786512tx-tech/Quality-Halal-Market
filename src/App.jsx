@@ -6,7 +6,7 @@ import {
   Truck, Sliders, User, Car,
   AlertCircle, ShoppingBag, Info, Award,
   Plus, Edit, Lock, Unlock, Search, RefreshCw, Eye, EyeOff,
-  Package, Sparkles, CheckCircle2
+  Package, Sparkles, CheckCircle2, Globe
 } from 'lucide-react';
 
 const Facebook = ({ size = 24, ...props }) => (
@@ -45,16 +45,177 @@ const Instagram = ({ size = 24, ...props }) => (
   </svg>
 );
 
-// High-Resolution Verified Raw Meat Cut Image Presets
+// Multi-Language Translation Dictionary (English, Urdu, Spanish)
+const translations = {
+  en: {
+    home: "Home",
+    departments: "Meat Departments",
+    deliveryZone: "Delivery Zone",
+    counter: "Butcher Counter",
+    aboutUs: "About Us",
+    contact: "Contact",
+    ownerAccess: "Owner Access",
+    ownerDashboard: "Owner Dashboard",
+    heroBadge: "100% Hand-Slaughtered Zabiha Halal Guarantee",
+    heroTitle: "Your Premium Halal Meat Butcher Counter",
+    heroSubtitle: "Sourcing the finest hand-slaughtered Zabiha goat, lamb, beef, chicken, meat pastries, samosas, and Masala Pantry style marinated BBQ botis. Custom cut and trimmed to order by certified halal butchers.",
+    shopCounter: "Explore Meat Counter",
+    checkDelivery: "Check Delivery",
+    openDaily: "Open Daily: 9:00 AM - 9:00 PM",
+    deptTitle: "Meat Counter Departments",
+    deptDesc: "Every cut of meat and savory pastry we offer is hand-slaughtered, thoroughly inspected, and prepared by our professional butchers.",
+    allCuts: "All Meat Cuts & Pastries",
+    goatCat: "Goat & Mutton",
+    beefCat: "Halal Beef Cuts",
+    chickenCat: "Chicken & Poultry",
+    lambCat: "Lamb Cuts",
+    marinatedCat: "Marinated & BBQ",
+    pastriesCat: "Meat Pastries & Samosas",
+    customizeCut: "Customize Cut",
+    quickAdd: "Quick Add",
+    unavailable: "Unavailable",
+    outOfStock: "OUT OF STOCK",
+    cartTitle: "Your Counter Order",
+    emptyCart: "Your counter cart is empty. Select meat cuts or pastries in the Virtual Counter below!",
+    subtotal: "Subtotal",
+    checkoutBtn: "Checkout counter order",
+    customTitle: "Custom Cut Preferences",
+    prepStyle: "Butcher Prep Style",
+    fatTrim: "Fat Trim Preferences",
+    skinPref: "Skin Preference",
+    specialNotes: "Special Butcher / Packaging Notes",
+    addToOrder: "Add to Order",
+    deliveryTitle: "On-Demand Meat Delivery",
+    verifyDelivery: "Verify Delivery Zone",
+    pickupOpt: "Express Store Pickup",
+    deliveryOpt: "On-Demand Delivery",
+    placeOrder: "Place Order",
+    fullName: "Your Full Name",
+    phoneNum: "Phone Number",
+    delAddress: "Delivery Address",
+    pickupDate: "Pickup Date",
+    pickupTime: "Pickup Time",
+    orderInstructions: "Additional Butcher / Delivery Instructions",
+    trackTitle: "Track Your Counter Order",
+    orderPlaced: "Order Placed Successfully"
+  },
+  ur: {
+    home: "صفحہ اول",
+    departments: "گوشت کے شعبے",
+    deliveryZone: "ڈلیوری کا علاقہ",
+    counter: "ورچوئل کاؤنٹر",
+    aboutUs: "ہمارے بارے میں",
+    contact: "رابطہ کریں",
+    ownerAccess: "مالک کا پورٹل",
+    ownerDashboard: "آنر ڈیش بورڈ",
+    heroBadge: "100٪ ہاتھ کا ذبح شدہ ذبیحہ حلال ضمانت",
+    heroTitle: "آپ کا پریمیم حلال گوشت کاؤنٹر",
+    heroSubtitle: "بہترین تازہ ذبیحہ بکرا، دنبہ، گائے، مرغی، قیمہ سموسے اور مسالہ پینٹری جیسے تیار شدہ تکہ بوٹی کا گوشت۔ ماہر قصابوں سے اپنی مرضی کی کٹوائی کروائیں۔",
+    shopCounter: "گوشت کاؤنٹر دیکھیں",
+    checkDelivery: "ڈلیوری چیک کریں",
+    openDaily: "روزانہ کھلا: 9:00 صبح - 9:00 رات",
+    deptTitle: "حلال گوشت کے شعبے",
+    deptDesc: "تمام قسم کا ذبیحہ حلال گوشت اور قیمے کے سموسے و پیسٹریاں تازہ تیار کی جاتی ہیں۔",
+    allCuts: "تمام گوشت اور سموسے",
+    goatCat: "بکرا و چھترا",
+    beefCat: "گائے کا گوشت",
+    chickenCat: "مرغی گوشت",
+    lambCat: "دنبہ گوشت",
+    marinatedCat: "مربہ تکہ بی بی کیو",
+    pastriesCat: "قیمہ سموسے و پیسٹری",
+    customizeCut: "کٹوائی پسند کریں",
+    quickAdd: "جلدی شامل کریں",
+    unavailable: "دستیاب نہیں",
+    outOfStock: "ختم ہو گیا ہے",
+    cartTitle: "آپ کا گوشت آرڈر",
+    emptyCart: "آپ کی کارٹ خالی ہے۔ نیچے کاؤنٹر سے گوشت یا سموسے منتخب کریں!",
+    subtotal: "کل رقم",
+    checkoutBtn: "آرڈر مکمل کریں",
+    customTitle: "کٹوائی کی ترجیحات",
+    prepStyle: "کٹوائی کا طریقہ",
+    fatTrim: "چربی کم یا زیادہ",
+    skinPref: "جلد / چھلکا",
+    specialNotes: "خاص ہدایات قصاب کے لیے",
+    addToOrder: "آرڈر میں شامل کریں",
+    deliveryTitle: "گھر تک گوشت کی ترسیل",
+    verifyDelivery: "ڈلیوری چیک کریں",
+    pickupOpt: "دوکان سے خود لیں",
+    deliveryOpt: "گھر پر ڈلیوری",
+    placeOrder: "آرڈر بھیجیں",
+    fullName: "آپ کا پورا نام",
+    phoneNum: "فون نمبر",
+    delAddress: "ڈلیوری کا پتہ",
+    pickupDate: "وصولی کی تاریخ",
+    pickupTime: "وصولی کا وقت",
+    orderInstructions: "اضافی ہدایات",
+    trackTitle: "آرڈر کی ترسیل دیکھیں",
+    orderPlaced: "آرڈر کامیابی سے درج ہو گیا"
+  },
+  es: {
+    home: "Inicio",
+    departments: "Secciones de Carne",
+    deliveryZone: "Zona de Entrega",
+    counter: "Mostrador Virtual",
+    aboutUs: "Sobre Nosotros",
+    contact: "Contacto",
+    ownerAccess: "Acceso Propietario",
+    ownerDashboard: "Panel Propietario",
+    heroBadge: "Garantía 100% Zabiha Halal Sacrificado a Mano",
+    heroTitle: "Su Carnicería Halal de Calidad Premium",
+    heroSubtitle: "Ofreciendo los mejores cortes de chivo, cordero, res, pollo, empanadas de carne y marinados estilo Masala Pantry. Cortados a su gusto por carniceros certificados.",
+    shopCounter: "Explorar Mostrador",
+    checkDelivery: "Verificar Entrega",
+    openDaily: "Abierto Todos los Días: 9:00 AM - 9:00 PM",
+    deptTitle: "Secciones de la Carnicería",
+    deptDesc: "Cada corte de carne y empanada artesanal es sacrificado a mano y preparado al instante por nuestros carniceros profesionales.",
+    allCuts: "Todos los Cortes y Pasteles",
+    goatCat: "Chivo y Cabrito",
+    beefCat: "Cortes de Res Halal",
+    chickenCat: "Pollo y Aves",
+    lambCat: "Cortes de Cordero",
+    marinatedCat: "Marinados y Parrilla",
+    pastriesCat: "Empanadas y Pasteles de Carne",
+    customizeCut: "Personalizar Corte",
+    quickAdd: "Añadir Rápido",
+    unavailable: "No Disponible",
+    outOfStock: "AGOTADO",
+    cartTitle: "Su Pedido del Mostrador",
+    emptyCart: "Su carrito está vacío. ¡Seleccione cortes de carne o empanadas abajo!",
+    subtotal: "Subtotal",
+    checkoutBtn: "Procesar Pedido",
+    customTitle: "Preferencias de Corte",
+    prepStyle: "Estilo de Corte",
+    fatTrim: "Nivel de Grasa",
+    skinPref: "Preferencia de Piel",
+    specialNotes: "Notas Especiales para el Carnicero",
+    addToOrder: "Añadir al Pedido",
+    deliveryTitle: "Entrega de Carne a Domicilio",
+    verifyDelivery: "Verificar Zona de Entrega",
+    pickupOpt: "Recoger en Tienda",
+    deliveryOpt: "Entrega a Domicilio",
+    placeOrder: "Confirmar Pedido",
+    fullName: "Nombre Completo",
+    phoneNum: "Teléfono",
+    delAddress: "Dirección de Entrega",
+    pickupDate: "Fecha de Recogida",
+    pickupTime: "Hora de Recogida",
+    orderInstructions: "Instrucciones Adicionales",
+    trackTitle: "Rastrear su Pedido",
+    orderPlaced: "Pedido Realizado con Éxito"
+  }
+};
+
+// High-Resolution Verified Raw Meat Cut & Pastry Image Presets
 const presetImages = {
   goat: "https://images.unsplash.com/photo-1532550907401-a500c9a57435?auto=format&fit=crop&w=800&q=80",
   beef: "https://images.unsplash.com/photo-1603048588665-791ca8aea617?auto=format&fit=crop&w=800&q=80",
   chicken: "https://images.unsplash.com/photo-1604503468506-a8da13d82791?auto=format&fit=crop&w=800&q=80",
   lamb: "https://images.unsplash.com/photo-1602916298539-78709ca88b48?auto=format&fit=crop&w=800&q=80",
-  marinated: "https://images.unsplash.com/photo-1599487488170-d11ec9c172f0?auto=format&fit=crop&w=800&q=80"
+  marinated: "https://images.unsplash.com/photo-1599487488170-d11ec9c172f0?auto=format&fit=crop&w=800&q=80",
+  pastries: "https://images.unsplash.com/photo-1601050690597-df056fb4ce78?auto=format&fit=crop&w=800&q=80"
 };
 
-// Comprehensive 100% Zabiha Hand-Slaughtered Halal Meat Store Catalog
+// Comprehensive 100% Zabiha Hand-Slaughtered Halal Meat & Pastries Catalog
 const defaultProducts = [
   // --- GOAT & MUTTON CUTS ---
   {
@@ -251,22 +412,10 @@ const defaultProducts = [
     inStock: true,
     img: "https://images.unsplash.com/photo-1603048588665-791ca8aea617?auto=format&fit=crop&w=800&q=80"
   },
-  {
-    id: 17,
-    name: "Halal Beef T-Bone Steak",
-    desc: "Thick-cut Zabiha beef T-Bone steak featuring both juicy strip loin and tenderloin on the bone.",
-    category: "beef",
-    price: 15.99,
-    unit: "per lb",
-    status: "Custom Butcher Cut",
-    halal: true,
-    inStock: true,
-    img: "https://images.unsplash.com/photo-1558030006-450675393462?auto=format&fit=crop&w=800&q=80"
-  },
 
   // --- CHICKEN & POULTRY CUTS ---
   {
-    id: 18,
+    id: 17,
     name: "Whole Skinless Chicken (Cut to Order)",
     desc: "Fresh, clean Zabiha whole chicken, skinless and cut to your exact preference (curry cut, 4-piece, 8-piece, or whole for roast).",
     category: "chicken",
@@ -278,7 +427,7 @@ const defaultProducts = [
     img: "https://images.unsplash.com/photo-1604503468506-a8da13d82791?auto=format&fit=crop&w=800&q=80"
   },
   {
-    id: 19,
+    id: 18,
     name: "Bone-In Chicken Curry Cut",
     desc: "Pre-cut fresh chicken pieces with skinless bone-in perfection. Standard curry-size cuts ready for cooking.",
     category: "chicken",
@@ -290,7 +439,7 @@ const defaultProducts = [
     img: "https://images.unsplash.com/photo-1604503468506-a8da13d82791?auto=format&fit=crop&w=800&q=80"
   },
   {
-    id: 20,
+    id: 19,
     name: "Boneless Chicken Breast Cubes",
     desc: "100% Zabiha skinless, boneless chicken breast trimmed into uniform cubes. Great for Chicken Tikka, Handi, skewering, or salads.",
     category: "chicken",
@@ -302,7 +451,7 @@ const defaultProducts = [
     img: "https://images.unsplash.com/photo-1587593810167-a84920ea0781?auto=format&fit=crop&w=800&q=80"
   },
   {
-    id: 21,
+    id: 20,
     name: "Boneless Chicken Thighs",
     desc: "Juicy boneless dark meat chicken thighs. Remains tender and moist under high heat grilling or shawarma style roasting.",
     category: "chicken",
@@ -314,7 +463,7 @@ const defaultProducts = [
     img: "https://images.unsplash.com/photo-1604503468506-a8da13d82791?auto=format&fit=crop&w=800&q=80"
   },
   {
-    id: 22,
+    id: 21,
     name: "Fresh Halal Chicken Drumsticks",
     desc: "Plump, fresh hand-slaughtered chicken drumsticks. Perfect for tandoori drumsticks, frying, or chicken curry.",
     category: "chicken",
@@ -326,7 +475,7 @@ const defaultProducts = [
     img: "https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?auto=format&fit=crop&w=800&q=80"
   },
   {
-    id: 23,
+    id: 22,
     name: "Halal Chicken Party Wings",
     desc: "Freshly split party chicken wingettes and drumettes. Cleaned and trimmed for oven bake, deep fry, or grill.",
     category: "chicken",
@@ -338,7 +487,7 @@ const defaultProducts = [
     img: "https://images.unsplash.com/photo-1567620832903-9fc6debc209f?auto=format&fit=crop&w=800&q=80"
   },
   {
-    id: 24,
+    id: 23,
     name: "Halal Chicken Keema (Ground Chicken)",
     desc: "Fresh ground lean chicken breast and thigh meat minced daily at counter for kebabs and chicken keema fry.",
     category: "chicken",
@@ -349,22 +498,10 @@ const defaultProducts = [
     inStock: true,
     img: "https://images.unsplash.com/photo-1588168333986-5078d3ae3976?auto=format&fit=crop&w=800&q=80"
   },
-  {
-    id: 25,
-    name: "Whole Baby Chicken (Poussin / Saj)",
-    desc: "Tender whole young baby chicken (Poussin), exceptionally tender. Ideal for charcoal grilling and whole bird roasts.",
-    category: "chicken",
-    price: 4.99,
-    unit: "per lb",
-    status: "Specialty Poultry",
-    halal: true,
-    inStock: true,
-    img: "https://images.unsplash.com/photo-1604503468506-a8da13d82791?auto=format&fit=crop&w=800&q=80"
-  },
 
   // --- HALAL LAMB CUTS ---
   {
-    id: 26,
+    id: 24,
     name: "Tender Lamb Chops (Rib Cut)",
     desc: "Juicy, hand-trimmed Zabiha lamb rib chops. Season with rosemary, garlic, and sea salt for pan searing or grilling.",
     category: "lamb",
@@ -376,7 +513,7 @@ const defaultProducts = [
     img: "https://images.unsplash.com/photo-1602916298539-78709ca88b48?auto=format&fit=crop&w=800&q=80"
   },
   {
-    id: 27,
+    id: 25,
     name: "Halal Lamb Curry Cut (Bone-In)",
     desc: "Sweet, succulent bone-in Zabiha lamb chunks. Ideal for Rogan Josh, Kashmiri gravies, and aromatic lamb Yakhni pulao.",
     category: "lamb",
@@ -388,7 +525,7 @@ const defaultProducts = [
     img: "https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=800&q=80"
   },
   {
-    id: 28,
+    id: 26,
     name: "Halal Lamb Shank (Nalli)",
     desc: "Whole Zabiha lamb shanks rich in meat and bone marrow. Slow cooks into fall-off-the-bone tender gourmet gravies.",
     category: "lamb",
@@ -400,7 +537,7 @@ const defaultProducts = [
     img: "https://images.unsplash.com/photo-1551024709-8f23befc6f87?auto=format&fit=crop&w=800&q=80"
   },
   {
-    id: 29,
+    id: 27,
     name: "Halal Lamb Leg (Whole or Sliced)",
     desc: "Premium bone-in lamb leg. Can be sliced into steaks, curry cut, or left whole for slow oven roast.",
     category: "lamb",
@@ -411,22 +548,10 @@ const defaultProducts = [
     inStock: true,
     img: "https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=800&q=80"
   },
-  {
-    id: 30,
-    name: "Halal Lamb Keema (Ground Lamb)",
-    desc: "Rich, flavorful ground Zabiha lamb minced fresh daily. Perfect for shepherd's pie, lamb koftas, and stuffed naans.",
-    category: "lamb",
-    price: 14.99,
-    unit: "per lb",
-    status: "Ground Fresh",
-    halal: true,
-    inStock: true,
-    img: "https://images.unsplash.com/photo-1588168333986-5078d3ae3976?auto=format&fit=crop&w=800&q=80"
-  },
 
   // --- MARINATED & BBQ READY CUTS ---
   {
-    id: 31,
+    id: 28,
     name: "Masala Pantry Style Marinated Tandoori Chicken",
     desc: "Signature house marinaded Zabiha chicken cut in yogurt, Kashmiri red chili, garlic, lemon, and tandoori spices. Ready to cook!",
     category: "marinated",
@@ -438,7 +563,7 @@ const defaultProducts = [
     img: "https://images.unsplash.com/photo-1599487488170-d11ec9c172f0?auto=format&fit=crop&w=800&q=80"
   },
   {
-    id: 32,
+    id: 29,
     name: "Marinated Malai Chicken Boti",
     desc: "Tender boneless chicken breast boti marinated in cream, garlic, green chilies, and white pepper. Mild & luscious.",
     category: "marinated",
@@ -450,7 +575,7 @@ const defaultProducts = [
     img: "https://images.unsplash.com/photo-1587593810167-a84920ea0781?auto=format&fit=crop&w=800&q=80"
   },
   {
-    id: 33,
+    id: 30,
     name: "Marinated Bihari Beef Boti",
     desc: "Masala Pantry style tenderized beef boti infused with raw papaya, mustard oil, nutmeg, and aromatic Bihari spices. Charcoal ready!",
     category: "marinated",
@@ -461,29 +586,91 @@ const defaultProducts = [
     inStock: true,
     img: "https://images.unsplash.com/photo-1529692236671-f1f6cf9683ba?auto=format&fit=crop&w=800&q=80"
   },
+
+  // --- MEAT PASTRIES & SAMOSAS ---
+  {
+    id: 31,
+    name: "Zabiha Beef Keema Samosas (6-Pack)",
+    desc: "Crispy handcrafted golden triangular pastries filled with spiced ground Zabiha beef, caramelised onions, coriander, and fresh mint.",
+    category: "pastries",
+    price: 6.99,
+    unit: "6-Pack",
+    status: "Handcrafted Fresh",
+    halal: true,
+    inStock: true,
+    img: "https://images.unsplash.com/photo-1601050690597-df056fb4ce78?auto=format&fit=crop&w=800&q=80"
+  },
+  {
+    id: 32,
+    name: "Halal Chicken Keema Samosas (6-Pack)",
+    desc: "Crispy flaky pastry crust stuffed with seasoned ground chicken, green peas, and traditional aromatic spice blend.",
+    category: "pastries",
+    price: 6.49,
+    unit: "6-Pack",
+    status: "Crispy & Flaky",
+    halal: true,
+    inStock: true,
+    img: "https://images.unsplash.com/photo-1601050690597-df056fb4ce78?auto=format&fit=crop&w=800&q=80"
+  },
+  {
+    id: 33,
+    name: "Traditional Halal Meat Pie (Beef & Gravy)",
+    desc: "Bakery-style golden puff pastry pie stuffed with slow-braised Zabiha beef chunks, onions, and rich savory gravy sauce.",
+    category: "pastries",
+    price: 4.99,
+    unit: "per pie",
+    status: "Freshly Baked",
+    halal: true,
+    inStock: true,
+    img: "https://images.unsplash.com/photo-1572383672419-ab35444a6934?auto=format&fit=crop&w=800&q=80"
+  },
   {
     id: 34,
-    name: "Halal Beef Seekh Kabab Skewers (Prepared)",
-    desc: "Handcrafted minced beef seekh kababs blended with cilantro, green chilies, and roasted spices. Ready for oven or outdoor grill.",
-    category: "marinated",
-    price: 11.99,
-    unit: "6-Piece Pack",
-    status: "Crafted Daily",
+    name: "Halal Chicken & Mushroom Puff Pastry",
+    desc: "Golden buttery puff pastry pocket filled with creamy tandoori chicken, herbs, and savory mushrooms.",
+    category: "pastries",
+    price: 4.49,
+    unit: "per piece",
+    status: "Bakery Fresh",
+    halal: true,
+    inStock: true,
+    img: "https://images.unsplash.com/photo-1572383672419-ab35444a6934?auto=format&fit=crop&w=800&q=80"
+  },
+  {
+    id: 35,
+    name: "Zabiha Beef Shami Kabab Patties (4-Pack)",
+    desc: "Traditional pan-seared spiced beef & lentil kabab patties. Made fresh daily, just heat and serve.",
+    category: "pastries",
+    price: 8.99,
+    unit: "4-Pack",
+    status: "Ready to Heat",
     halal: true,
     inStock: true,
     img: "https://images.unsplash.com/photo-1603360946369-fa99d57ee7c5?auto=format&fit=crop&w=800&q=80"
   },
   {
-    id: 35,
-    name: "Marinated Spicy Tandoori Wings",
-    desc: "Fresh chicken party wings marinated in spicy Kashmiri chili tikka masala marinade. Perfect for game day BBQ or baking.",
-    category: "marinated",
-    price: 4.99,
-    unit: "per lb",
-    status: "Spicy Tikka",
+    id: 36,
+    name: "Halal Beef Empanadas (3-Pack)",
+    desc: "Golden pastry turnovers stuffed with savory minced Zabiha beef, herbs, and warm Latin spices.",
+    category: "pastries",
+    price: 5.99,
+    unit: "3-Pack",
+    status: "Golden Baked",
     halal: true,
     inStock: true,
-    img: "https://images.unsplash.com/photo-1567620832903-9fc6debc209f?auto=format&fit=crop&w=800&q=80"
+    img: "https://images.unsplash.com/photo-1572383672419-ab35444a6934?auto=format&fit=crop&w=800&q=80"
+  },
+  {
+    id: 37,
+    name: "Spicy Mutton Keema Puff",
+    desc: "Traditional bakery-style puff pastry stuffed with spicy minced goat & mutton, green chilies, and coriander.",
+    category: "pastries",
+    price: 4.99,
+    unit: "per piece",
+    status: "Hot & Flaky",
+    halal: true,
+    inStock: true,
+    img: "https://images.unsplash.com/photo-1572383672419-ab35444a6934?auto=format&fit=crop&w=800&q=80"
   }
 ];
 
@@ -499,8 +686,8 @@ const hashString = (str) => {
 const getDeliveryInfo = (address) => {
   if (!address || address.trim().length < 5) return null;
   const hash = hashString(address);
-  const distance = ((hash % 95) / 10) + 1.2; // Generates 1.2 to 10.7 miles
-  const eligible = distance <= 10.0; // 10 miles delivery radius limit
+  const distance = ((hash % 95) / 10) + 1.2;
+  const eligible = distance <= 10.0;
   const fee = eligible ? Number((2.99 + (distance * 0.40)).toFixed(2)) : 0;
   const eta = Math.round(25 + (distance * 2.2));
   return {
@@ -524,16 +711,20 @@ const getDefaultCustomizations = (product) => {
 };
 
 function App() {
-  // Navigation & UI States
+  // Navigation & Language States
+  const [currentLang, setCurrentLang] = useState(() => {
+    return localStorage.getItem('qhm_lang') || 'en';
+  });
+
   const [scrollProgress, setScrollProgress] = useState(0);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [activeCategory, setActiveCategory] = useState('all');
   const [flippedCards, setFlippedCards] = useState({ 1: false, 2: false });
   const [lightboxImg, setLightboxImg] = useState(null);
 
-  // Dynamic Products List with LocalStorage Persistence (Meat-Only Catalog v3)
+  // Dynamic Products List with LocalStorage Persistence (Meat & Pastries Catalog v4)
   const [productsList, setProductsList] = useState(() => {
-    const saved = localStorage.getItem('qhm_products_meat_v3');
+    const saved = localStorage.getItem('qhm_products_meat_v4');
     if (saved) {
       try {
         return JSON.parse(saved);
@@ -553,7 +744,7 @@ function App() {
 
   // Product Add / Edit Form Modal State
   const [isEditorModalOpen, setIsEditorModalOpen] = useState(false);
-  const [editingProduct, setEditingProduct] = useState(null); // null = Add, object = Edit
+  const [editingProduct, setEditingProduct] = useState(null);
   const [formName, setFormName] = useState('');
   const [formCategory, setFormCategory] = useState('goat');
   const [formPrice, setFormPrice] = useState('');
@@ -572,7 +763,7 @@ function App() {
   const [isCartDrawerOpen, setIsCartDrawerOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
   
-  // Customization States (Inside product configurator modal)
+  // Customization States
   const [modalQty, setModalQty] = useState(1);
   const [prepStyle, setPrepStyle] = useState('Curry Cut (Medium)');
   const [fatTrim, setFatTrim] = useState('Standard (Balanced)');
@@ -586,7 +777,7 @@ function App() {
 
   // Checkout Form States
   const [isCheckoutModalOpen, setIsCheckoutModalOpen] = useState(false);
-  const [orderType, setOrderType] = useState('pickup'); // 'pickup' or 'delivery'
+  const [orderType, setOrderType] = useState('pickup');
   const [checkoutName, setCheckoutName] = useState('');
   const [checkoutPhone, setCheckoutPhone] = useState('');
   const [checkoutAddress, setCheckoutAddress] = useState('');
@@ -610,9 +801,19 @@ function App() {
     return qtys;
   });
 
+  // Translation Helper
+  const txt = (key) => {
+    return (translations[currentLang] && translations[currentLang][key]) || translations['en'][key] || key;
+  };
+
+  // Sync Language
+  useEffect(() => {
+    localStorage.setItem('qhm_lang', currentLang);
+  }, [currentLang]);
+
   // Sync Products to LocalStorage
   useEffect(() => {
-    localStorage.setItem('qhm_products_meat_v3', JSON.stringify(productsList));
+    localStorage.setItem('qhm_products_meat_v4', JSON.stringify(productsList));
   }, [productsList]);
 
   // Calculate scroll progress
@@ -666,7 +867,7 @@ function App() {
         marker.bindPopup(`
           <div style="color: #0f172a; padding: 5px; font-family: 'Outfit', sans-serif;">
             <strong style="font-size: 1.1rem; color: #064e3b; display: block; margin-bottom: 2px;">Quality Halal Market</strong>
-            <span style="font-size: 0.85rem; color: #64748b; display: block; margin-bottom: 8px;">Fresh Zabiha Halal Meats</span>
+            <span style="font-size: 0.85rem; color: #64748b; display: block; margin-bottom: 8px;">Fresh Zabiha Halal Meats & Pastries</span>
             <a href="https://maps.google.com/?q=Quality+Halal+Market+12920+West+Parmer+Lane+106+Cedar+Park+TX+78613" target="_blank" style="
               display: inline-block;
               background-color: #064e3b;
@@ -774,7 +975,7 @@ function App() {
   const addToCartFromModal = () => {
     if (!selectedProduct) return;
     if (selectedProduct.inStock === false) {
-      alert("Sorry, this meat cut is currently out of stock!");
+      alert("Sorry, this item is currently out of stock!");
       return;
     }
     
@@ -810,13 +1011,13 @@ function App() {
     });
 
     setSelectedProduct(null);
-    showToast("Added Customized Meat Cut", `${selectedProduct.name} added to your order.`);
+    showToast("Item Added", `${selectedProduct.name} added to your order.`);
   };
 
   const quickAddToCart = (product, e) => {
     e.stopPropagation();
     if (product.inStock === false) {
-      alert("Sorry, this meat cut is currently out of stock!");
+      alert("Sorry, this item is currently out of stock!");
       return;
     }
     const qty = cardQuantities[product.id] || 1;
@@ -847,7 +1048,7 @@ function App() {
     });
 
     setCardQuantities(prev => ({ ...prev, [product.id]: 1 }));
-    showToast("Meat Cut Added", `${product.name} (x${qty}) added with default cuts.`);
+    showToast("Item Added", `${product.name} (x${qty}) added with default cuts.`);
   };
 
   const handleCardQtyChange = (productId, delta, e) => {
@@ -916,7 +1117,7 @@ function App() {
     if (e) e.preventDefault();
     if (adminPasscode === '1234' || adminPasscode === 'admin' || adminPasscode === '') {
       setIsAdminLoggedIn(true);
-      showToast("Store Owner Authenticated", "Welcome, Store Owner! You now have full access to manage all meat cuts.");
+      showToast("Store Owner Authenticated", "Welcome, Store Owner! You now have full access to manage all items.");
     } else {
       alert("Invalid passcode. Use 1234 or click 'Owner Demo Login'.");
     }
@@ -938,7 +1139,7 @@ function App() {
     if (!target) return;
     if (window.confirm(`Are you sure you want to delete "${target.name}" from your butcher inventory?`)) {
       setProductsList(prev => prev.filter(p => p.id !== productId));
-      showToast("Cut Deleted", `${target.name} removed from inventory.`);
+      showToast("Item Deleted", `${target.name} removed from inventory.`);
     }
   };
 
@@ -984,7 +1185,6 @@ function App() {
     }
 
     if (editingProduct) {
-      // Update existing item
       setProductsList(prev => prev.map(p => {
         if (p.id === editingProduct.id) {
           return {
@@ -1002,9 +1202,8 @@ function App() {
         }
         return p;
       }));
-      showToast("Meat Cut Updated", `Successfully updated "${formName}".`);
+      showToast("Item Updated", `Successfully updated "${formName}".`);
     } else {
-      // Add new item
       const newId = Math.max(...productsList.map(p => p.id), 0) + 1;
       const newProd = {
         id: newId,
@@ -1014,23 +1213,23 @@ function App() {
         unit: formUnit,
         status: formStatus,
         img: formImg || presetImages[formCategory] || presetImages.goat,
-        desc: formDesc || "Fresh Zabiha halal selection, cut and prepared daily by our certified butchers.",
+        desc: formDesc || "Fresh Zabiha halal selection, prepared daily by our certified butchers.",
         halal: formHalal,
         inStock: formInStock
       };
       setProductsList(prev => [newProd, ...prev]);
       setCardQuantities(prev => ({ ...prev, [newId]: 1 }));
-      showToast("New Meat Cut Added", `"${formName}" is now live on your store counter.`);
+      showToast("New Item Added", `"${formName}" is now live on your store counter.`);
     }
 
     setIsEditorModalOpen(false);
   };
 
   const handleResetCatalog = () => {
-    if (window.confirm("Reset catalog back to original Zabiha Halal meat cuts list?")) {
+    if (window.confirm("Reset catalog back to original Zabiha Halal meat cuts and pastries list?")) {
       setProductsList(defaultProducts);
-      localStorage.removeItem('qhm_products_meat_v3');
-      showToast("Catalog Reset", "Restored default Zabiha Halal meat cuts inventory.");
+      localStorage.removeItem('qhm_products_meat_v4');
+      showToast("Catalog Reset", "Restored default Zabiha Halal inventory.");
     }
   };
 
@@ -1050,17 +1249,18 @@ function App() {
 
   const getCategoryLabel = (cat) => {
     switch(cat) {
-      case 'goat': return 'Goat & Mutton';
-      case 'beef': return 'Halal Beef Cuts';
-      case 'chicken': return 'Chicken & Poultry';
-      case 'lamb': return 'Halal Lamb Cuts';
-      case 'marinated': return 'Marinated & BBQ';
+      case 'goat': return txt('goatCat');
+      case 'beef': return txt('beefCat');
+      case 'chicken': return txt('chickenCat');
+      case 'lamb': return txt('lambCat');
+      case 'marinated': return txt('marinatedCat');
+      case 'pastries': return txt('pastriesCat');
       default: return 'Fresh Meat Cut';
     }
   };
 
   return (
-    <>
+    <div dir={currentLang === 'ur' ? 'rtl' : 'ltr'}>
       {/* Scroll Progress Bar */}
       <div className="scroll-progress" style={{ width: `${scrollProgress}%` }}></div>
 
@@ -1073,22 +1273,37 @@ function App() {
           </a>
           
           <ul className="nav-links">
-            <li><a href="#home" className="nav-link">Home</a></li>
-            <li><a href="#specialties" className="nav-link">Meat Departments</a></li>
-            <li><a href="#delivery-section" className="nav-link">Delivery Zone</a></li>
-            <li><a href="#counter" className="nav-link">Butcher Counter</a></li>
-            <li><a href="#about" className="nav-link">About Us</a></li>
-            <li><a href="#contact" className="nav-link">Contact</a></li>
+            <li><a href="#home" className="nav-link">{txt('home')}</a></li>
+            <li><a href="#specialties" className="nav-link">{txt('departments')}</a></li>
+            <li><a href="#delivery-section" className="nav-link">{txt('deliveryZone')}</a></li>
+            <li><a href="#counter" className="nav-link">{txt('counter')}</a></li>
+            <li><a href="#about" className="nav-link">{txt('aboutUs')}</a></li>
+            <li><a href="#contact" className="nav-link">{txt('contact')}</a></li>
           </ul>
           
           <div className="nav-cta" style={{ display: 'flex', gap: '0.75rem', alignItems: 'center' }}>
+            {/* Language Selector Dropdown */}
+            <div className="language-selector">
+              <Globe size={16} style={{ color: 'var(--primary-light)' }} />
+              <select 
+                value={currentLang} 
+                onChange={(e) => setCurrentLang(e.target.value)}
+                className="lang-select"
+                aria-label="Select Interface Language"
+              >
+                <option value="en">🇬🇧 English</option>
+                <option value="ur">🇵🇰 اردو (Urdu)</option>
+                <option value="es">🇪🇸 Español (Spanish)</option>
+              </select>
+            </div>
+
             <button 
               className={`admin-nav-btn ${isAdminLoggedIn ? 'logged-in' : ''}`}
               onClick={() => setIsAdminModalOpen(true)}
               title="Manage store inventory & meat cuts"
             >
               <ShieldCheck size={16} />
-              {isAdminLoggedIn ? 'Owner Dashboard' : 'Owner Access'}
+              {isAdminLoggedIn ? txt('ownerDashboard') : txt('ownerAccess')}
             </button>
 
             <a href="tel:5122607677" className="btn btn-primary" style={{ padding: '0.65rem 1.4rem', fontSize: '0.9rem' }}>
@@ -1123,14 +1338,28 @@ function App() {
           </button>
         </div>
         <ul className="drawer-links">
-          <li><a href="#home" onClick={() => setIsMobileMenuOpen(false)} className="drawer-link">Home</a></li>
-          <li><a href="#specialties" onClick={() => setIsMobileMenuOpen(false)} className="drawer-link">Meat Departments</a></li>
-          <li><a href="#delivery-section" onClick={() => setIsMobileMenuOpen(false)} className="drawer-link">Delivery Area</a></li>
-          <li><a href="#counter" onClick={() => setIsMobileMenuOpen(false)} className="drawer-link">Butcher Counter</a></li>
-          <li><a href="#about" onClick={() => setIsMobileMenuOpen(false)} className="drawer-link">About Us</a></li>
-          <li><a href="#contact" onClick={() => setIsMobileMenuOpen(false)} className="drawer-link">Location & Contact</a></li>
+          <li><a href="#home" onClick={() => setIsMobileMenuOpen(false)} className="drawer-link">{txt('home')}</a></li>
+          <li><a href="#specialties" onClick={() => setIsMobileMenuOpen(false)} className="drawer-link">{txt('departments')}</a></li>
+          <li><a href="#delivery-section" onClick={() => setIsMobileMenuOpen(false)} className="drawer-link">{txt('deliveryZone')}</a></li>
+          <li><a href="#counter" onClick={() => setIsMobileMenuOpen(false)} className="drawer-link">{txt('counter')}</a></li>
+          <li><a href="#about" onClick={() => setIsMobileMenuOpen(false)} className="drawer-link">{txt('aboutUs')}</a></li>
+          <li><a href="#contact" onClick={() => setIsMobileMenuOpen(false)} className="drawer-link">{txt('contact')}</a></li>
         </ul>
         <div className="drawer-footer" style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+          <div className="language-selector" style={{ width: '100%', justifyContent: 'center', padding: '0.65rem' }}>
+            <Globe size={16} style={{ color: 'var(--primary-light)' }} />
+            <select 
+              value={currentLang} 
+              onChange={(e) => setCurrentLang(e.target.value)}
+              className="lang-select"
+              style={{ fontSize: '1rem' }}
+            >
+              <option value="en">🇬🇧 English</option>
+              <option value="ur">🇵🇰 اردو (Urdu)</option>
+              <option value="es">🇪🇸 Español (Spanish)</option>
+            </select>
+          </div>
+
           <button 
             className="btn btn-secondary" 
             style={{ width: '100%', justifyContent: 'center', borderColor: '#f59e0b', color: '#f59e0b' }}
@@ -1140,7 +1369,7 @@ function App() {
             }}
           >
             <ShieldCheck size={16} />
-            Owner Admin Portal
+            {txt('ownerAccess')}
           </button>
           
           <a href="tel:5122607677" className="btn btn-primary" style={{ width: '100%', justifyContent: 'center' }}>
@@ -1157,22 +1386,22 @@ function App() {
           <div className="hero-content">
             <div className="hero-badge">
               <ShieldCheck size={16} style={{ marginRight: '6px', color: 'var(--secondary-light)' }} />
-              100% Hand-Slaughtered Zabiha Halal Guarantee
+              {txt('heroBadge')}
             </div>
             <h1 className="hero-title">
-              Your Premium Halal <span>Meat Butcher Counter</span>
+              {txt('heroTitle')}
             </h1>
             <p className="hero-subtitle">
-              Sourcing the finest hand-slaughtered Zabiha goat, lamb, beef, chicken, and Masala Pantry style marinated BBQ botis. Custom cut and trimmed to order by certified halal butchers.
+              {txt('heroSubtitle')}
             </p>
             <div className="hero-btns">
               <a href="#counter" className="btn btn-primary">
-                Explore Meat Counter
+                {txt('shopCounter')}
                 <ArrowRight size={16} style={{ marginLeft: '8px' }} />
               </a>
               <a href="#delivery-section" className="btn btn-secondary">
                 <Truck size={16} style={{ marginRight: '8px', color: 'var(--primary-light)' }} />
-                Check Delivery
+                {txt('checkDelivery')}
               </a>
             </div>
           </div>
@@ -1190,7 +1419,7 @@ function App() {
               </div>
               <div className="card-info-item">
                 <Clock size={18} />
-                <span>Open Daily: 9:00 AM - 9:00 PM</span>
+                <span>{txt('openDaily')}</span>
               </div>
               <div className="card-info-item">
                 <Phone size={18} />
@@ -1206,9 +1435,9 @@ function App() {
         <div className="container">
           <div className="text-center" style={{ marginBottom: '4rem' }}>
             <span className="subtitle">100% Zabiha Halal</span>
-            <h2 className="section-title">Meat Counter Departments</h2>
+            <h2 className="section-title">{txt('deptTitle')}</h2>
             <p className="section-desc">
-              Every cut of meat we offer is hand-slaughtered, thoroughly inspected, and custom cut by our professional butchers to meet your exact recipe preferences.
+              {txt('deptDesc')}
             </p>
           </div>
           
@@ -1220,10 +1449,10 @@ function App() {
                 <div className="dept-badge">Zabiha Goat</div>
               </div>
               <div className="dept-content">
-                <h3 className="dept-title">Goat & Mutton Cuts</h3>
+                <h3 className="dept-title">{txt('goatCat')}</h3>
                 <p className="dept-desc">Hand-slaughtered goat curry cuts, ground keema, tender rib chops, bone-in shoulder, biryani cuts, and whole roasted raan.</p>
                 <a href="#counter" onClick={(e) => { e.preventDefault(); handleSpecialtyRedirect('goat'); }} className="dept-link">
-                  Browse Goat Cuts
+                  {txt('shopCounter')}
                   <ArrowRight size={16} style={{ marginLeft: '6px' }} />
                 </a>
               </div>
@@ -1236,10 +1465,10 @@ function App() {
                 <div className="dept-badge">Grass-Fed Beef</div>
               </div>
               <div className="dept-content">
-                <h3 className="dept-title">Halal Beef Cuts</h3>
+                <h3 className="dept-title">{txt('beefCat')}</h3>
                 <p className="dept-desc">Grass-fed Zabiha beef curry cuts, bone-in Nalli Nihari shanks, marbled ribeye steaks, lean ground keema, and Bihari boti strips.</p>
                 <a href="#counter" onClick={(e) => { e.preventDefault(); handleSpecialtyRedirect('beef'); }} className="dept-link">
-                  Browse Beef Cuts
+                  {txt('shopCounter')}
                   <ArrowRight size={16} style={{ marginLeft: '6px' }} />
                 </a>
               </div>
@@ -1252,10 +1481,10 @@ function App() {
                 <div className="dept-badge">Clean & Skinless</div>
               </div>
               <div className="dept-content">
-                <h3 className="dept-title">Chicken & Poultry</h3>
+                <h3 className="dept-title">{txt('chickenCat')}</h3>
                 <p className="dept-desc">Fresh whole skinless chicken cut to order (8/12/16 pcs), boneless breast cubes for tikka, tender drumsticks, and party wings.</p>
                 <a href="#counter" onClick={(e) => { e.preventDefault(); handleSpecialtyRedirect('chicken'); }} className="dept-link">
-                  Browse Chicken Cuts
+                  {txt('shopCounter')}
                   <ArrowRight size={16} style={{ marginLeft: '6px' }} />
                 </a>
               </div>
@@ -1268,10 +1497,10 @@ function App() {
                 <div className="dept-badge">Gourmet Lamb</div>
               </div>
               <div className="dept-content">
-                <h3 className="dept-title">Gourmet Lamb Cuts</h3>
+                <h3 className="dept-title">{txt('lambCat')}</h3>
                 <p className="dept-desc">Juicy hand-trimmed lamb rib chops, bone-in lamb curry cuts, Nalli shanks for slow cooking, and fresh ground lamb keema.</p>
                 <a href="#counter" onClick={(e) => { e.preventDefault(); handleSpecialtyRedirect('lamb'); }} className="dept-link">
-                  Browse Lamb Cuts
+                  {txt('shopCounter')}
                   <ArrowRight size={16} style={{ marginLeft: '6px' }} />
                 </a>
               </div>
@@ -1284,10 +1513,26 @@ function App() {
                 <div className="dept-badge">Masala Pantry Style</div>
               </div>
               <div className="dept-content">
-                <h3 className="dept-title">Marinated & BBQ Ready</h3>
+                <h3 className="dept-title">{txt('marinatedCat')}</h3>
                 <p className="dept-desc">Signature marinated tandoori chicken cuts, tenderized Bihari beef boti, creamy malai boti, prepared spicy seekh kabab skewers.</p>
                 <a href="#counter" onClick={(e) => { e.preventDefault(); handleSpecialtyRedirect('marinated'); }} className="dept-link">
-                  Browse Marinated Cuts
+                  {txt('shopCounter')}
+                  <ArrowRight size={16} style={{ marginLeft: '6px' }} />
+                </a>
+              </div>
+            </div>
+
+            {/* Dept 6: Meat Pastries & Samosas */}
+            <div className="dept-card">
+              <div className="dept-img-wrapper">
+                <img src={presetImages.pastries} alt="Meat Pastries & Samosas" className="dept-img" />
+                <div className="dept-badge">Fresh Bakery & Snacks</div>
+              </div>
+              <div className="dept-content">
+                <h3 className="dept-title">{txt('pastriesCat')}</h3>
+                <p className="dept-desc">Handcrafted beef & chicken keema samosas, bakery-style beef gravy meat pies, chicken & mushroom puffs, and empanadas.</p>
+                <a href="#counter" onClick={(e) => { e.preventDefault(); handleSpecialtyRedirect('pastries'); }} className="dept-link">
+                  {txt('shopCounter')}
                   <ArrowRight size={16} style={{ marginLeft: '6px' }} />
                 </a>
               </div>
@@ -1302,9 +1547,9 @@ function App() {
           <div className="delivery-grid-layout">
             <div className="delivery-card-main">
               <span className="subtitle">Uber-Eats Style Delivery</span>
-              <h2 className="section-title" style={{ textAlign: 'left', margin: '0.25rem 0 1rem 0' }}>On-Demand Meat Delivery</h2>
+              <h2 className="section-title" style={{ textAlign: 'left', margin: '0.25rem 0 1rem 0' }}>{txt('deliveryTitle')}</h2>
               <p className="delivery-subtitle-desc">
-                We deliver fresh Zabiha meat cuts right to your doorstep within a 10-mile radius in temperature-controlled insulated packaging. Check your eligibility below.
+                We deliver fresh Zabiha meat cuts and savory meat pastries right to your doorstep within a 10-mile radius in temperature-controlled insulated packaging.
               </p>
               
               <form onSubmit={checkDeliveryZone} className="delivery-check-form">
@@ -1320,7 +1565,7 @@ function App() {
                     />
                   </div>
                   <button type="submit" className="btn btn-primary checker-btn" disabled={checkingZone}>
-                    {checkingZone ? "Analyzing Zone..." : "Verify Delivery Zone"}
+                    {checkingZone ? "Analyzing Zone..." : txt('verifyDelivery')}
                     {!checkingZone && <ArrowRight size={16} />}
                   </button>
                 </div>
@@ -1376,20 +1621,21 @@ function App() {
       <section id="counter" className="section bg-light">
         <div className="container">
           <div className="text-center" style={{ marginBottom: '4rem' }}>
-            <span className="subtitle">Interactive Butcher Counter</span>
-            <h2 className="section-title">Virtual Meat Counter</h2>
+            <span className="subtitle">Interactive Counter</span>
+            <h2 className="section-title">{txt('counter')}</h2>
             <p className="section-desc">
-              Select your fresh Zabiha meat cuts below, choose custom butcher prep styles (curry cut, biryani cut, fat trim, skin preference), and order for store pickup or local delivery.
+              Select your fresh Zabiha meat cuts or bakery meat pastries below, choose custom butcher prep styles, and order for store pickup or local delivery.
             </p>
             
             {/* Filter Tabs */}
             <div className="filter-tabs">
-              <button className={`tab-btn ${activeCategory === 'all' ? 'active' : ''}`} onClick={() => setActiveCategory('all')}>All Meat Cuts ({productsList.length})</button>
-              <button className={`tab-btn ${activeCategory === 'goat' ? 'active' : ''}`} onClick={() => setActiveCategory('goat')}>Goat & Mutton</button>
-              <button className={`tab-btn ${activeCategory === 'beef' ? 'active' : ''}`} onClick={() => setActiveCategory('beef')}>Halal Beef Cuts</button>
-              <button className={`tab-btn ${activeCategory === 'chicken' ? 'active' : ''}`} onClick={() => setActiveCategory('chicken')}>Chicken & Poultry</button>
-              <button className={`tab-btn ${activeCategory === 'lamb' ? 'active' : ''}`} onClick={() => setActiveCategory('lamb')}>Lamb Cuts</button>
-              <button className={`tab-btn ${activeCategory === 'marinated' ? 'active' : ''}`} onClick={() => setActiveCategory('marinated')}>Marinated & BBQ</button>
+              <button className={`tab-btn ${activeCategory === 'all' ? 'active' : ''}`} onClick={() => setActiveCategory('all')}>{txt('allCuts')} ({productsList.length})</button>
+              <button className={`tab-btn ${activeCategory === 'goat' ? 'active' : ''}`} onClick={() => setActiveCategory('goat')}>{txt('goatCat')}</button>
+              <button className={`tab-btn ${activeCategory === 'beef' ? 'active' : ''}`} onClick={() => setActiveCategory('beef')}>{txt('beefCat')}</button>
+              <button className={`tab-btn ${activeCategory === 'chicken' ? 'active' : ''}`} onClick={() => setActiveCategory('chicken')}>{txt('chickenCat')}</button>
+              <button className={`tab-btn ${activeCategory === 'lamb' ? 'active' : ''}`} onClick={() => setActiveCategory('lamb')}>{txt('lambCat')}</button>
+              <button className={`tab-btn ${activeCategory === 'marinated' ? 'active' : ''}`} onClick={() => setActiveCategory('marinated')}>{txt('marinatedCat')}</button>
+              <button className={`tab-btn ${activeCategory === 'pastries' ? 'active' : ''}`} onClick={() => setActiveCategory('pastries')}>{txt('pastriesCat')}</button>
             </div>
           </div>
 
@@ -1406,7 +1652,7 @@ function App() {
                 >
                   {isOut && (
                     <div className="out-of-stock-overlay">
-                      <span className="out-of-stock-badge">OUT OF STOCK</span>
+                      <span className="out-of-stock-badge">{txt('outOfStock')}</span>
                     </div>
                   )}
 
@@ -1444,7 +1690,7 @@ function App() {
                       disabled={isOut} 
                       onClick={(e) => quickAddToCart(p, e)}
                     >
-                      {isOut ? 'Unavailable' : 'Customize Cut'}
+                      {isOut ? txt('unavailable') : (p.category === 'pastries' ? txt('quickAdd') : txt('customizeCut'))}
                     </button>
                   </div>
                 </div>
@@ -1462,10 +1708,10 @@ function App() {
               <span className="subtitle">Quality You Can Trust</span>
               <h2 className="section-title" style={{ fontSize: '2.5rem', textAlign: 'left' }}>About Quality Halal Market</h2>
               <p>
-                Established with a vision to serve Cedar Park and the greater Austin community with pristine 100% Zabiha Halal meats. Under direct management by store owners, our customer service is as quality-oriented as our inventory.
+                Established with a vision to serve Cedar Park and the greater Austin community with pristine 100% Zabiha Halal meats and handcrafted meat pastries. Under direct management by store owners, our customer service is as quality-oriented as our inventory.
               </p>
               <p>
-                Every cut of meat we offer is hand-slaughtered, custom trimmed, and thoroughly inspected to meet strict Zabiha halal guidelines. From Masala Pantry inspired marinated botis to fresh daily goat & beef cuts, we guarantee perfection.
+                Every cut of meat and pastry we offer is hand-slaughtered, custom trimmed, and thoroughly inspected to meet strict Zabiha halal guidelines.
               </p>
               
               <div className="contact-details-box">
@@ -1517,7 +1763,7 @@ function App() {
                     <div className="back-card-design">
                       <div className="logo-icon">Q</div>
                       <h3>Quality Halal Market</h3>
-                      <p>Fresh Zabiha Meats & Specialty Cuts</p>
+                      <p>Fresh Zabiha Meats & Savory Pastries</p>
                       <span className="click-to-flip-tag">Click to Flip Back</span>
                     </div>
                   </div>
@@ -1559,7 +1805,7 @@ function App() {
               <span className="subtitle">Reach Out</span>
               <h2 className="section-title" style={{ fontSize: '2.5rem', textAlign: 'left' }}>Find Us & Get In Touch</h2>
               <p className="section-desc" style={{ textAlign: 'left', margin: '0 0 2rem 0' }}>
-                Have questions about custom butchering, party orders, or specialty cuts? Drop us a message or call directly!
+                Have questions about custom butchering, party catering orders, or pastry boxes? Drop us a message or call directly!
               </p>
               
               <form id="inquiryForm" onSubmit={(e) => {
@@ -1624,7 +1870,7 @@ function App() {
                 <div className="logo-icon">Q</div>
                 Quality Halal<span>Meat Market</span>
               </div>
-              <p>100% Zabiha hand-slaughtered halal meats and custom butcher cuts in Cedar Park, TX.</p>
+              <p>100% Zabiha hand-slaughtered halal meats and savory meat pastries in Cedar Park, TX.</p>
               <div className="social-links" style={{ marginTop: '1.5rem', display: 'flex', gap: '1rem' }}>
                 <a href="https://facebook.com/QualityHalalMarket" target="_blank" rel="noopener noreferrer"><Facebook size={20} /></a>
                 <a href="https://instagram.com" target="_blank" rel="noopener noreferrer"><Instagram size={20} /></a>
@@ -1634,22 +1880,23 @@ function App() {
             <div>
               <h4>Meat Departments</h4>
               <ul className="footer-links">
-                <li><a href="#counter" onClick={() => handleSpecialtyRedirect('goat')}>Zabiha Goat & Mutton</a></li>
-                <li><a href="#counter" onClick={() => handleSpecialtyRedirect('beef')}>Grass-Fed Beef Cuts</a></li>
-                <li><a href="#counter" onClick={() => handleSpecialtyRedirect('chicken')}>Fresh Whole Chicken</a></li>
-                <li><a href="#counter" onClick={() => handleSpecialtyRedirect('lamb')}>Gourmet Lamb Cuts</a></li>
-                <li><a href="#counter" onClick={() => handleSpecialtyRedirect('marinated')}>Marinated & BBQ Cuts</a></li>
+                <li><a href="#counter" onClick={() => handleSpecialtyRedirect('goat')}>{txt('goatCat')}</a></li>
+                <li><a href="#counter" onClick={() => handleSpecialtyRedirect('beef')}>{txt('beefCat')}</a></li>
+                <li><a href="#counter" onClick={() => handleSpecialtyRedirect('chicken')}>{txt('chickenCat')}</a></li>
+                <li><a href="#counter" onClick={() => handleSpecialtyRedirect('lamb')}>{txt('lambCat')}</a></li>
+                <li><a href="#counter" onClick={() => handleSpecialtyRedirect('marinated')}>{txt('marinatedCat')}</a></li>
+                <li><a href="#counter" onClick={() => handleSpecialtyRedirect('pastries')}>{txt('pastriesCat')}</a></li>
               </ul>
             </div>
 
             <div>
               <h4>Quick Links</h4>
               <ul className="footer-links">
-                <li><a href="#home">Home Page</a></li>
-                <li><a href="#specialties">Meat Departments</a></li>
-                <li><a href="#delivery-section">Delivery Options</a></li>
-                <li><a href="#" onClick={(e) => { e.preventDefault(); setIsAdminModalOpen(true); }}>Store Owner Portal</a></li>
-                <li><a href="#contact">Location & Hours</a></li>
+                <li><a href="#home">{txt('home')}</a></li>
+                <li><a href="#specialties">{txt('departments')}</a></li>
+                <li><a href="#delivery-section">{txt('deliveryZone')}</a></li>
+                <li><a href="#" onClick={(e) => { e.preventDefault(); setIsAdminModalOpen(true); }}>{txt('ownerAccess')}</a></li>
+                <li><a href="#contact">{txt('contact')}</a></li>
               </ul>
             </div>
 
@@ -1692,7 +1939,7 @@ function App() {
         <div className="cart-drawer-header">
           <h3>
             <ShoppingCart size={24} style={{ color: 'var(--primary-light)' }} />
-            Your Counter Order
+            {txt('cartTitle')}
           </h3>
           <button className="cart-drawer-close" onClick={() => setIsCartDrawerOpen(false)}>
             <X size={24} />
@@ -1701,7 +1948,7 @@ function App() {
 
         <div className="cart-items">
           {cart.length === 0 ? (
-            <p className="empty-cart-msg">Your counter cart is empty. Select meat cuts in the Virtual Counter below to customize your cuts!</p>
+            <p className="empty-cart-msg">{txt('emptyCart')}</p>
           ) : (
             cart.map((item, index) => (
               <div key={index} className="cart-item">
@@ -1745,7 +1992,7 @@ function App() {
 
         <div className="cart-drawer-footer">
           <div className="cart-subtotal-row" style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.5rem' }}>
-            <span>Subtotal ({cartCountTotal()} items):</span>
+            <span>{txt('subtotal')} ({cartCountTotal()} items):</span>
             <strong style={{ color: 'var(--primary-light)', fontSize: '1.2rem' }}>${cartSubtotal().toFixed(2)}</strong>
           </div>
           <button 
@@ -1757,7 +2004,7 @@ function App() {
               setIsCheckoutModalOpen(true);
             }}
           >
-            Checkout counter order
+            {txt('checkoutBtn')}
           </button>
         </div>
       </div>
@@ -1798,12 +2045,12 @@ function App() {
             <div className="product-modal-right">
               <div className="configurator-title">
                 <Sliders size={18} style={{ color: 'var(--secondary-light)' }} />
-                <h3>Custom Cut Preferences</h3>
+                <h3>{txt('customTitle')}</h3>
               </div>
 
               <div className="configurator-options">
                 <div className="config-group">
-                  <label>Butcher Prep Style</label>
+                  <label>{txt('prepStyle')}</label>
                   <div className="config-choices">
                     {selectedProduct.name.toLowerCase().includes('ribeye') || selectedProduct.name.toLowerCase().includes('steak') ? (
                       <>
@@ -1824,7 +2071,7 @@ function App() {
 
                 {selectedProduct.name.toLowerCase().includes('chicken') && (
                   <div className="config-group">
-                    <label>Skin Preference</label>
+                    <label>{txt('skinPref')}</label>
                     <div className="config-choices">
                       <button className={skinPref === 'Skinless' ? 'active' : ''} onClick={() => setSkinPref('Skinless')}>Skinless</button>
                       <button className={skinPref === 'Skin-On' ? 'active' : ''} onClick={() => setSkinPref('Skin-On')}>Skin-On</button>
@@ -1833,7 +2080,7 @@ function App() {
                 )}
 
                 <div className="config-group">
-                  <label>Fat Trim Preferences</label>
+                  <label>{txt('fatTrim')}</label>
                   <div className="config-choices">
                     <button className={fatTrim === 'Lean (Extra Trimmed)' ? 'active' : ''} onClick={() => setFatTrim('Lean (Extra Trimmed)')}>Extra Trim</button>
                     <button className={fatTrim === 'Standard (Balanced)' ? 'active' : ''} onClick={() => setFatTrim('Standard (Balanced)')}>Standard</button>
@@ -1843,7 +2090,7 @@ function App() {
               </div>
 
               <div className="config-group">
-                <label>Special Butcher / Packaging Notes</label>
+                <label>{txt('specialNotes')}</label>
                 <textarea 
                   placeholder="e.g. cut in small pieces, keep fats separate, vacuum seal separately..." 
                   value={customNotes}
@@ -1860,7 +2107,7 @@ function App() {
                 </div>
                 
                 <button className="btn btn-primary" onClick={addToCartFromModal} style={{ flexGrow: 1, justifyContent: 'center' }}>
-                  Add to Order - ${(selectedProduct.price * modalQty).toFixed(2)}
+                  {txt('addToOrder')} - ${(selectedProduct.price * modalQty).toFixed(2)}
                   <ShoppingCart size={16} style={{ marginLeft: '8px' }} />
                 </button>
               </div>
@@ -1884,7 +2131,7 @@ function App() {
                 </div>
                 <h3 style={{ fontSize: '1.6rem', color: 'white', marginBottom: '0.5rem' }}>Store Owner Portal</h3>
                 <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem', marginBottom: '1.5rem' }}>
-                  Access management panel to add, edit, or remove meat cuts in real-time.
+                  Access management panel to add, edit, or remove meat cuts and pastries in real-time.
                 </p>
 
                 <form onSubmit={handleAdminLogin}>
@@ -1926,15 +2173,15 @@ function App() {
                   <div className="admin-title-group">
                     <h2>
                       <ShieldCheck size={28} style={{ color: '#10b981' }} />
-                      Meat Store Inventory Manager
+                      Meat & Pastry Store Inventory Manager
                     </h2>
-                    <p>Logged in as Store Owner • Live Zabiha meat catalog sync enabled</p>
+                    <p>Logged in as Store Owner • Live catalog sync enabled</p>
                   </div>
 
                   <div className="admin-actions-bar">
                     <button className="btn btn-primary" onClick={handleOpenAddProduct} style={{ padding: '0.65rem 1.25rem' }}>
                       <Plus size={16} />
-                      Add Meat Cut
+                      Add New Item
                     </button>
 
                     <button className="btn btn-secondary" onClick={handleResetCatalog} style={{ padding: '0.65rem 1rem' }} title="Reset catalog to initial state">
@@ -1955,15 +2202,15 @@ function App() {
                     <div className="admin-stat-icon emerald"><Package /></div>
                     <div className="admin-stat-info">
                       <h3>{productsList.length}</h3>
-                      <span>Total Meat Cuts</span>
+                      <span>Total Catalog Items</span>
                     </div>
                   </div>
 
                   <div className="admin-stat-card">
                     <div className="admin-stat-icon amber"><Award /></div>
                     <div className="admin-stat-info">
-                      <h3>{productsList.filter(p => p.category === 'goat' || p.category === 'lamb').length}</h3>
-                      <span>Goat & Lamb Cuts</span>
+                      <h3>{productsList.filter(p => p.category === 'pastries').length}</h3>
+                      <span>Pastries & Samosas</span>
                     </div>
                   </div>
 
@@ -1990,7 +2237,7 @@ function App() {
                     <Search className="admin-search-icon" size={18} />
                     <input 
                       type="text" 
-                      placeholder="Search meat cuts, status..." 
+                      placeholder="Search cuts, pastries, status..." 
                       value={adminSearch}
                       onChange={(e) => setAdminSearch(e.target.value)}
                     />
@@ -2003,6 +2250,7 @@ function App() {
                     <button className={`tab-btn ${adminCategory === 'chicken' ? 'active' : ''}`} onClick={() => setAdminCategory('chicken')}>Chicken</button>
                     <button className={`tab-btn ${adminCategory === 'lamb' ? 'active' : ''}`} onClick={() => setAdminCategory('lamb')}>Lamb</button>
                     <button className={`tab-btn ${adminCategory === 'marinated' ? 'active' : ''}`} onClick={() => setAdminCategory('marinated')}>Marinated</button>
+                    <button className={`tab-btn ${adminCategory === 'pastries' ? 'active' : ''}`} onClick={() => setAdminCategory('pastries')}>Pastries</button>
                   </div>
                 </div>
 
@@ -2074,18 +2322,18 @@ function App() {
           <button className="modal-close" onClick={() => setIsEditorModalOpen(false)}>&times;</button>
           
           <div className="modal-content product-editor-modal" onClick={(e) => e.stopPropagation()}>
-            <span className="subtitle">{editingProduct ? 'Update Meat Cut' : 'New Meat Cut'}</span>
+            <span className="subtitle">{editingProduct ? 'Update Product' : 'New Product'}</span>
             <h2 style={{ fontSize: '1.8rem', margin: '0.25rem 0 1.5rem 0', color: 'white' }}>
-              {editingProduct ? `Edit "${editingProduct.name}"` : 'Add New Halal Meat Cut'}
+              {editingProduct ? `Edit "${editingProduct.name}"` : 'Add New Item / Pastry'}
             </h2>
 
             <form onSubmit={handleSaveProduct}>
               <div className="form-group">
-                <label>Meat Cut Name</label>
+                <label>Item Name</label>
                 <input 
                   type="text" 
                   required 
-                  placeholder="e.g. Halal Goat Curry Cut (Bone-In)"
+                  placeholder="e.g. Zabiha Beef Keema Samosas (6-Pack)"
                   value={formName}
                   onChange={(e) => setFormName(e.target.value)}
                 />
@@ -2093,7 +2341,7 @@ function App() {
 
               <div className="form-grid-2">
                 <div className="form-group">
-                  <label>Meat Category</label>
+                  <label>Department Category</label>
                   <select value={formCategory} onChange={(e) => {
                     setFormCategory(e.target.value);
                     setFormImg(presetImages[e.target.value] || presetImages.goat);
@@ -2103,6 +2351,7 @@ function App() {
                     <option value="chicken">Chicken & Poultry</option>
                     <option value="lamb">Gourmet Lamb Cuts</option>
                     <option value="marinated">Marinated & BBQ Ready</option>
+                    <option value="pastries">Meat Pastries & Samosas</option>
                   </select>
                 </div>
 
@@ -2112,7 +2361,7 @@ function App() {
                     type="number" 
                     step="0.01"
                     required 
-                    placeholder="12.99"
+                    placeholder="6.99"
                     value={formPrice}
                     onChange={(e) => setFormPrice(e.target.value)}
                   />
@@ -2125,7 +2374,7 @@ function App() {
                   <input 
                     type="text" 
                     required 
-                    placeholder="e.g. per lb, 6-Piece Pack"
+                    placeholder="e.g. per lb, 6-Pack, per pie"
                     value={formUnit}
                     onChange={(e) => setFormUnit(e.target.value)}
                   />
@@ -2136,7 +2385,7 @@ function App() {
                   <input 
                     type="text" 
                     required 
-                    placeholder="e.g. 100% Zabiha Halal, Hand Slaughtered"
+                    placeholder="e.g. 100% Zabiha Halal, Freshly Baked"
                     value={formStatus}
                     onChange={(e) => setFormStatus(e.target.value)}
                   />
@@ -2155,19 +2404,20 @@ function App() {
                 
                 <div className="preset-url-chips">
                   <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', alignSelf: 'center' }}>Preset Images:</span>
-                  <button type="button" className="preset-chip" onClick={() => setFormImg(presetImages.goat)}>Goat Cut</button>
-                  <button type="button" className="preset-chip" onClick={() => setFormImg(presetImages.beef)}>Beef Steak</button>
-                  <button type="button" className="preset-chip" onClick={() => setFormImg(presetImages.chicken)}>Chicken Cut</button>
-                  <button type="button" className="preset-chip" onClick={() => setFormImg(presetImages.lamb)}>Lamb Chops</button>
-                  <button type="button" className="preset-chip" onClick={() => setFormImg(presetImages.marinated)}>Marinated BBQ</button>
+                  <button type="button" className="preset-chip" onClick={() => setFormImg(presetImages.goat)}>Goat</button>
+                  <button type="button" className="preset-chip" onClick={() => setFormImg(presetImages.beef)}>Beef</button>
+                  <button type="button" className="preset-chip" onClick={() => setFormImg(presetImages.chicken)}>Chicken</button>
+                  <button type="button" className="preset-chip" onClick={() => setFormImg(presetImages.lamb)}>Lamb</button>
+                  <button type="button" className="preset-chip" onClick={() => setFormImg(presetImages.marinated)}>Marinated</button>
+                  <button type="button" className="preset-chip" onClick={() => setFormImg(presetImages.pastries)}>Samosas / Pastries</button>
                 </div>
               </div>
 
               <div className="form-group">
-                <label>Description & Butcher Notes</label>
+                <label>Description & Preparation Notes</label>
                 <textarea 
                   rows="3" 
-                  placeholder="Describe tenderness, fat marbling, and best cooking styles..."
+                  placeholder="Describe ingredients, pastry crust style, and reheating tips..."
                   value={formDesc}
                   onChange={(e) => setFormDesc(e.target.value)}
                 ></textarea>
@@ -2198,7 +2448,7 @@ function App() {
                   Cancel
                 </button>
                 <button type="submit" className="btn btn-primary" style={{ flex: 1, justifyContent: 'center' }}>
-                  {editingProduct ? 'Save Changes' : 'Create Meat Cut'}
+                  {editingProduct ? 'Save Changes' : 'Create Item'}
                 </button>
               </div>
             </form>
@@ -2222,7 +2472,7 @@ function App() {
                 onClick={() => setOrderType('pickup')}
               >
                 <ShoppingBag size={18} />
-                Express Store Pickup
+                {txt('pickupOpt')}
               </button>
               <button 
                 type="button" 
@@ -2230,13 +2480,13 @@ function App() {
                 onClick={() => setOrderType('delivery')}
               >
                 <Truck size={18} />
-                On-Demand Delivery
+                {txt('deliveryOpt')}
               </button>
             </div>
 
             {/* Order Summary Box */}
             <div className="order-summary-box">
-              <div className="summary-title">Meat Cuts Order Recap</div>
+              <div className="summary-title">Order Items Recap</div>
               <div className="summary-items-list">
                 {cart.map((item, index) => (
                   <div key={index} className="summary-item-row">
@@ -2281,7 +2531,7 @@ function App() {
 
             <form onSubmit={handleCheckoutSubmit}>
               <div className="form-group">
-                <label>Your Full Name</label>
+                <label>{txt('fullName')}</label>
                 <input 
                   type="text" 
                   required 
@@ -2292,7 +2542,7 @@ function App() {
               </div>
               
               <div className="form-group">
-                <label>Phone Number (for SMS notifications)</label>
+                <label>{txt('phoneNum')}</label>
                 <input 
                   type="tel" 
                   required 
@@ -2305,7 +2555,7 @@ function App() {
               {orderType === 'delivery' ? (
                 /* Delivery Fields */
                 <div className="form-group animate-fade-in">
-                  <label>Delivery Address</label>
+                  <label>{txt('delAddress')}</label>
                   <input 
                     type="text" 
                     required 
@@ -2319,7 +2569,7 @@ function App() {
                 /* Pickup Fields */
                 <div className="checkout-date-time-row animate-fade-in" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
                   <div className="form-group">
-                    <label>Pickup Date</label>
+                    <label>{txt('pickupDate')}</label>
                     <input 
                       type="date" 
                       required 
@@ -2328,7 +2578,7 @@ function App() {
                     />
                   </div>
                   <div className="form-group">
-                    <label>Pickup Time</label>
+                    <label>{txt('pickupTime')}</label>
                     <input 
                       type="time" 
                       required 
@@ -2340,7 +2590,7 @@ function App() {
               )}
 
               <div className="form-group">
-                <label>Additional Butcher / Delivery Instructions</label>
+                <label>{txt('orderInstructions')}</label>
                 <textarea 
                   placeholder="e.g. Leave package on front porch, or specify vehicle details for curbside pickup..." 
                   rows="2"
@@ -2350,7 +2600,7 @@ function App() {
               </div>
 
               <button type="submit" className="btn btn-primary" style={{ width: '100%', justifyContent: 'center', marginTop: '1rem', padding: '1.1rem' }}>
-                Place Order
+                {txt('placeOrder')}
               </button>
             </form>
           </div>
@@ -2366,9 +2616,9 @@ function App() {
             <div className="tracking-header">
               <div className="success-badge">
                 <Check size={20} />
-                Order Placed Successfully
+                {txt('orderPlaced')}
               </div>
-              <h2 className="tracking-title">Track Your Counter Order</h2>
+              <h2 className="tracking-title">{txt('trackTitle')}</h2>
               <div className="order-meta-info">
                 <span>Order Reference: <strong>{activeOrder.orderId}</strong></span>
                 <span>Type: <strong style={{ textTransform: 'uppercase' }}>{activeOrder.type}</strong></span>
@@ -2385,7 +2635,7 @@ function App() {
                   <h3>Express Curbside Pickup Instructions</h3>
                   <p>
                     Your order is scheduled for <strong>{activeOrder.date}</strong> at <strong>{activeOrder.time}</strong>.
-                    Our butchers are preparing your custom meat selections now.
+                    Our team is preparing your custom meat & pastry selections now.
                   </p>
                   <div className="spots-info-alert">
                     <Info size={16} />
@@ -2428,7 +2678,7 @@ function App() {
                       <div className="alert-check-icon"><Check size={28} /></div>
                       <h4>Store Owner Has Been Notified!</h4>
                       <p>
-                        A butcher is bringing your order to your <strong>{curbsideVehicularStatus}</strong> now. Please have payment ready. Thank you!
+                        A team member is bringing your order to your <strong>{curbsideVehicularStatus}</strong> now. Please have payment ready. Thank you!
                       </p>
                     </div>
                   )}
@@ -2476,7 +2726,7 @@ function App() {
                   </div>
                   <div className={`timeline-node ${deliveryStep >= 1 ? 'active' : ''}`}>
                     <div className="node-dot"></div>
-                    <div className="node-label">Butchering cuts</div>
+                    <div className="node-label">Prepping Order</div>
                   </div>
                   <div className={`timeline-node ${deliveryStep >= 2 ? 'active' : ''}`}>
                     <div className="node-dot"></div>
@@ -2489,9 +2739,9 @@ function App() {
                 </div>
 
                 <div className="delivery-status-indicator">
-                  {deliveryStep === 0 && <h4>🥩 Our butchers are prepping your customized meat cuts right now...</h4>}
-                  {deliveryStep === 1 && <h4>📦 Packaging your meat cuts in temperature-insulated bags...</h4>}
-                  {deliveryStep === 2 && <h4>🚗 Delivery driver is en route with your fresh meat cuts!</h4>}
+                  {deliveryStep === 0 && <h4>🥩 Our team is prepping your customized order right now...</h4>}
+                  {deliveryStep === 1 && <h4>📦 Packaging your order in temperature-insulated bags...</h4>}
+                  {deliveryStep === 2 && <h4>🚗 Delivery driver is en route with your fresh items!</h4>}
                   {deliveryStep === 3 && <h4>✅ Order delivered! Thank you for shopping with Quality Halal Meat Market.</h4>}
                   <p>Estimated Arrival: <strong>{deliveryStep === 3 ? "Delivered" : "30-40 minutes"}</strong></p>
                 </div>
@@ -2533,7 +2783,7 @@ function App() {
           <p id="toastMessage">{toast.message}</p>
         </div>
       </div>
-    </>
+    </div>
   );
 }
 

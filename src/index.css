@@ -3285,3 +3285,42 @@ textarea.form-input {
   }
 }
 
+/* -------------------------------------------------------------
+   MULTI-LANGUAGE SELECTOR STYLES
+   ------------------------------------------------------------- */
+.language-selector {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(15, 23, 42, 0.6);
+  border: 1px solid var(--glass-border);
+  padding: 0.35rem 0.75rem;
+  border-radius: var(--radius-full);
+  color: var(--text-light);
+  font-size: 0.85rem;
+  transition: var(--transition-smooth);
+}
+
+.language-selector:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.lang-select {
+  background: transparent;
+  border: none;
+  color: white;
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: 0.85rem;
+  cursor: pointer;
+  outline: none;
+}
+
+.lang-select option {
+  background: #0f172a;
+  color: white;
+  padding: 8px;
+}
+
+

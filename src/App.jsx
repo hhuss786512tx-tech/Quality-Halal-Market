@@ -205,14 +205,14 @@ const translations = {
   }
 };
 
-// High-Resolution Verified Raw Meat Cut & Pastry Image Presets
+// High-Resolution Verified Raw Meat Cut & Food Image Presets
 const presetImages = {
   goat: "https://images.unsplash.com/photo-1532550907401-a500c9a57435?auto=format&fit=crop&w=800&q=80",
   beef: "https://images.unsplash.com/photo-1603048588665-791ca8aea617?auto=format&fit=crop&w=800&q=80",
   chicken: "https://images.unsplash.com/photo-1604503468506-a8da13d82791?auto=format&fit=crop&w=800&q=80",
   lamb: "https://images.unsplash.com/photo-1602916298539-78709ca88b48?auto=format&fit=crop&w=800&q=80",
   marinated: "https://images.unsplash.com/photo-1599487488170-d11ec9c172f0?auto=format&fit=crop&w=800&q=80",
-  pastries: "https://images.unsplash.com/photo-1601050690597-df056fb4ce78?auto=format&fit=crop&w=800&q=80"
+  pastries: "https://images.unsplash.com/photo-1626777552726-4a6b54c97e46?auto=format&fit=crop&w=800&q=80"
 };
 
 // Comprehensive 100% Zabiha Hand-Slaughtered Halal Meat & Pastries Catalog
@@ -598,7 +598,7 @@ const defaultProducts = [
     status: "Handcrafted Fresh",
     halal: true,
     inStock: true,
-    img: "https://images.unsplash.com/photo-1601050690597-df056fb4ce78?auto=format&fit=crop&w=800&q=80"
+    img: "https://images.unsplash.com/photo-1626777552726-4a6b54c97e46?auto=format&fit=crop&w=800&q=80"
   },
   {
     id: 32,
@@ -610,7 +610,7 @@ const defaultProducts = [
     status: "Crispy & Flaky",
     halal: true,
     inStock: true,
-    img: "https://images.unsplash.com/photo-1601050690597-df056fb4ce78?auto=format&fit=crop&w=800&q=80"
+    img: "https://images.unsplash.com/photo-1626777552726-4a6b54c97e46?auto=format&fit=crop&w=800&q=80"
   },
   {
     id: 33,
@@ -622,7 +622,7 @@ const defaultProducts = [
     status: "Freshly Baked",
     halal: true,
     inStock: true,
-    img: "https://images.unsplash.com/photo-1572383672419-ab35444a6934?auto=format&fit=crop&w=800&q=80"
+    img: "https://images.unsplash.com/photo-1621236378699-8597faf6a176?auto=format&fit=crop&w=800&q=80"
   },
   {
     id: 34,
@@ -634,7 +634,7 @@ const defaultProducts = [
     status: "Bakery Fresh",
     halal: true,
     inStock: true,
-    img: "https://images.unsplash.com/photo-1572383672419-ab35444a6934?auto=format&fit=crop&w=800&q=80"
+    img: "https://images.unsplash.com/photo-1621236378699-8597faf6a176?auto=format&fit=crop&w=800&q=80"
   },
   {
     id: 35,
@@ -658,7 +658,7 @@ const defaultProducts = [
     status: "Golden Baked",
     halal: true,
     inStock: true,
-    img: "https://images.unsplash.com/photo-1572383672419-ab35444a6934?auto=format&fit=crop&w=800&q=80"
+    img: "https://images.unsplash.com/photo-1628102491629-778571d893a3?auto=format&fit=crop&w=800&q=80"
   },
   {
     id: 37,
@@ -670,7 +670,7 @@ const defaultProducts = [
     status: "Hot & Flaky",
     halal: true,
     inStock: true,
-    img: "https://images.unsplash.com/photo-1572383672419-ab35444a6934?auto=format&fit=crop&w=800&q=80"
+    img: "https://images.unsplash.com/photo-1621236378699-8597faf6a176?auto=format&fit=crop&w=800&q=80"
   }
 ];
 
@@ -722,9 +722,9 @@ function App() {
   const [flippedCards, setFlippedCards] = useState({ 1: false, 2: false });
   const [lightboxImg, setLightboxImg] = useState(null);
 
-  // Dynamic Products List with LocalStorage Persistence (Meat & Pastries Catalog v4)
+  // Dynamic Products List with LocalStorage Persistence (Meat & Pastries Catalog v5)
   const [productsList, setProductsList] = useState(() => {
-    const saved = localStorage.getItem('qhm_products_meat_v4');
+    const saved = localStorage.getItem('qhm_products_meat_v5');
     if (saved) {
       try {
         return JSON.parse(saved);
@@ -813,7 +813,7 @@ function App() {
 
   // Sync Products to LocalStorage
   useEffect(() => {
-    localStorage.setItem('qhm_products_meat_v4', JSON.stringify(productsList));
+    localStorage.setItem('qhm_products_meat_v5', JSON.stringify(productsList));
   }, [productsList]);
 
   // Calculate scroll progress
@@ -1228,7 +1228,7 @@ function App() {
   const handleResetCatalog = () => {
     if (window.confirm("Reset catalog back to original Zabiha Halal meat cuts and pastries list?")) {
       setProductsList(defaultProducts);
-      localStorage.removeItem('qhm_products_meat_v4');
+      localStorage.removeItem('qhm_products_meat_v5');
       showToast("Catalog Reset", "Restored default Zabiha Halal inventory.");
     }
   };

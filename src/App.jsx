@@ -243,12 +243,12 @@ const translations = {
 
 // High-Resolution Verified Raw Meat Cut & Food Image Presets
 const presetImages = {
-  goat: "https://images.unsplash.com/photo-1532550907401-a500c9a57435?auto=format&fit=crop&w=800&q=80",
-  beef: "https://images.unsplash.com/photo-1603048588665-791ca8aea617?auto=format&fit=crop&w=800&q=80",
-  chicken: "https://images.unsplash.com/photo-1604503468506-a8da13d82791?auto=format&fit=crop&w=800&q=80",
-  lamb: "https://images.unsplash.com/photo-1602916298539-78709ca88b48?auto=format&fit=crop&w=800&q=80",
-  marinated: "https://images.unsplash.com/photo-1599487488170-d11ec9c172f0?auto=format&fit=crop&w=800&q=80",
-  pastries: "https://images.unsplash.com/photo-1626777552726-4a6b54c97e46?auto=format&fit=crop&w=800&q=80"
+  goat: "https://upload.wikimedia.org/wikipedia/commons/9/95/Raw_beef_steak%2C_2011.jpg",
+  beef: "https://upload.wikimedia.org/wikipedia/commons/9/95/Raw_beef_steak%2C_2011.jpg",
+  chicken: "https://upload.wikimedia.org/wikipedia/commons/f/f5/Whole_raw_chicken_-_Japan_Dec_22_2019.jpeg",
+  lamb: "https://upload.wikimedia.org/wikipedia/commons/4/49/Beef_shank.jpg",
+  marinated: "https://upload.wikimedia.org/wikipedia/commons/d/d5/Marinated_Tandoori_Chicken_pieces.JPG",
+  pastries: "https://upload.wikimedia.org/wikipedia/commons/e/ed/Samosa_4.jpg"
 };
 
 // Comprehensive 100% Zabiha Hand-Slaughtered Halal Meat & Pastries Catalog
@@ -264,7 +264,7 @@ const defaultProducts = [
     status: "100% Zabiha Halal",
     halal: true,
     inStock: true,
-    img: "https://images.unsplash.com/photo-1532550907401-a500c9a57435?auto=format&fit=crop&w=800&q=80"
+    img: "https://upload.wikimedia.org/wikipedia/commons/9/95/Raw_beef_steak%2C_2011.jpg"
   },
   {
     id: 2,
@@ -276,7 +276,7 @@ const defaultProducts = [
     status: "Hand Slaughtered",
     halal: true,
     inStock: true,
-    img: "https://images.unsplash.com/photo-1588168333986-5078d3ae3976?auto=format&fit=crop&w=800&q=80"
+    img: "https://upload.wikimedia.org/wikipedia/commons/d/d1/Hackfleisch-1.jpg"
   },
   {
     id: 3,
@@ -288,7 +288,7 @@ const defaultProducts = [
     status: "Zabiha Halal",
     halal: true,
     inStock: true,
-    img: "https://images.unsplash.com/photo-1602916298539-78709ca88b48?auto=format&fit=crop&w=800&q=80"
+    img: "https://upload.wikimedia.org/wikipedia/commons/4/49/Beef_shank.jpg"
   },
   {
     id: 4,
@@ -300,7 +300,7 @@ const defaultProducts = [
     status: "Custom Cut",
     halal: true,
     inStock: true,
-    img: "https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=800&q=80"
+    img: "https://upload.wikimedia.org/wikipedia/commons/9/95/Raw_beef_steak%2C_2011.jpg"
   },
   {
     id: 5,
@@ -312,7 +312,7 @@ const defaultProducts = [
     status: "Fresh Cut",
     halal: true,
     inStock: true,
-    img: "https://images.unsplash.com/photo-1532550907401-a500c9a57435?auto=format&fit=crop&w=800&q=80"
+    img: "https://upload.wikimedia.org/wikipedia/commons/9/95/Raw_beef_steak%2C_2011.jpg"
   },
   {
     id: 6,
@@ -324,7 +324,7 @@ const defaultProducts = [
     status: "Specialty Cut",
     halal: true,
     inStock: true,
-    img: "https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=800&q=80"
+    img: "https://upload.wikimedia.org/wikipedia/commons/9/95/Raw_beef_steak%2C_2011.jpg"
   },
   {
     id: 7,
@@ -336,7 +336,7 @@ const defaultProducts = [
     status: "Marrow Rich",
     halal: true,
     inStock: true,
-    img: "https://images.unsplash.com/photo-1551024709-8f23befc6f87?auto=format&fit=crop&w=800&q=80"
+    img: "https://upload.wikimedia.org/wikipedia/commons/4/49/Beef_shank.jpg"
   },
   {
     id: 8,
@@ -348,7 +348,7 @@ const defaultProducts = [
     status: "Pure Boneless",
     halal: true,
     inStock: true,
-    img: "https://images.unsplash.com/photo-1529692236671-f1f6cf9683ba?auto=format&fit=crop&w=800&q=80"
+    img: "https://upload.wikimedia.org/wikipedia/commons/9/95/Raw_beef_steak%2C_2011.jpg"
   },
 
   // --- HALAL BEEF CUTS ---
@@ -362,7 +362,7 @@ const defaultProducts = [
     status: "Grass-Fed Halal",
     halal: true,
     inStock: true,
-    img: "https://images.unsplash.com/photo-1603048588665-791ca8aea617?auto=format&fit=crop&w=800&q=80"
+    img: "https://upload.wikimedia.org/wikipedia/commons/9/95/Raw_beef_steak%2C_2011.jpg"
   },
   {
     id: 10,
@@ -374,7 +374,7 @@ const defaultProducts = [
     status: "Nalli Specialty",
     halal: true,
     inStock: true,
-    img: "https://images.unsplash.com/photo-1551024709-8f23befc6f87?auto=format&fit=crop&w=800&q=80"
+    img: "https://upload.wikimedia.org/wikipedia/commons/4/49/Beef_shank.jpg"
   },
   {
     id: 11,
@@ -386,7 +386,7 @@ const defaultProducts = [
     status: "Ground Fresh",
     halal: true,
     inStock: true,
-    img: "https://images.unsplash.com/photo-1588168333986-5078d3ae3976?auto=format&fit=crop&w=800&q=80"
+    img: "https://upload.wikimedia.org/wikipedia/commons/d/d1/Hackfleisch-1.jpg"
   },
   {
     id: 12,
@@ -398,7 +398,7 @@ const defaultProducts = [
     status: "Steakhouse Grade",
     halal: true,
     inStock: true,
-    img: "https://images.unsplash.com/photo-1603048588665-791ca8aea617?auto=format&fit=crop&w=800&q=80"
+    img: "https://upload.wikimedia.org/wikipedia/commons/9/95/Raw_beef_steak%2C_2011.jpg"
   },
   {
     id: 13,
@@ -410,7 +410,7 @@ const defaultProducts = [
     status: "Hand Sliced",
     halal: true,
     inStock: true,
-    img: "https://images.unsplash.com/photo-1529692236671-f1f6cf9683ba?auto=format&fit=crop&w=800&q=80"
+    img: "https://upload.wikimedia.org/wikipedia/commons/9/95/Raw_beef_steak%2C_2011.jpg"
   },
   {
     id: 14,
@@ -422,7 +422,7 @@ const defaultProducts = [
     status: "BBQ Prime Cut",
     halal: true,
     inStock: true,
-    img: "https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=800&q=80"
+    img: "https://upload.wikimedia.org/wikipedia/commons/9/95/Raw_beef_steak%2C_2011.jpg"
   },
   {
     id: 15,
@@ -434,7 +434,7 @@ const defaultProducts = [
     status: "Clean Trimmed",
     halal: true,
     inStock: true,
-    img: "https://images.unsplash.com/photo-1558030006-450675393462?auto=format&fit=crop&w=800&q=80"
+    img: "https://upload.wikimedia.org/wikipedia/commons/9/95/Raw_beef_steak%2C_2011.jpg"
   },
   {
     id: 16,
@@ -446,7 +446,7 @@ const defaultProducts = [
     status: "Prime Gourmet",
     halal: true,
     inStock: true,
-    img: "https://images.unsplash.com/photo-1603048588665-791ca8aea617?auto=format&fit=crop&w=800&q=80"
+    img: "https://upload.wikimedia.org/wikipedia/commons/9/95/Raw_beef_steak%2C_2011.jpg"
   },
 
   // --- CHICKEN & POULTRY CUTS ---
@@ -460,7 +460,7 @@ const defaultProducts = [
     status: "Cut Free",
     halal: true,
     inStock: true,
-    img: "https://images.unsplash.com/photo-1604503468506-a8da13d82791?auto=format&fit=crop&w=800&q=80"
+    img: "https://upload.wikimedia.org/wikipedia/commons/f/f5/Whole_raw_chicken_-_Japan_Dec_22_2019.jpeg"
   },
   {
     id: 18,
@@ -472,7 +472,7 @@ const defaultProducts = [
     status: "Daily Fresh",
     halal: true,
     inStock: true,
-    img: "https://images.unsplash.com/photo-1604503468506-a8da13d82791?auto=format&fit=crop&w=800&q=80"
+    img: "https://upload.wikimedia.org/wikipedia/commons/b/b8/Raw_chicken_slices.jpg"
   },
   {
     id: 19,
@@ -484,7 +484,7 @@ const defaultProducts = [
     status: "Pure Boneless",
     halal: true,
     inStock: true,
-    img: "https://images.unsplash.com/photo-1587593810167-a84920ea0781?auto=format&fit=crop&w=800&q=80"
+    img: "https://upload.wikimedia.org/wikipedia/commons/b/b8/Raw_chicken_slices.jpg"
   },
   {
     id: 20,
@@ -496,7 +496,7 @@ const defaultProducts = [
     status: "Juicy Dark Meat",
     halal: true,
     inStock: true,
-    img: "https://images.unsplash.com/photo-1604503468506-a8da13d82791?auto=format&fit=crop&w=800&q=80"
+    img: "https://upload.wikimedia.org/wikipedia/commons/b/b8/Raw_chicken_slices.jpg"
   },
   {
     id: 21,
@@ -508,7 +508,7 @@ const defaultProducts = [
     status: "Farm Fresh",
     halal: true,
     inStock: true,
-    img: "https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?auto=format&fit=crop&w=800&q=80"
+    img: "https://upload.wikimedia.org/wikipedia/commons/2/29/Raw_chicken_drumsticks_%283312851753%29.jpg"
   },
   {
     id: 22,
@@ -520,7 +520,7 @@ const defaultProducts = [
     status: "Fresh Split",
     halal: true,
     inStock: true,
-    img: "https://images.unsplash.com/photo-1567620832903-9fc6debc209f?auto=format&fit=crop&w=800&q=80"
+    img: "https://upload.wikimedia.org/wikipedia/commons/8/8c/Raw_chicken_wings.jpg"
   },
   {
     id: 23,
@@ -532,7 +532,7 @@ const defaultProducts = [
     status: "Ground Fresh",
     halal: true,
     inStock: true,
-    img: "https://images.unsplash.com/photo-1588168333986-5078d3ae3976?auto=format&fit=crop&w=800&q=80"
+    img: "https://upload.wikimedia.org/wikipedia/commons/d/d1/Hackfleisch-1.jpg"
   },
 
   // --- HALAL LAMB CUTS ---
@@ -546,7 +546,7 @@ const defaultProducts = [
     status: "Gourmet Cut",
     halal: true,
     inStock: true,
-    img: "https://images.unsplash.com/photo-1602916298539-78709ca88b48?auto=format&fit=crop&w=800&q=80"
+    img: "https://upload.wikimedia.org/wikipedia/commons/4/49/Beef_shank.jpg"
   },
   {
     id: 25,
@@ -558,7 +558,7 @@ const defaultProducts = [
     status: "Zabiha Halal",
     halal: true,
     inStock: true,
-    img: "https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=800&q=80"
+    img: "https://upload.wikimedia.org/wikipedia/commons/9/95/Raw_beef_steak%2C_2011.jpg"
   },
   {
     id: 26,
@@ -570,7 +570,7 @@ const defaultProducts = [
     status: "Prime Shank",
     halal: true,
     inStock: true,
-    img: "https://images.unsplash.com/photo-1551024709-8f23befc6f87?auto=format&fit=crop&w=800&q=80"
+    img: "https://upload.wikimedia.org/wikipedia/commons/4/49/Beef_shank.jpg"
   },
   {
     id: 27,
@@ -582,7 +582,7 @@ const defaultProducts = [
     status: "Custom Trimmed",
     halal: true,
     inStock: true,
-    img: "https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=800&q=80"
+    img: "https://upload.wikimedia.org/wikipedia/commons/9/95/Raw_beef_steak%2C_2011.jpg"
   },
 
   // --- MARINATED & BBQ READY CUTS ---
@@ -596,7 +596,7 @@ const defaultProducts = [
     status: "House Marinated",
     halal: true,
     inStock: true,
-    img: "https://images.unsplash.com/photo-1599487488170-d11ec9c172f0?auto=format&fit=crop&w=800&q=80"
+    img: "https://upload.wikimedia.org/wikipedia/commons/d/d5/Marinated_Tandoori_Chicken_pieces.JPG"
   },
   {
     id: 29,
@@ -608,7 +608,7 @@ const defaultProducts = [
     status: "Creamy Malai",
     halal: true,
     inStock: true,
-    img: "https://images.unsplash.com/photo-1587593810167-a84920ea0781?auto=format&fit=crop&w=800&q=80"
+    img: "https://upload.wikimedia.org/wikipedia/commons/b/b8/Raw_chicken_slices.jpg"
   },
   {
     id: 30,
@@ -620,7 +620,7 @@ const defaultProducts = [
     status: "Ready to BBQ",
     halal: true,
     inStock: true,
-    img: "https://images.unsplash.com/photo-1529692236671-f1f6cf9683ba?auto=format&fit=crop&w=800&q=80"
+    img: "https://upload.wikimedia.org/wikipedia/commons/9/95/Raw_beef_steak%2C_2011.jpg"
   },
 
   // --- MEAT PASTRIES & SAMOSAS ---
@@ -634,7 +634,7 @@ const defaultProducts = [
     status: "Handcrafted Fresh",
     halal: true,
     inStock: true,
-    img: "https://images.unsplash.com/photo-1626777552726-4a6b54c97e46?auto=format&fit=crop&w=800&q=80"
+    img: "https://upload.wikimedia.org/wikipedia/commons/e/ed/Samosa_4.jpg"
   },
   {
     id: 32,
@@ -646,7 +646,7 @@ const defaultProducts = [
     status: "Crispy & Flaky",
     halal: true,
     inStock: true,
-    img: "https://images.unsplash.com/photo-1626777552726-4a6b54c97e46?auto=format&fit=crop&w=800&q=80"
+    img: "https://upload.wikimedia.org/wikipedia/commons/e/ed/Samosa_4.jpg"
   },
   {
     id: 33,
@@ -658,7 +658,7 @@ const defaultProducts = [
     status: "Freshly Baked",
     halal: true,
     inStock: true,
-    img: "https://images.unsplash.com/photo-1621236378699-8597faf6a176?auto=format&fit=crop&w=800&q=80"
+    img: "https://upload.wikimedia.org/wikipedia/commons/0/05/Meat_Pies_Malta.JPG"
   },
   {
     id: 34,
@@ -670,7 +670,7 @@ const defaultProducts = [
     status: "Bakery Fresh",
     halal: true,
     inStock: true,
-    img: "https://images.unsplash.com/photo-1621236378699-8597faf6a176?auto=format&fit=crop&w=800&q=80"
+    img: "https://upload.wikimedia.org/wikipedia/commons/1/12/Inside_Yank_Sing_Chicken_Curry_Puff_Pastry_%2815271515734%29.jpg"
   },
   {
     id: 35,
@@ -682,7 +682,7 @@ const defaultProducts = [
     status: "Ready to Heat",
     halal: true,
     inStock: true,
-    img: "https://images.unsplash.com/photo-1603360946369-fa99d57ee7c5?auto=format&fit=crop&w=800&q=80"
+    img: "https://upload.wikimedia.org/wikipedia/commons/c/ca/Shami_Kabab.JPG"
   },
   {
     id: 36,
@@ -694,7 +694,7 @@ const defaultProducts = [
     status: "Golden Baked",
     halal: true,
     inStock: true,
-    img: "https://images.unsplash.com/photo-1628102491629-778571d893a3?auto=format&fit=crop&w=800&q=80"
+    img: "https://upload.wikimedia.org/wikipedia/commons/9/97/Empanada_-_Stu_Spivack.jpg"
   },
   {
     id: 37,
@@ -706,7 +706,7 @@ const defaultProducts = [
     status: "Hot & Flaky",
     halal: true,
     inStock: true,
-    img: "https://images.unsplash.com/photo-1621236378699-8597faf6a176?auto=format&fit=crop&w=800&q=80"
+    img: "https://upload.wikimedia.org/wikipedia/commons/1/12/Inside_Yank_Sing_Chicken_Curry_Puff_Pastry_%2815271515734%29.jpg"
   }
 ];
 
@@ -758,9 +758,9 @@ function App() {
   const [flippedCards, setFlippedCards] = useState({ 1: false, 2: false });
   const [lightboxImg, setLightboxImg] = useState(null);
 
-  // Dynamic Products List with LocalStorage Persistence (Meat & Pastries Catalog v5)
+  // Dynamic Products List with LocalStorage Persistence (Meat & Pastries Catalog v6)
   const [productsList, setProductsList] = useState(() => {
-    const saved = localStorage.getItem('qhm_products_meat_v5');
+    const saved = localStorage.getItem('qhm_products_meat_v6');
     if (saved) {
       try {
         return JSON.parse(saved);
@@ -849,7 +849,7 @@ function App() {
 
   // Sync Products to LocalStorage
   useEffect(() => {
-    localStorage.setItem('qhm_products_meat_v5', JSON.stringify(productsList));
+    localStorage.setItem('qhm_products_meat_v6', JSON.stringify(productsList));
   }, [productsList]);
 
   // Calculate scroll progress

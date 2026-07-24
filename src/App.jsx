@@ -781,11 +781,12 @@ function App() {
 
   const navigateTo = (view, sectionId) => {
     setCurrentView(view);
-    if (sectionId) {
+    const targetId = sectionId || (view === 'counter' ? 'counter' : null);
+    if (targetId) {
       setTimeout(() => {
-        const el = document.getElementById(sectionId);
+        const el = document.getElementById(targetId);
         if (el) el.scrollIntoView({ behavior: 'smooth' });
-      }, 100);
+      }, 50);
     } else {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
@@ -2004,7 +2005,7 @@ function App() {
       )}
 
       {/* Virtual Counter Section */}
-      <section id="counter" className="section bg-light" style={{ display: currentView === 'home' ? 'none' : 'block' }}>
+      <section id="counter" className="section bg-light">
         <div className="container">
           <div className="text-center" style={{ marginBottom: '4rem' }}>
             <span className="subtitle">Interactive Counter</span>

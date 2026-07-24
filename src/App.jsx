@@ -755,6 +755,20 @@ function App() {
     return localStorage.getItem('qhm_lang') || 'en';
   });
 
+  const [currentView, setCurrentView] = useState('home'); // 'home' | 'counter'
+
+  const navigateTo = (view, sectionId) => {
+    setCurrentView(view);
+    if (sectionId) {
+      setTimeout(() => {
+        const el = document.getElementById(sectionId);
+        if (el) el.scrollIntoView({ behavior: 'smooth' });
+      }, 100);
+    } else {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  };
+
   const [scrollProgress, setScrollProgress] = useState(0);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [activeCategory, setActiveCategory] = useState('all');
@@ -1034,10 +1048,8 @@ function App() {
   // Specialty Scroll & Tab Redirect
   const handleSpecialtyRedirect = (category) => {
     setActiveCategory(category);
-    const counterSection = document.getElementById('counter');
-    if (counterSection) {
-      counterSection.scrollIntoView({ behavior: 'smooth' });
-    }
+    setCurrentView('counter');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   // Delivery Checker Action
@@ -1367,18 +1379,18 @@ function App() {
       {/* Header Navigation */}
       <header className="header">
         <div className="container nav-container">
-          <a href="#home" className="logo">
+          <a href="#home" onClick={(e) => { e.preventDefault(); navigateTo('home'); }} className="logo">
             <div className="logo-icon">Q</div>
             Quality Halal<span>Meat Market</span>
           </a>
           
           <ul className="nav-links">
-            <li><a href="#home" className="nav-link">{txt('home')}</a></li>
-            <li><a href="#specialties" className="nav-link">{txt('departments')}</a></li>
-            <li><a href="#delivery-section" className="nav-link">{txt('deliveryZone')}</a></li>
-            <li><a href="#counter" className="nav-link">{txt('counter')}</a></li>
-            <li><a href="#about" className="nav-link">{txt('aboutUs')}</a></li>
-            <li><a href="#contact" className="nav-link">{txt('contact')}</a></li>
+            <li><a href="#home" onClick={(e) => { e.preventDefault(); navigateTo('home'); }} className={`nav-link ${currentView === 'home' ? 'active' : ''}`}>{txt('home')}</a></li>
+            <li><a href="#specialties" onClick={(e) => { e.preventDefault(); navigateTo('home', 'specialties'); }} className="nav-link">{txt('departments')}</a></li>
+            <li><a href="#delivery-section" onClick={(e) => { e.preventDefault(); navigateTo('home', 'delivery-section'); }} className="nav-link">{txt('deliveryZone')}</a></li>
+            <li><a href="#counter" onClick={(e) => { e.preventDefault(); navigateTo('counter'); }} className={`nav-link ${currentView === 'counter' ? 'active' : ''}`}>{txt('counter')}</a></li>
+            <li><a href="#about" onClick={(e) => { e.preventDefault(); navigateTo('home', 'about'); }} className="nav-link">{txt('aboutUs')}</a></li>
+            <li><a href="#contact" onClick={(e) => { e.preventDefault(); navigateTo('home', 'contact'); }} className="nav-link">{txt('contact')}</a></li>
           </ul>
           
           <div className="nav-cta" style={{ display: 'flex', gap: '0.75rem', alignItems: 'center' }}>
@@ -1429,7 +1441,7 @@ function App() {
 
       <div className={`mobile-menu-drawer ${isMobileMenuOpen ? 'active' : ''}`}>
         <div className="drawer-header">
-          <a href="#home" className="logo">
+          <a href="#home" onClick={(e) => { e.preventDefault(); setIsMobileMenuOpen(false); navigateTo('home'); }} className="logo">
             <div className="logo-icon">Q</div>
             Quality Halal<span>Meat Market</span>
           </a>
@@ -1438,12 +1450,12 @@ function App() {
           </button>
         </div>
         <ul className="drawer-links">
-          <li><a href="#home" onClick={() => setIsMobileMenuOpen(false)} className="drawer-link">{txt('home')}</a></li>
-          <li><a href="#specialties" onClick={() => setIsMobileMenuOpen(false)} className="drawer-link">{txt('departments')}</a></li>
-          <li><a href="#delivery-section" onClick={() => setIsMobileMenuOpen(false)} className="drawer-link">{txt('deliveryZone')}</a></li>
-          <li><a href="#counter" onClick={() => setIsMobileMenuOpen(false)} className="drawer-link">{txt('counter')}</a></li>
-          <li><a href="#about" onClick={() => setIsMobileMenuOpen(false)} className="drawer-link">{txt('aboutUs')}</a></li>
-          <li><a href="#contact" onClick={() => setIsMobileMenuOpen(false)} className="drawer-link">{txt('contact')}</a></li>
+          <li><a href="#home" onClick={(e) => { e.preventDefault(); setIsMobileMenuOpen(false); navigateTo('home'); }} className="drawer-link">{txt('home')}</a></li>
+          <li><a href="#specialties" onClick={(e) => { e.preventDefault(); setIsMobileMenuOpen(false); navigateTo('home', 'specialties'); }} className="drawer-link">{txt('departments')}</a></li>
+          <li><a href="#delivery-section" onClick={(e) => { e.preventDefault(); setIsMobileMenuOpen(false); navigateTo('home', 'delivery-section'); }} className="drawer-link">{txt('deliveryZone')}</a></li>
+          <li><a href="#counter" onClick={(e) => { e.preventDefault(); setIsMobileMenuOpen(false); navigateTo('counter'); }} className="drawer-link">{txt('counter')}</a></li>
+          <li><a href="#about" onClick={(e) => { e.preventDefault(); setIsMobileMenuOpen(false); navigateTo('home', 'about'); }} className="drawer-link">{txt('aboutUs')}</a></li>
+          <li><a href="#contact" onClick={(e) => { e.preventDefault(); setIsMobileMenuOpen(false); navigateTo('home', 'contact'); }} className="drawer-link">{txt('contact')}</a></li>
         </ul>
         <div className="drawer-footer" style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
           <div className="language-selector" style={{ width: '100%', justifyContent: 'center', padding: '0.65rem' }}>
@@ -1495,11 +1507,11 @@ function App() {
               {txt('heroSubtitle')}
             </p>
             <div className="hero-btns">
-              <a href="#counter" className="btn btn-primary">
+              <a href="#counter" onClick={(e) => { e.preventDefault(); navigateTo('counter'); }} className="btn btn-primary">
                 {txt('shopCounter')}
                 <ArrowRight size={16} style={{ marginLeft: '8px' }} />
               </a>
-              <a href="#delivery-section" className="btn btn-secondary">
+              <a href="#delivery-section" onClick={(e) => { e.preventDefault(); navigateTo('home', 'delivery-section'); }} className="btn btn-secondary">
                 <Truck size={16} style={{ marginRight: '8px', color: 'var(--primary-light)' }} />
                 {txt('checkDelivery')}
               </a>
@@ -1530,195 +1542,301 @@ function App() {
         </div>
       </section>
 
-      {/* Meat Departments Section */}
-      <section id="specialties" className="section bg-light">
-        <div className="container">
-          <div className="text-center" style={{ marginBottom: '4rem' }}>
-            <span className="subtitle">100% Zabiha Halal</span>
-            <h2 className="section-title">{txt('deptTitle')}</h2>
-            <p className="section-desc">
-              {txt('deptDesc')}
+      {currentView === 'home' ? (
+        <>
+          {/* Featured Fresh Meats Showcase (Homepage Selection) */}
+          <section className="section bg-light" style={{ paddingBottom: '3.5rem' }}>
+            <div className="container">
+              <div className="text-center" style={{ marginBottom: '3rem' }}>
+                <span className="subtitle">Curated Fresh Selection</span>
+                <h2 className="section-title">Featured Halal Cuts &amp; Best-Sellers</h2>
+                <p className="section-desc">
+                  A preview of our daily hand-slaughtered Zabiha meats and bakery pastries. Explore our full catalog in the Butcher Counter below!
+                </p>
+              </div>
+
+              {/* Featured 6 Products Grid */}
+              <div className="products-grid">
+                {productsList.slice(0, 6).map((p) => {
+                  const isOut = p.inStock === false;
+                  return (
+                    <div 
+                      key={p.id} 
+                      className={`product-card ${isOut ? 'out-of-stock-card' : ''}`}
+                      onClick={() => !isOut && setSelectedProduct(p)}
+                      style={{ position: 'relative' }}
+                    >
+                      {isOut && (
+                        <div className="out-of-stock-overlay">
+                          <span className="out-of-stock-badge">{txt('outOfStock')}</span>
+                        </div>
+                      )}
+
+                      <div className="product-header">
+                        <span className="product-category">{getCategoryLabel(p.category)}</span>
+                        <span className="product-halal-badge">
+                          <CheckCircle2 size={12} />
+                          {p.status || '100% Zabiha Halal'}
+                        </span>
+                      </div>
+
+                      <div className="product-img-wrapper">
+                        <img src={p.img} alt={p.name} className="product-img" />
+                      </div>
+
+                      <h3 className="product-name">{p.name}</h3>
+                      <p className="product-desc">{p.desc}</p>
+                      
+                      <div className="product-footer" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                        <div className="product-price-tag">
+                          ${p.price.toFixed(2)}
+                          <span className="product-price-unit">/ {p.unit}</span>
+                        </div>
+                      </div>
+                      
+                      <div className="product-card-actions" onClick={(e) => e.stopPropagation()}>
+                        <div className="card-qty-selector">
+                          <button className="card-qty-btn minus" disabled={isOut} onClick={(e) => handleCardQtyChange(p.id, -1, e)}>-</button>
+                          <input type="number" className="card-qty-input" value={cardQuantities[p.id] || 1} readOnly />
+                          <button className="card-qty-btn plus" disabled={isOut} onClick={(e) => handleCardQtyChange(p.id, 1, e)}>+</button>
+                        </div>
+                        <button 
+                          className="btn btn-primary card-add-btn" 
+                          disabled={isOut} 
+                          onClick={(e) => quickAddToCart(p, e)}
+                        >
+                          {isOut ? txt('unavailable') : (p.category === 'pastries' ? txt('quickAdd') : txt('customizeCut'))}
+                        </button>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+
+              {/* Big CTA to View Full Butcher Counter */}
+              <div className="text-center" style={{ marginTop: '3rem' }}>
+                <button 
+                  className="btn btn-primary" 
+                  style={{ padding: '0.9rem 2.4rem', fontSize: '1.05rem', boxShadow: '0 8px 24px rgba(16, 185, 129, 0.3)' }}
+                  onClick={() => navigateTo('counter')}
+                >
+                  Explore Full Butcher Counter (All {productsList.length} Cuts &amp; Pastries)
+                  <ArrowRight size={18} style={{ marginLeft: '8px' }} />
+                </button>
+              </div>
+            </div>
+          </section>
+
+          {/* Meat Departments Section */}
+          <section id="specialties" className="section">
+            <div className="container">
+              <div className="text-center" style={{ marginBottom: '4rem' }}>
+                <span className="subtitle">100% Zabiha Halal</span>
+                <h2 className="section-title">{txt('deptTitle')}</h2>
+                <p className="section-desc">
+                  {txt('deptDesc')}
+                </p>
+              </div>
+              
+              <div className="departments-grid">
+                {/* Dept 1 */}
+                <div className="dept-card">
+                  <div className="dept-img-wrapper">
+                    <img src={presetImages.goat} alt="Goat & Mutton" className="dept-img" />
+                    <div className="dept-badge">Zabiha Goat</div>
+                  </div>
+                  <div className="dept-content">
+                    <h3 className="dept-title">{txt('goatCat')}</h3>
+                    <p className="dept-desc">Hand-slaughtered goat curry cuts, ground keema, tender rib chops, bone-in shoulder, biryani cuts, and whole roasted raan.</p>
+                    <a href="#counter" onClick={(e) => { e.preventDefault(); handleSpecialtyRedirect('goat'); }} className="dept-link">
+                      {txt('shopCounter')}
+                      <ArrowRight size={16} style={{ marginLeft: '6px' }} />
+                    </a>
+                  </div>
+                </div>
+
+                {/* Dept 2 */}
+                <div className="dept-card">
+                  <div className="dept-img-wrapper">
+                    <img src={presetImages.beef} alt="Halal Beef" className="dept-img" />
+                    <div className="dept-badge">Grass-Fed Beef</div>
+                  </div>
+                  <div className="dept-content">
+                    <h3 className="dept-title">{txt('beefCat')}</h3>
+                    <p className="dept-desc">Grass-fed Zabiha beef curry cuts, bone-in Nalli Nihari shanks, marbled ribeye steaks, lean ground keema, and Bihari boti strips.</p>
+                    <a href="#counter" onClick={(e) => { e.preventDefault(); handleSpecialtyRedirect('beef'); }} className="dept-link">
+                      {txt('shopCounter')}
+                      <ArrowRight size={16} style={{ marginLeft: '6px' }} />
+                    </a>
+                  </div>
+                </div>
+
+                {/* Dept 3 */}
+                <div className="dept-card">
+                  <div className="dept-img-wrapper">
+                    <img src={presetImages.chicken} alt="Chicken & Poultry" className="dept-img" />
+                    <div className="dept-badge">Clean & Skinless</div>
+                  </div>
+                  <div className="dept-content">
+                    <h3 className="dept-title">{txt('chickenCat')}</h3>
+                    <p className="dept-desc">Fresh whole skinless chicken cut to order (8/12/16 pcs), boneless breast cubes for tikka, tender drumsticks, and party wings.</p>
+                    <a href="#counter" onClick={(e) => { e.preventDefault(); handleSpecialtyRedirect('chicken'); }} className="dept-link">
+                      {txt('shopCounter')}
+                      <ArrowRight size={16} style={{ marginLeft: '6px' }} />
+                    </a>
+                  </div>
+                </div>
+
+                {/* Dept 4 */}
+                <div className="dept-card">
+                  <div className="dept-img-wrapper">
+                    <img src={presetImages.lamb} alt="Gourmet Lamb" className="dept-img" />
+                    <div className="dept-badge">Gourmet Lamb</div>
+                  </div>
+                  <div className="dept-content">
+                    <h3 className="dept-title">{txt('lambCat')}</h3>
+                    <p className="dept-desc">Juicy hand-trimmed lamb rib chops, bone-in lamb curry cuts, Nalli shanks for slow cooking, and fresh ground lamb keema.</p>
+                    <a href="#counter" onClick={(e) => { e.preventDefault(); handleSpecialtyRedirect('lamb'); }} className="dept-link">
+                      {txt('shopCounter')}
+                      <ArrowRight size={16} style={{ marginLeft: '6px' }} />
+                    </a>
+                  </div>
+                </div>
+
+                {/* Dept 5 */}
+                <div className="dept-card">
+                  <div className="dept-img-wrapper">
+                    <img src={presetImages.marinated} alt="Marinated & BBQ Ready" className="dept-img" />
+                    <div className="dept-badge">Masala Pantry Style</div>
+                  </div>
+                  <div className="dept-content">
+                    <h3 className="dept-title">{txt('marinatedCat')}</h3>
+                    <p className="dept-desc">Signature marinated tandoori chicken cuts, tenderized Bihari beef boti, creamy malai boti, prepared spicy seekh kabab skewers.</p>
+                    <a href="#counter" onClick={(e) => { e.preventDefault(); handleSpecialtyRedirect('marinated'); }} className="dept-link">
+                      {txt('shopCounter')}
+                      <ArrowRight size={16} style={{ marginLeft: '6px' }} />
+                    </a>
+                  </div>
+                </div>
+
+                {/* Dept 6: Meat Pastries & Samosas */}
+                <div className="dept-card">
+                  <div className="dept-img-wrapper">
+                    <img src={presetImages.pastries} alt="Meat Pastries & Samosas" className="dept-img" />
+                    <div className="dept-badge">Fresh Bakery & Snacks</div>
+                  </div>
+                  <div className="dept-content">
+                    <h3 className="dept-title">{txt('pastriesCat')}</h3>
+                    <p className="dept-desc">Handcrafted beef & chicken keema samosas, bakery-style beef gravy meat pies, chicken & mushroom puffs, and empanadas.</p>
+                    <a href="#counter" onClick={(e) => { e.preventDefault(); handleSpecialtyRedirect('pastries'); }} className="dept-link">
+                      {txt('shopCounter')}
+                      <ArrowRight size={16} style={{ marginLeft: '6px' }} />
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* Local Delivery Address Checker Section */}
+          <section id="delivery-section" className="section delivery-checker-section bg-light">
+            <div className="container">
+              <div className="delivery-grid-layout">
+                <div className="delivery-card-main">
+                  <span className="subtitle">Uber-Eats Style Delivery</span>
+                  <h2 className="section-title" style={{ textAlign: 'left', margin: '0.25rem 0 1rem 0' }}>{txt('deliveryTitle')}</h2>
+                  <p className="delivery-subtitle-desc">
+                    We deliver fresh Zabiha meat cuts and savory meat pastries right to your doorstep within a 10-mile radius in temperature-controlled insulated packaging.
+                  </p>
+                  
+                  <form onSubmit={checkDeliveryZone} className="delivery-check-form">
+                    <div className="delivery-input-group">
+                      <div className="delivery-input-wrapper">
+                        <MapPin className="delivery-pin-icon" size={20} />
+                        <input 
+                          type="text" 
+                          placeholder="Enter address (e.g. 14201 RR 620, Cedar Park, TX)" 
+                          value={checkerAddress}
+                          onChange={(e) => setCheckerAddress(e.target.value)}
+                          required
+                        />
+                      </div>
+                      <button type="submit" className="btn btn-primary checker-btn" disabled={checkingZone}>
+                        {checkingZone ? "Analyzing Zone..." : txt('verifyDelivery')}
+                        {!checkingZone && <ArrowRight size={16} />}
+                      </button>
+                    </div>
+                  </form>
+
+                  {checkingZone && (
+                    <div className="delivery-loader-box">
+                      <div className="delivery-spinner"></div>
+                      <p>Calculating routing distance from Quality Halal Market butcher counter...</p>
+                    </div>
+                  )}
+
+                  {checkerResult && (
+                    <div className={`delivery-result-box ${checkerResult.eligible ? 'eligible' : 'ineligible'}`}>
+                      <div className="result-icon-wrapper">
+                        {checkerResult.eligible ? <Check size={24} /> : <X size={24} />}
+                      </div>
+                      <div className="result-details">
+                        <h4>{checkerResult.eligible ? "🟢 Delivery Available!" : "🔴 Outside Local Delivery Area"}</h4>
+                        <p className="result-text">
+                          {checkerResult.eligible ? (
+                            <>
+                              We deliver to your address. Distance is <strong>{checkerResult.distance} miles</strong>. Estimated ETA: <strong>{checkerResult.eta}</strong>. Delivery Fee: <strong>${checkerResult.fee}</strong> (Free on orders $75+).
+                            </>
+                          ) : (
+                            <>
+                              This address is <strong>{checkerResult.distance} miles</strong> away, which exceeds our 10-mile delivery limit. You are welcome to choose <strong>Express Store Pickup</strong>!
+                            </>
+                          )}
+                        </p>
+                      </div>
+                    </div>
+                  )}
+                </div>
+
+                <div className="delivery-info-graphic">
+                  <div className="graphic-bento-item glow-emerald">
+                    <div className="icon-circ"><Truck size={24} /></div>
+                    <h4>Insulated Express Delivery</h4>
+                    <p>Delivered fresh in temperature-insulated boxes to preserve meat temperature.</p>
+                  </div>
+                  <div className="graphic-bento-item glow-gold">
+                    <div className="icon-circ"><ShieldCheck size={24} /></div>
+                    <h4>100% Zabiha Guaranteed</h4>
+                    <p>Every cut matches our strict hand-slaughtered halal butcher guidelines.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+        </>
+      ) : (
+        /* Butcher Counter Dedicated Page View Header Banner */
+        <div className="section bg-dark text-white" style={{ paddingTop: '110px', paddingBottom: '2.5rem', background: 'linear-gradient(135deg, #091310 0%, #112820 100%)', textAlign: 'center' }}>
+          <div className="container">
+            <button 
+              className="btn btn-secondary" 
+              style={{ marginBottom: '1.5rem', fontSize: '0.85rem', padding: '0.45rem 1.1rem', color: '#10b981', borderColor: 'rgba(16, 185, 129, 0.3)' }}
+              onClick={() => navigateTo('home')}
+            >
+              &larr; Return to Home Page
+            </button>
+            <br />
+            <span className="subtitle" style={{ color: '#10b981' }}>100% Hand-Slaughtered Zabiha Halal</span>
+            <h1 style={{ fontSize: '2.8rem', fontWeight: 900, margin: '0.5rem 0', color: '#ffffff' }}>The Butcher Counter</h1>
+            <p style={{ maxWidth: '680px', margin: '0 auto', color: '#9ca3af', fontSize: '1.05rem' }}>
+              Explore our full catalog of fresh meat cuts, custom butcher preps, marinated BBQ botis, and bakery pastries. Custom cut and trimmed to order.
             </p>
           </div>
-          
-          <div className="departments-grid">
-            {/* Dept 1 */}
-            <div className="dept-card">
-              <div className="dept-img-wrapper">
-                <img src={presetImages.goat} alt="Goat & Mutton" className="dept-img" />
-                <div className="dept-badge">Zabiha Goat</div>
-              </div>
-              <div className="dept-content">
-                <h3 className="dept-title">{txt('goatCat')}</h3>
-                <p className="dept-desc">Hand-slaughtered goat curry cuts, ground keema, tender rib chops, bone-in shoulder, biryani cuts, and whole roasted raan.</p>
-                <a href="#counter" onClick={(e) => { e.preventDefault(); handleSpecialtyRedirect('goat'); }} className="dept-link">
-                  {txt('shopCounter')}
-                  <ArrowRight size={16} style={{ marginLeft: '6px' }} />
-                </a>
-              </div>
-            </div>
-
-            {/* Dept 2 */}
-            <div className="dept-card">
-              <div className="dept-img-wrapper">
-                <img src={presetImages.beef} alt="Halal Beef" className="dept-img" />
-                <div className="dept-badge">Grass-Fed Beef</div>
-              </div>
-              <div className="dept-content">
-                <h3 className="dept-title">{txt('beefCat')}</h3>
-                <p className="dept-desc">Grass-fed Zabiha beef curry cuts, bone-in Nalli Nihari shanks, marbled ribeye steaks, lean ground keema, and Bihari boti strips.</p>
-                <a href="#counter" onClick={(e) => { e.preventDefault(); handleSpecialtyRedirect('beef'); }} className="dept-link">
-                  {txt('shopCounter')}
-                  <ArrowRight size={16} style={{ marginLeft: '6px' }} />
-                </a>
-              </div>
-            </div>
-
-            {/* Dept 3 */}
-            <div className="dept-card">
-              <div className="dept-img-wrapper">
-                <img src={presetImages.chicken} alt="Chicken & Poultry" className="dept-img" />
-                <div className="dept-badge">Clean & Skinless</div>
-              </div>
-              <div className="dept-content">
-                <h3 className="dept-title">{txt('chickenCat')}</h3>
-                <p className="dept-desc">Fresh whole skinless chicken cut to order (8/12/16 pcs), boneless breast cubes for tikka, tender drumsticks, and party wings.</p>
-                <a href="#counter" onClick={(e) => { e.preventDefault(); handleSpecialtyRedirect('chicken'); }} className="dept-link">
-                  {txt('shopCounter')}
-                  <ArrowRight size={16} style={{ marginLeft: '6px' }} />
-                </a>
-              </div>
-            </div>
-
-            {/* Dept 4 */}
-            <div className="dept-card">
-              <div className="dept-img-wrapper">
-                <img src={presetImages.lamb} alt="Gourmet Lamb" className="dept-img" />
-                <div className="dept-badge">Gourmet Lamb</div>
-              </div>
-              <div className="dept-content">
-                <h3 className="dept-title">{txt('lambCat')}</h3>
-                <p className="dept-desc">Juicy hand-trimmed lamb rib chops, bone-in lamb curry cuts, Nalli shanks for slow cooking, and fresh ground lamb keema.</p>
-                <a href="#counter" onClick={(e) => { e.preventDefault(); handleSpecialtyRedirect('lamb'); }} className="dept-link">
-                  {txt('shopCounter')}
-                  <ArrowRight size={16} style={{ marginLeft: '6px' }} />
-                </a>
-              </div>
-            </div>
-
-            {/* Dept 5 */}
-            <div className="dept-card">
-              <div className="dept-img-wrapper">
-                <img src={presetImages.marinated} alt="Marinated & BBQ Ready" className="dept-img" />
-                <div className="dept-badge">Masala Pantry Style</div>
-              </div>
-              <div className="dept-content">
-                <h3 className="dept-title">{txt('marinatedCat')}</h3>
-                <p className="dept-desc">Signature marinated tandoori chicken cuts, tenderized Bihari beef boti, creamy malai boti, prepared spicy seekh kabab skewers.</p>
-                <a href="#counter" onClick={(e) => { e.preventDefault(); handleSpecialtyRedirect('marinated'); }} className="dept-link">
-                  {txt('shopCounter')}
-                  <ArrowRight size={16} style={{ marginLeft: '6px' }} />
-                </a>
-              </div>
-            </div>
-
-            {/* Dept 6: Meat Pastries & Samosas */}
-            <div className="dept-card">
-              <div className="dept-img-wrapper">
-                <img src={presetImages.pastries} alt="Meat Pastries & Samosas" className="dept-img" />
-                <div className="dept-badge">Fresh Bakery & Snacks</div>
-              </div>
-              <div className="dept-content">
-                <h3 className="dept-title">{txt('pastriesCat')}</h3>
-                <p className="dept-desc">Handcrafted beef & chicken keema samosas, bakery-style beef gravy meat pies, chicken & mushroom puffs, and empanadas.</p>
-                <a href="#counter" onClick={(e) => { e.preventDefault(); handleSpecialtyRedirect('pastries'); }} className="dept-link">
-                  {txt('shopCounter')}
-                  <ArrowRight size={16} style={{ marginLeft: '6px' }} />
-                </a>
-              </div>
-            </div>
-          </div>
         </div>
-      </section>
-
-      {/* Local Delivery Address Checker Section */}
-      <section id="delivery-section" className="section delivery-checker-section">
-        <div className="container">
-          <div className="delivery-grid-layout">
-            <div className="delivery-card-main">
-              <span className="subtitle">Uber-Eats Style Delivery</span>
-              <h2 className="section-title" style={{ textAlign: 'left', margin: '0.25rem 0 1rem 0' }}>{txt('deliveryTitle')}</h2>
-              <p className="delivery-subtitle-desc">
-                We deliver fresh Zabiha meat cuts and savory meat pastries right to your doorstep within a 10-mile radius in temperature-controlled insulated packaging.
-              </p>
-              
-              <form onSubmit={checkDeliveryZone} className="delivery-check-form">
-                <div className="delivery-input-group">
-                  <div className="delivery-input-wrapper">
-                    <MapPin className="delivery-pin-icon" size={20} />
-                    <input 
-                      type="text" 
-                      placeholder="Enter address (e.g. 14201 RR 620, Cedar Park, TX)" 
-                      value={checkerAddress}
-                      onChange={(e) => setCheckerAddress(e.target.value)}
-                      required
-                    />
-                  </div>
-                  <button type="submit" className="btn btn-primary checker-btn" disabled={checkingZone}>
-                    {checkingZone ? "Analyzing Zone..." : txt('verifyDelivery')}
-                    {!checkingZone && <ArrowRight size={16} />}
-                  </button>
-                </div>
-              </form>
-
-              {checkingZone && (
-                <div className="delivery-loader-box">
-                  <div className="delivery-spinner"></div>
-                  <p>Calculating routing distance from Quality Halal Market butcher counter...</p>
-                </div>
-              )}
-
-              {checkerResult && (
-                <div className={`delivery-result-box ${checkerResult.eligible ? 'eligible' : 'ineligible'}`}>
-                  <div className="result-icon-wrapper">
-                    {checkerResult.eligible ? <Check size={24} /> : <X size={24} />}
-                  </div>
-                  <div className="result-details">
-                    <h4>{checkerResult.eligible ? "🟢 Delivery Available!" : "🔴 Outside Local Delivery Area"}</h4>
-                    <p className="result-text">
-                      {checkerResult.eligible ? (
-                        <>
-                          We deliver to your address. Distance is <strong>{checkerResult.distance} miles</strong>. Estimated ETA: <strong>{checkerResult.eta}</strong>. Delivery Fee: <strong>${checkerResult.fee}</strong> (Free on orders $75+).
-                        </>
-                      ) : (
-                        <>
-                          This address is <strong>{checkerResult.distance} miles</strong> away, which exceeds our 10-mile delivery limit. You are welcome to choose <strong>Express Store Pickup</strong>!
-                        </>
-                      )}
-                    </p>
-                  </div>
-                </div>
-              )}
-            </div>
-
-            <div className="delivery-info-graphic">
-              <div className="graphic-bento-item glow-emerald">
-                <div className="icon-circ"><Truck size={24} /></div>
-                <h4>Insulated Express Delivery</h4>
-                <p>Delivered fresh in temperature-insulated boxes to preserve meat temperature.</p>
-              </div>
-              <div className="graphic-bento-item glow-gold">
-                <div className="icon-circ"><ShieldCheck size={24} /></div>
-                <h4>100% Zabiha Guaranteed</h4>
-                <p>Every cut matches our strict hand-slaughtered halal butcher guidelines.</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+      )}
 
       {/* Virtual Counter Section */}
-      <section id="counter" className="section bg-light">
+      <section id="counter" className="section bg-light" style={{ display: currentView === 'home' ? 'none' : 'block' }}>
         <div className="container">
           <div className="text-center" style={{ marginBottom: '4rem' }}>
             <span className="subtitle">Interactive Counter</span>

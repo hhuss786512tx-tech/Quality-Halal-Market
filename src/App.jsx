@@ -776,12 +776,12 @@ const rotatingMeatSlides = [
   {
     name: "Zabiha Goat Curry Cut",
     tag: "🐐 GOAT & MUTTON",
-    img: "https://upload.wikimedia.org/wikipedia/commons/4/4c/Raw_goat_meat.jpg"
+    img: "https://images.unsplash.com/photo-1603048588665-791ca8aea617?auto=format&fit=crop&w=1000&q=80"
   },
   {
-    name: "Fresh Poultry Quarters",
+    name: "Fresh Poultry Legs",
     tag: "🍗 FRESH POULTRY",
-    img: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/62/Raw_leg_chicken_quarters.jpg/1280px-Raw_leg_chicken_quarters.jpg"
+    img: "https://images.unsplash.com/photo-1587593810167-a84920ea0781?auto=format&fit=crop&w=1000&q=80"
   },
   {
     name: "Black Angus Beef Steaks",
@@ -791,12 +791,12 @@ const rotatingMeatSlides = [
   {
     name: "Whole Hand-Slaughtered Chicken",
     tag: "🐔 FRESH CHICKEN",
-    img: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/00/Raw_chicken.jpg/1280px-Raw_chicken.jpg"
+    img: "https://images.unsplash.com/photo-1587593810167-a84920ea0781?auto=format&fit=crop&w=1000&q=80"
   },
   {
     name: "Bakery Samosas & Pastries",
     tag: "🥟 MEAT PASTRIES",
-    img: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/Inside_Yank_Sing_Chicken_Curry_Puff_Pastry.jpg/1280px-Inside_Yank_Sing_Chicken_Curry_Puff_Pastry.jpg"
+    img: "https://images.unsplash.com/photo-1601050690597-df0568f70950?auto=format&fit=crop&w=1000&q=80"
   }
 ];
 
@@ -1639,6 +1639,9 @@ function App() {
                   key={heroSlideIdx}
                   src={rotatingMeatSlides[heroSlideIdx].img} 
                   alt={rotatingMeatSlides[heroSlideIdx].name} 
+                  onError={(e) => {
+                    e.target.src = "https://images.pexels.com/photos/65175/pexels-photo-65175.jpeg";
+                  }}
                 />
 
                 <div className="live-counter-caption-tag">

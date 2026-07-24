@@ -1629,25 +1629,25 @@ function App() {
                 {/* Category Card 1 */}
                 <div className="category-post-group" style={{ background: `linear-gradient(to top, rgba(7,10,19,0.95) 0%, rgba(7,10,19,0.3) 100%), url('https://upload.wikimedia.org/wikipedia/commons/thumb/6/62/Raw_leg_chicken_quarters.jpg/1280px-Raw_leg_chicken_quarters.jpg')`, backgroundSize: 'cover', backgroundPosition: 'center', height: '360px', borderRadius: '16px', border: '1px solid rgba(255,255,255,0.1)', padding: '2rem', display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', textAlign: 'center' }}>
                   <h3 style={{ fontSize: '1.5rem', fontWeight: '800', color: 'white', marginBottom: '1rem', textTransform: 'uppercase' }}>Goat &amp; Mutton</h3>
-                  <button onClick={() => { navigateTo('counter'); setActiveCategory('goat'); }} className="btn-red" style={{ margin: '0 auto' }}>Learn More</button>
+                  <button onClick={() => handleSpecialtyRedirect('goat')} className="btn-red" style={{ margin: '0 auto' }}>Explore Goat Cuts</button>
                 </div>
 
                 {/* Category Card 2 */}
                 <div className="category-post-group" style={{ background: `linear-gradient(to top, rgba(7,10,19,0.95) 0%, rgba(7,10,19,0.3) 100%), url('https://images.pexels.com/photos/65175/pexels-photo-65175.jpeg')`, backgroundSize: 'cover', backgroundPosition: 'center', height: '360px', borderRadius: '16px', border: '1px solid rgba(255,255,255,0.1)', padding: '2rem', display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', textAlign: 'center' }}>
                   <h3 style={{ fontSize: '1.5rem', fontWeight: '800', color: 'white', marginBottom: '1rem', textTransform: 'uppercase' }}>Black Angus Beef</h3>
-                  <button onClick={() => { navigateTo('counter'); setActiveCategory('beef'); }} className="btn-red" style={{ margin: '0 auto' }}>Learn More</button>
+                  <button onClick={() => handleSpecialtyRedirect('beef')} className="btn-red" style={{ margin: '0 auto' }}>Explore Beef Cuts</button>
                 </div>
 
                 {/* Category Card 3 */}
                 <div className="category-post-group" style={{ background: `linear-gradient(to top, rgba(7,10,19,0.95) 0%, rgba(7,10,19,0.3) 100%), url('https://upload.wikimedia.org/wikipedia/commons/thumb/0/00/Raw_chicken.jpg/1280px-Raw_chicken.jpg')`, backgroundSize: 'cover', backgroundPosition: 'center', height: '360px', borderRadius: '16px', border: '1px solid rgba(255,255,255,0.1)', padding: '2rem', display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', textAlign: 'center' }}>
                   <h3 style={{ fontSize: '1.5rem', fontWeight: '800', color: 'white', marginBottom: '1rem', textTransform: 'uppercase' }}>Fresh Poultry</h3>
-                  <button onClick={() => { navigateTo('counter'); setActiveCategory('chicken'); }} className="btn-red" style={{ margin: '0 auto' }}>Learn More</button>
+                  <button onClick={() => handleSpecialtyRedirect('chicken')} className="btn-red" style={{ margin: '0 auto' }}>Explore Poultry Cuts</button>
                 </div>
 
                 {/* Category Card 4 */}
                 <div className="category-post-group" style={{ background: `linear-gradient(to top, rgba(7,10,19,0.95) 0%, rgba(7,10,19,0.3) 100%), url('https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/Inside_Yank_Sing_Chicken_Curry_Puff_Pastry.jpg/1280px-Inside_Yank_Sing_Chicken_Curry_Puff_Pastry.jpg')`, backgroundSize: 'cover', backgroundPosition: 'center', height: '360px', borderRadius: '16px', border: '1px solid rgba(255,255,255,0.1)', padding: '2rem', display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', textAlign: 'center' }}>
                   <h3 style={{ fontSize: '1.5rem', fontWeight: '800', color: 'white', marginBottom: '1rem', textTransform: 'uppercase' }}>Pastries &amp; Samosas</h3>
-                  <button onClick={() => { navigateTo('counter'); setActiveCategory('pastries'); }} className="btn-red" style={{ margin: '0 auto' }}>Learn More</button>
+                  <button onClick={() => handleSpecialtyRedirect('pastries')} className="btn-red" style={{ margin: '0 auto' }}>Explore Pastries</button>
                 </div>
               </div>
             </div>
@@ -1984,107 +1984,109 @@ function App() {
         </>
       ) : (
         /* Butcher Counter Dedicated Page View Header Banner */
-        <div className="section bg-dark text-white" style={{ paddingTop: '110px', paddingBottom: '2.5rem', background: 'linear-gradient(135deg, #091310 0%, #112820 100%)', textAlign: 'center' }}>
-          <div className="container">
-            <button 
-              className="btn btn-secondary" 
-              style={{ marginBottom: '1.5rem', fontSize: '0.85rem', padding: '0.45rem 1.1rem', color: '#10b981', borderColor: 'rgba(16, 185, 129, 0.3)' }}
-              onClick={() => navigateTo('home')}
-            >
-              &larr; Return to Home Page
-            </button>
-            <br />
-            <span className="subtitle" style={{ color: '#10b981' }}>100% Hand-Slaughtered Zabiha Halal</span>
-            <h1 style={{ fontSize: '2.8rem', fontWeight: 900, margin: '0.5rem 0', color: '#ffffff' }}>The Butcher Counter</h1>
-            <p style={{ maxWidth: '680px', margin: '0 auto', color: '#9ca3af', fontSize: '1.05rem' }}>
-              Explore our full catalog of fresh meat cuts, custom butcher preps, marinated BBQ botis, and bakery pastries. Custom cut and trimmed to order.
-            </p>
-          </div>
-        </div>
-      )}
-
-      {/* Virtual Counter Section */}
-      <section id="counter" className="section bg-light">
-        <div className="container">
-          <div className="text-center" style={{ marginBottom: '4rem' }}>
-            <span className="subtitle">Interactive Counter</span>
-            <h2 className="section-title">{txt('counter')}</h2>
-            <p className="section-desc">
-              Select your fresh Zabiha meat cuts or bakery meat pastries below, choose custom butcher prep styles, and order for store pickup or local delivery.
-            </p>
-            
-            {/* Filter Tabs */}
-            <div className="filter-tabs">
-              <button className={`tab-btn ${activeCategory === 'all' ? 'active' : ''}`} onClick={() => setActiveCategory('all')}>{txt('allCuts')} ({productsList.length})</button>
-              <button className={`tab-btn ${activeCategory === 'goat' ? 'active' : ''}`} onClick={() => setActiveCategory('goat')}>{txt('goatCat')}</button>
-              <button className={`tab-btn ${activeCategory === 'beef' ? 'active' : ''}`} onClick={() => setActiveCategory('beef')}>{txt('beefCat')}</button>
-              <button className={`tab-btn ${activeCategory === 'chicken' ? 'active' : ''}`} onClick={() => setActiveCategory('chicken')}>{txt('chickenCat')}</button>
-              <button className={`tab-btn ${activeCategory === 'lamb' ? 'active' : ''}`} onClick={() => setActiveCategory('lamb')}>{txt('lambCat')}</button>
-              <button className={`tab-btn ${activeCategory === 'marinated' ? 'active' : ''}`} onClick={() => setActiveCategory('marinated')}>{txt('marinatedCat')}</button>
-              <button className={`tab-btn ${activeCategory === 'pastries' ? 'active' : ''}`} onClick={() => setActiveCategory('pastries')}>{txt('pastriesCat')}</button>
+        <>
+          <div className="section bg-dark text-white" style={{ paddingTop: '110px', paddingBottom: '2.5rem', background: 'linear-gradient(135deg, #091310 0%, #112820 100%)', textAlign: 'center' }}>
+            <div className="container">
+              <button 
+                className="btn btn-secondary" 
+                style={{ marginBottom: '1.5rem', fontSize: '0.85rem', padding: '0.45rem 1.1rem', color: '#10b981', borderColor: 'rgba(16, 185, 129, 0.3)' }}
+                onClick={() => navigateTo('home')}
+              >
+                &larr; Return to Home Page
+              </button>
+              <br />
+              <span className="subtitle" style={{ color: '#10b981' }}>100% Hand-Slaughtered Zabiha Halal</span>
+              <h1 style={{ fontSize: '2.8rem', fontWeight: 900, margin: '0.5rem 0', color: '#ffffff' }}>The Butcher Counter</h1>
+              <p style={{ maxWidth: '680px', margin: '0 auto', color: '#9ca3af', fontSize: '1.05rem' }}>
+                Explore our full catalog of fresh meat cuts, custom butcher preps, marinated BBQ botis, and bakery pastries. Custom cut and trimmed to order.
+              </p>
             </div>
           </div>
 
-          {/* Products Grid */}
-          <div className="products-grid">
-            {filteredProducts.map((p) => {
-              const isOut = p.inStock === false;
-              return (
-                <div 
-                  key={p.id} 
-                  className={`product-card ${isOut ? 'out-of-stock-card' : ''}`}
-                  onClick={() => !isOut && setSelectedProduct(p)}
-                  style={{ position: 'relative' }}
-                >
-                  {isOut && (
-                    <div className="out-of-stock-overlay">
-                      <span className="out-of-stock-badge">{txt('outOfStock')}</span>
-                    </div>
-                  )}
-
-                  <div className="product-header">
-                    <span className="product-category">{getCategoryLabel(p.category)}</span>
-                    <span className="product-halal-badge">
-                      <CheckCircle2 size={12} />
-                      {p.status || '100% Zabiha Halal'}
-                    </span>
-                  </div>
-
-                  <div className="product-img-wrapper">
-                    <img src={p.img} alt={p.name} className="product-img" />
-                  </div>
-
-                  <h3 className="product-name">{p.name}</h3>
-                  <p className="product-desc">{p.desc}</p>
-                  
-                  <div className="product-footer" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <div className="product-price-tag">
-                      ${p.price.toFixed(2)}
-                      <span className="product-price-unit">/ {p.unit}</span>
-                    </div>
-                  </div>
-                  
-                  {/* Direct quick add controls on the card */}
-                  <div className="product-card-actions" onClick={(e) => e.stopPropagation()}>
-                    <div className="card-qty-selector">
-                      <button className="card-qty-btn minus" disabled={isOut} onClick={(e) => handleCardQtyChange(p.id, -1, e)}>-</button>
-                      <input type="number" className="card-qty-input" value={cardQuantities[p.id] || 1} readOnly />
-                      <button className="card-qty-btn plus" disabled={isOut} onClick={(e) => handleCardQtyChange(p.id, 1, e)}>+</button>
-                    </div>
-                    <button 
-                      className="btn btn-primary card-add-btn" 
-                      disabled={isOut} 
-                      onClick={(e) => quickAddToCart(p, e)}
-                    >
-                      {isOut ? txt('unavailable') : (p.category === 'pastries' ? txt('quickAdd') : txt('customizeCut'))}
-                    </button>
-                  </div>
+          {/* Virtual Counter Section */}
+          <section id="counter" className="section bg-light">
+            <div className="container">
+              <div className="text-center" style={{ marginBottom: '4rem' }}>
+                <span className="subtitle">Interactive Counter</span>
+                <h2 className="section-title">{txt('counter')}</h2>
+                <p className="section-desc">
+                  Select your fresh Zabiha meat cuts or bakery meat pastries below, choose custom butcher prep styles, and order for store pickup or local delivery.
+                </p>
+                
+                {/* Filter Tabs */}
+                <div className="filter-tabs">
+                  <button className={`tab-btn ${activeCategory === 'all' ? 'active' : ''}`} onClick={() => setActiveCategory('all')}>{txt('allCuts')} ({productsList.length})</button>
+                  <button className={`tab-btn ${activeCategory === 'goat' ? 'active' : ''}`} onClick={() => setActiveCategory('goat')}>{txt('goatCat')}</button>
+                  <button className={`tab-btn ${activeCategory === 'beef' ? 'active' : ''}`} onClick={() => setActiveCategory('beef')}>{txt('beefCat')}</button>
+                  <button className={`tab-btn ${activeCategory === 'chicken' ? 'active' : ''}`} onClick={() => setActiveCategory('chicken')}>{txt('chickenCat')}</button>
+                  <button className={`tab-btn ${activeCategory === 'lamb' ? 'active' : ''}`} onClick={() => setActiveCategory('lamb')}>{txt('lambCat')}</button>
+                  <button className={`tab-btn ${activeCategory === 'marinated' ? 'active' : ''}`} onClick={() => setActiveCategory('marinated')}>{txt('marinatedCat')}</button>
+                  <button className={`tab-btn ${activeCategory === 'pastries' ? 'active' : ''}`} onClick={() => setActiveCategory('pastries')}>{txt('pastriesCat')}</button>
                 </div>
-              );
-            })}
-          </div>
-        </div>
-      </section>
+              </div>
+
+              {/* Products Grid */}
+              <div className="products-grid">
+                {filteredProducts.map((p) => {
+                  const isOut = p.inStock === false;
+                  return (
+                    <div 
+                      key={p.id} 
+                      className={`product-card ${isOut ? 'out-of-stock-card' : ''}`}
+                      onClick={() => !isOut && setSelectedProduct(p)}
+                      style={{ position: 'relative' }}
+                    >
+                      {isOut && (
+                        <div className="out-of-stock-overlay">
+                          <span className="out-of-stock-badge">{txt('outOfStock')}</span>
+                        </div>
+                      )}
+
+                      <div className="product-header">
+                        <span className="product-category">{getCategoryLabel(p.category)}</span>
+                        <span className="product-halal-badge">
+                          <CheckCircle2 size={12} />
+                          {p.status || '100% Zabiha Halal'}
+                        </span>
+                      </div>
+
+                      <div className="product-img-wrapper">
+                        <img src={p.img} alt={p.name} className="product-img" />
+                      </div>
+
+                      <h3 className="product-name">{p.name}</h3>
+                      <p className="product-desc">{p.desc}</p>
+                      
+                      <div className="product-footer" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                        <div className="product-price-tag">
+                          ${p.price.toFixed(2)}
+                          <span className="product-price-unit">/ {p.unit}</span>
+                        </div>
+                      </div>
+                      
+                      {/* Direct quick add controls on the card */}
+                      <div className="product-card-actions" onClick={(e) => e.stopPropagation()}>
+                        <div className="card-qty-selector">
+                          <button className="card-qty-btn minus" disabled={isOut} onClick={(e) => handleCardQtyChange(p.id, -1, e)}>-</button>
+                          <input type="number" className="card-qty-input" value={cardQuantities[p.id] || 1} readOnly />
+                          <button className="card-qty-btn plus" disabled={isOut} onClick={(e) => handleCardQtyChange(p.id, 1, e)}>+</button>
+                        </div>
+                        <button 
+                          className="btn btn-primary card-add-btn" 
+                          disabled={isOut} 
+                          onClick={(e) => quickAddToCart(p, e)}
+                        >
+                          {isOut ? txt('unavailable') : (p.category === 'pastries' ? txt('quickAdd') : txt('customizeCut'))}
+                        </button>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          </section>
+        </>
+      )}
 
       {/* About Section */}
       <section id="about" className="section">

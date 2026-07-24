@@ -475,7 +475,7 @@ const defaultProducts = [
     status: "Daily Fresh",
     halal: true,
     inStock: true,
-    img: "https://upload.wikimedia.org/wikipedia/commons/b/b8/Raw_chicken_slices.jpg"
+    img: "https://upload.wikimedia.org/wikipedia/commons/d/dc/Raw_leg_chicken_quarters.jpg"
   },
   {
     id: 19,
@@ -487,7 +487,7 @@ const defaultProducts = [
     status: "Pure Boneless",
     halal: true,
     inStock: true,
-    img: "https://upload.wikimedia.org/wikipedia/commons/b/b8/Raw_chicken_slices.jpg"
+    img: "https://upload.wikimedia.org/wikipedia/commons/d/d1/Raw_chicken.jpg"
   },
   {
     id: 20,
@@ -499,7 +499,7 @@ const defaultProducts = [
     status: "Juicy Dark Meat",
     halal: true,
     inStock: true,
-    img: "https://upload.wikimedia.org/wikipedia/commons/b/b8/Raw_chicken_slices.jpg"
+    img: "https://upload.wikimedia.org/wikipedia/commons/4/4e/Raw_chicken_thighs.jpg"
   },
   {
     id: 21,
@@ -763,7 +763,7 @@ function App() {
 
   // Dynamic Products List with LocalStorage Persistence (Meat & Pastries Catalog v7)
   const [productsList, setProductsList] = useState(() => {
-    const saved = localStorage.getItem('qhm_products_meat_v7');
+    const saved = localStorage.getItem('qhm_products_meat_v8');
     if (saved) {
       try {
         return JSON.parse(saved);
@@ -904,7 +904,7 @@ function App() {
 
   // Sync Products to LocalStorage
   useEffect(() => {
-    localStorage.setItem('qhm_products_meat_v7', JSON.stringify(productsList));
+    localStorage.setItem('qhm_products_meat_v8', JSON.stringify(productsList));
   }, [productsList]);
 
   // Calculate scroll progress

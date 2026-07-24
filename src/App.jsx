@@ -1757,21 +1757,7 @@ function App() {
             </div>
           </section>
 
-          {/* Southern Steer Template: Rewards CTA Section */}
-          <section className="section" style={{ background: 'linear-gradient(135deg, #111827 0%, #1f2937 100%)', borderTop: '1px solid rgba(222,31,38,0.4)', borderBottom: '1px solid rgba(222,31,38,0.4)', padding: '4rem 0' }}>
-            <div className="container text-center">
-              <h2 style={{ fontSize: '2.2rem', fontWeight: '800', color: 'white', marginBottom: '1rem' }}>
-                For the best value and savings, join Quality Halal Rewards!
-              </h2>
-              <p style={{ color: '#94a3b8', fontSize: '1.05rem', marginBottom: '2rem' }}>
-                Subscribe to receive our latest weekly specials, fresh cut drops, and exclusive discounts.
-              </p>
-              <form onSubmit={(e) => { e.preventDefault(); alert('Thank you for subscribing to Quality Halal Rewards!'); }} style={{ display: 'flex', justifyContent: 'center', gap: '0.75rem', maxWidth: '520px', margin: '0 auto', flexWrap: 'wrap' }}>
-                <input type="email" placeholder="Enter your email address" required style={{ flex: '1 1 240px', padding: '0.8rem 1.25rem', borderRadius: '4px', border: '1px solid rgba(255,255,255,0.2)', background: 'rgba(0,0,0,0.6)', color: 'white', fontSize: '0.95rem' }} />
-                <button type="submit" className="btn-red">SIGN UP</button>
-              </form>
-            </div>
-          </section>
+
 
           {/* Featured Fresh Meats Showcase (Homepage Selection) */}
           <section className="section bg-light" style={{ paddingBottom: '3.5rem' }}>

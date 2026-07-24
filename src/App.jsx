@@ -1472,10 +1472,13 @@ function App() {
               {isAdminLoggedIn ? "Dashboard" : "Owner Login"}
             </button>
 
-            <a href="tel:5122607677" className="btn btn-primary" style={{ padding: '0.55rem 1.25rem', fontSize: '0.88rem' }}>
-              <Phone size={14} style={{ marginRight: '6px' }} />
-              512.260.7677
-            </a>
+            <button 
+              className="btn-cyan-glow" 
+              onClick={() => navigateTo('counter')}
+              style={{ padding: '0.55rem 1.25rem', fontSize: '0.85rem' }}
+            >
+              Order Counter <ArrowRight size={14} />
+            </button>
           </div>
           
           <button className="mobile-nav-toggle" onClick={() => setIsMobileMenuOpen(true)} aria-label="Toggle navigation">
@@ -1574,7 +1577,7 @@ function App() {
             </div>
 
             <div className="hero-btns">
-              <a href="#counter" onClick={(e) => { e.preventDefault(); navigateTo('counter'); }} className="btn btn-primary">
+              <a href="#counter" onClick={(e) => { e.preventDefault(); navigateTo('counter'); }} className="btn-cyan-glow">
                 {txt('shopCounter')}
                 <ArrowRight size={16} style={{ marginLeft: '8px' }} />
               </a>
@@ -1585,29 +1588,25 @@ function App() {
             </div>
           </div>
           
+          {/* Hero Right side: Circular Orbit Badge Frame (Azul Bio style from Screenshot 2) */}
           <div className="hero-card-container">
-            <div className="hero-floating-card" style={{ boxShadow: '0 20px 50px rgba(16, 185, 129, 0.25)', border: '1px solid rgba(16, 185, 129, 0.4)' }}>
-              <div className="card-top">
-                <span className="bullet" style={{ background: '#10b981', boxShadow: '0 0 10px #10b981' }}></span>
-                <span>Cedar Park, TX</span>
-              </div>
-              <h3>Quality Halal Market</h3>
-              <div className="card-info-item">
-                <MapPin size={18} style={{ color: 'var(--primary-light)' }} />
-                <span>12920 W Parmer Ln #106</span>
-              </div>
-              <div className="card-info-item">
-                <Clock size={18} style={{ color: 'var(--secondary-light)' }} />
-                <span>{txt('openDaily')}</span>
-              </div>
-              <div className="card-info-item">
-                <Phone size={18} style={{ color: 'var(--primary-light)' }} />
-                <span>512.260.7677</span>
+            <div className="hero-orbit-wrapper">
+              <div className="hero-orbit-ring">
+                <span className="orbit-node node-top"></span>
+                <span className="orbit-node node-bottom"></span>
+                <span className="orbit-node node-left"></span>
+                <span className="orbit-node node-right"></span>
               </div>
 
-              <div style={{ marginTop: '0.5rem', paddingTop: '0.85rem', borderTop: '1px solid rgba(255, 255, 255, 0.1)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '0.8rem', color: 'var(--primary-light)', fontWeight: '600' }}>
-                <span>🟢 Butcher Counter Ready</span>
-                <span>100% Zabiha</span>
+              <div className="hero-orbit-img-container">
+                <img 
+                  src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/62/Raw_leg_chicken_quarters.jpg/1280px-Raw_leg_chicken_quarters.jpg" 
+                  alt="Fresh Zabiha Butcher Cut" 
+                />
+                <div style={{ position: 'absolute', bottom: '20px', left: '50%', transform: 'translateX(-50%)', background: 'rgba(7, 10, 19, 0.85)', backdropFilter: 'blur(12px)', padding: '8px 16px', borderRadius: '50px', border: '1px solid rgba(16, 185, 129, 0.4)', color: 'white', fontSize: '0.78rem', fontWeight: '700', whiteSpace: 'nowrap', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                  <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#34d399', boxShadow: '0 0 8px #34d399' }}></span>
+                  100% ZABIHA HALAL GUARANTEE
+                </div>
               </div>
             </div>
           </div>

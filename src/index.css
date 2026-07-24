@@ -431,6 +431,91 @@ h1, h2, h3, h4 {
   perspective: 1000px;
 }
 
+/* Circular Orbit Frame Hero Element (Azul Bio / Modern Biotech / Premium Food Style) */
+.hero-orbit-wrapper {
+  position: relative;
+  width: 440px;
+  height: 440px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+}
+
+.hero-orbit-ring {
+  position: absolute;
+  top: -15px;
+  left: -15px;
+  right: -15px;
+  bottom: -15px;
+  border-radius: 50%;
+  border: 2px dashed rgba(16, 185, 129, 0.4);
+  animation: rotateOrbit 30s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes rotateOrbit {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.orbit-node {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  background: #34d399;
+  border-radius: 50%;
+  box-shadow: 0 0 10px #34d399;
+}
+
+.orbit-node.node-top { top: -6px; left: 50%; transform: translateX(-50%); }
+.orbit-node.node-bottom { bottom: -6px; left: 50%; transform: translateX(-50%); }
+.orbit-node.node-left { left: -6px; top: 50%; transform: translateY(-50%); }
+.orbit-node.node-right { right: -6px; top: 50%; transform: translateY(-50%); }
+
+.hero-orbit-img-container {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 4px solid rgba(16, 185, 129, 0.5);
+  box-shadow: 0 0 40px rgba(16, 185, 129, 0.25);
+  position: relative;
+}
+
+.hero-orbit-img-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.8s ease;
+}
+
+.hero-orbit-img-container:hover img {
+  transform: scale(1.08);
+}
+
+.btn-cyan-glow {
+  background: linear-gradient(135deg, #0d9488 0%, #10b981 100%);
+  color: white;
+  padding: 0.75rem 1.75rem;
+  border-radius: 9999px;
+  font-weight: 700;
+  font-size: 0.92rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 4px 20px rgba(16, 185, 129, 0.4);
+  transition: all 0.3s ease;
+  border: none;
+  cursor: pointer;
+}
+
+.btn-cyan-glow:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(16, 185, 129, 0.6);
+  color: white;
+}
+
 /* Glassmorphism Quick Info Card */
 .hero-glass-card {
   background: var(--bg-card);

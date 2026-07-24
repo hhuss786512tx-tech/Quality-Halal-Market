@@ -251,7 +251,7 @@ const presetImages = {
   chicken: "https://upload.wikimedia.org/wikipedia/commons/f/f5/Whole_raw_chicken_-_Japan_Dec_22_2019.jpeg",
   lamb: "https://upload.wikimedia.org/wikipedia/commons/4/49/Beef_shank.jpg",
   marinated: "https://upload.wikimedia.org/wikipedia/commons/d/d5/Marinated_Tandoori_Chicken_pieces.JPG",
-  pastries: "https://upload.wikimedia.org/wikipedia/commons/e/ed/Samosa_4.jpg"
+  pastries: "https://upload.wikimedia.org/wikipedia/commons/1/12/Inside_Yank_Sing_Chicken_Curry_Puff_Pastry_%2815271515734%29.jpg"
 };
 
 // Comprehensive 100% Zabiha Hand-Slaughtered Halal Meat & Pastries Catalog
@@ -661,7 +661,7 @@ const defaultProducts = [
     status: "Freshly Baked",
     halal: true,
     inStock: true,
-    img: "https://upload.wikimedia.org/wikipedia/commons/0/05/Meat_Pies_Malta.JPG"
+    img: "https://upload.wikimedia.org/wikipedia/commons/1/12/Inside_Yank_Sing_Chicken_Curry_Puff_Pastry_%2815271515734%29.jpg"
   },
   {
     id: 34,
@@ -761,9 +761,9 @@ function App() {
   const [flippedCards, setFlippedCards] = useState({ 1: false, 2: false });
   const [lightboxImg, setLightboxImg] = useState(null);
 
-  // Dynamic Products List with LocalStorage Persistence (Meat & Pastries Catalog v6)
+  // Dynamic Products List with LocalStorage Persistence (Meat & Pastries Catalog v7)
   const [productsList, setProductsList] = useState(() => {
-    const saved = localStorage.getItem('qhm_products_meat_v6');
+    const saved = localStorage.getItem('qhm_products_meat_v7');
     if (saved) {
       try {
         return JSON.parse(saved);
@@ -904,7 +904,7 @@ function App() {
 
   // Sync Products to LocalStorage
   useEffect(() => {
-    localStorage.setItem('qhm_products_meat_v6', JSON.stringify(productsList));
+    localStorage.setItem('qhm_products_meat_v7', JSON.stringify(productsList));
   }, [productsList]);
 
   // Calculate scroll progress

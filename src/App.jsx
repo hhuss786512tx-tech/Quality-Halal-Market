@@ -1455,19 +1455,18 @@ function App() {
       <div className="scroll-progress" style={{ width: `${scrollProgress}%` }}></div>
 
       {/* Top Live Announcement Header Banner */}
-      <div className="top-live-banner" style={{ background: 'linear-gradient(90deg, #059669 0%, #10b981 50%, #047857 100%)', color: 'white', padding: '0.35rem 2rem', fontSize: '0.8rem', fontWeight: '600', display: 'flex', justifyContent: 'space-between', alignItems: 'center', zIndex: '1001', position: 'relative' }}>
-        <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
-          <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#34d399', boxShadow: '0 0 8px #34d399' }}></span>
-          <span>LIVE STORE COUNTER: Open Today 9:00 AM - 9:00 PM</span>
+      <div className="top-live-banner" style={{ background: 'linear-gradient(90deg, #991b1b 0%, #de1f26 50%, #991b1b 100%)', color: 'white', padding: '0.4rem 2rem', fontSize: '0.82rem', fontWeight: '600', display: 'flex', justifyContent: 'space-between', alignItems: 'center', zIndex: '1001', position: 'relative' }}>
+        <div style={{ display: 'inline-flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
+          <span>📍 12920 W Parmer Ln #106, Cedar Park, TX</span>
           <span style={{ opacity: 0.5 }}>•</span>
-          <span>100% Zabiha Halal Guarantee</span>
+          <span>🕒 Open Daily 9:00 AM - 9:00 PM</span>
           <span style={{ opacity: 0.5 }}>•</span>
-          <span>Free Cedar Park Delivery Over $75</span>
+          <span>🥩 100% Zabiha Hand-Slaughtered Guaranteed</span>
         </div>
 
         {/* Clean Compact Language Switcher */}
-        <div className="language-selector" style={{ margin: 0, padding: '2px 8px', background: 'rgba(0,0,0,0.25)', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.2)' }}>
-          <Globe size={13} style={{ color: '#34d399' }} />
+        <div className="language-selector" style={{ margin: 0, padding: '2px 8px', background: 'rgba(0,0,0,0.3)', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.2)' }}>
+          <Globe size={13} style={{ color: '#fca5a5' }} />
           <select 
             value={currentLang} 
             onChange={(e) => setCurrentLang(e.target.value)}
@@ -1483,19 +1482,19 @@ function App() {
       </div>
 
       {/* Header Navigation */}
-      <header className="header">
+      <header className="header" style={{ background: 'rgba(15, 23, 42, 0.96)', borderBottom: '1px solid rgba(255, 255, 255, 0.1)' }}>
         <div className="container nav-container">
           <a href="#home" onClick={(e) => { e.preventDefault(); navigateTo('home'); }} className="logo" style={{ marginRight: '2.5rem' }}>
-            <div className="logo-icon">Q</div>
-            Quality Halal<span style={{ marginLeft: '6px' }}>Meat Market</span>
+            <div className="logo-icon" style={{ background: '#de1f26' }}>Q</div>
+            Quality Halal<span style={{ marginLeft: '6px', color: '#de1f26' }}>Meat Market</span>
           </a>
           
           <ul className="nav-links" style={{ gap: '1.75rem' }}>
             <li><a href="#home" onClick={(e) => { e.preventDefault(); navigateTo('home'); }} className={`nav-link ${currentView === 'home' ? 'active' : ''}`}>Home</a></li>
             <li><a href="#specialties" onClick={(e) => { e.preventDefault(); navigateTo('home', 'specialties'); }} className="nav-link">Departments</a></li>
             <li><a href="#delivery-section" onClick={(e) => { e.preventDefault(); navigateTo('home', 'delivery-section'); }} className="nav-link">Delivery</a></li>
-            <li><a href="#counter" onClick={(e) => { e.preventDefault(); navigateTo('counter'); }} className={`nav-link ${currentView === 'counter' ? 'active' : ''}`}>Counter</a></li>
-            <li><a href="#about" onClick={(e) => { e.preventDefault(); navigateTo('home', 'about'); }} className="nav-link">About</a></li>
+            <li><a href="#counter" onClick={(e) => { e.preventDefault(); navigateTo('counter'); }} className={`nav-link ${currentView === 'counter' ? 'active' : ''}`}>Butcher Counter</a></li>
+            <li><a href="#about" onClick={(e) => { e.preventDefault(); navigateTo('home', 'about'); }} className="nav-link">About Us</a></li>
             <li><a href="#contact" onClick={(e) => { e.preventDefault(); navigateTo('home', 'contact'); }} className="nav-link">Contact</a></li>
           </ul>
           
@@ -1511,11 +1510,11 @@ function App() {
             </button>
 
             <button 
-              className="btn-cyan-glow" 
+              className="btn-red" 
               onClick={() => navigateTo('counter')}
               style={{ padding: '0.55rem 1.25rem', fontSize: '0.85rem' }}
             >
-              Order Counter <ArrowRight size={14} />
+              Shop Butcher Cuts <ArrowRight size={14} />
             </button>
           </div>
           
@@ -1537,8 +1536,8 @@ function App() {
       <div className={`mobile-menu-drawer ${isMobileMenuOpen ? 'active' : ''}`}>
         <div className="drawer-header">
           <a href="#home" onClick={(e) => { e.preventDefault(); setIsMobileMenuOpen(false); navigateTo('home'); }} className="logo">
-            <div className="logo-icon">Q</div>
-            Quality Halal<span>Meat Market</span>
+            <div className="logo-icon" style={{ background: '#de1f26' }}>Q</div>
+            Quality Halal<span style={{ color: '#de1f26' }}>Meat Market</span>
           </a>
           <button className="mobile-menu-close" onClick={() => setIsMobileMenuOpen(false)} aria-label="Close menu">
             <X size={24} />
@@ -1596,58 +1595,46 @@ function App() {
                 src={slide.img}
                 alt={slide.name}
                 className={`slideshow-slide-img ${idx === heroSlideIdx ? 'active' : ''}`}
-                style={{ filter: 'brightness(0.35) contrast(1.1)' }}
+                style={{ filter: 'brightness(0.32) contrast(1.15)' }}
               />
             ))}
           </div>
-          <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', background: 'linear-gradient(to bottom, rgba(7, 10, 19, 0.45) 0%, rgba(7, 10, 19, 0.95) 100%)', pointerEvents: 'none' }}></div>
+          <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', background: 'linear-gradient(to bottom, rgba(15, 23, 42, 0.5) 0%, rgba(15, 23, 42, 0.95) 100%)', pointerEvents: 'none' }}></div>
         </div>
         <div className="container hero-grid">
           <div className="hero-content">
-            <div className="hero-badge">
-              <ShieldCheck size={16} style={{ marginRight: '6px', color: 'var(--secondary-light)' }} />
-              {txt('heroBadge')}
+            <div className="hero-badge" style={{ background: 'rgba(222, 31, 38, 0.15)', borderColor: 'rgba(222, 31, 38, 0.4)', color: '#fca5a5' }}>
+              <ShieldCheck size={16} style={{ marginRight: '6px', color: '#de1f26' }} />
+              100% HAND-SLAUGHTERED ZABIHA HALAL
             </div>
-            <h1 className="hero-title">
-              Fresh Zabiha Halal <span>Butcher Counter</span>
+            <h1 className="hero-title" style={{ fontFamily: 'var(--font-serif)', fontSize: '3.8rem', fontWeight: '800' }}>
+              Cedar Park's Premier <span style={{ color: '#de1f26', display: 'inline' }}>Zabiha Halal</span> Butcher Shop
             </h1>
-            <p className="hero-subtitle">
-              Sourcing pristine 100% hand-slaughtered Zabiha goat, lamb, beef, chicken, meat pastries & samosas in Cedar Park. Custom cut and trimmed to order by master butchers.
+            <p className="hero-subtitle" style={{ color: '#cbd5e1', fontSize: '1.15rem', lineHeight: '1.7', margin: '1.5rem 0 2.5rem 0', maxWidth: '620px' }}>
+              Domestically raised, 100% hand-slaughtered goat, lamb, grass-fed beef, chicken & freshly baked samosas. Custom cut, fat trimmed, and prepared to your exact recipe by our master butchers.
             </p>
 
-            {/* Live Activity & Trust Stats Ticker */}
-            <div style={{ display: 'flex', gap: '1rem', marginBottom: '2rem', flexWrap: 'wrap' }}>
-              <div style={{ background: 'rgba(15, 23, 42, 0.8)', border: '1px solid rgba(16, 185, 129, 0.4)', padding: '0.6rem 1rem', borderRadius: 'var(--radius-md)', backdropFilter: 'blur(12px)', display: 'flex', alignItems: 'center', gap: '8px', color: 'white', fontSize: '0.85rem' }}>
-                <Sparkles size={16} style={{ color: '#f59e0b' }} />
-                <span><strong>129+</strong> Orders Delivered This Week</span>
-              </div>
-              <div style={{ background: 'rgba(15, 23, 42, 0.8)', border: '1px solid rgba(16, 185, 129, 0.4)', padding: '0.6rem 1rem', borderRadius: 'var(--radius-md)', backdropFilter: 'blur(12px)', display: 'flex', alignItems: 'center', gap: '8px', color: 'white', fontSize: '0.85rem' }}>
-                <Award size={16} style={{ color: '#10b981' }} />
-                <span>Custom Trimmed to Order</span>
-              </div>
-            </div>
-
-            <div className="hero-btns">
-              <a href="#counter" onClick={(e) => { e.preventDefault(); navigateTo('counter'); }} className="btn-cyan-glow">
-                {txt('shopCounter')}
-                <ArrowRight size={16} style={{ marginLeft: '8px' }} />
-              </a>
-              <a href="#delivery-section" onClick={(e) => { e.preventDefault(); navigateTo('home', 'delivery-section'); }} className="btn btn-secondary">
-                <Truck size={16} style={{ marginRight: '8px', color: 'var(--primary-light)' }} />
-                {txt('checkDelivery')}
+            <div className="hero-btns" style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
+              <button onClick={() => navigateTo('counter')} className="btn-red" style={{ padding: '0.85rem 2rem', fontSize: '1rem' }}>
+                Explore Butcher Cuts
+                <ArrowRight size={18} style={{ marginLeft: '8px' }} />
+              </button>
+              <a href="tel:5122607677" className="btn btn-secondary" style={{ padding: '0.85rem 1.5rem', fontSize: '0.95rem' }}>
+                <Phone size={16} style={{ marginRight: '8px', color: '#34d399' }} />
+                Call Counter: 512.260.7677
               </a>
             </div>
           </div>
           
-          {/* Hero Right side: Vertical Live Butcher Counter Showcase Frame with Stacked Dissolve Slideshow */}
+          {/* Hero Right side: Authentic Butcher Card Showcase */}
           <div className="hero-card-container">
-            <div className="live-counter-phone-card">
-              <div className="live-counter-header-tag">
-                <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#ef4444', boxShadow: '0 0 8px #ef4444' }}></span>
-                <span>📹 LIVE BUTCHER WORK • CEDAR PARK TX</span>
+            <div style={{ background: 'rgba(15, 23, 42, 0.95)', border: '1px solid rgba(255, 255, 255, 0.12)', borderRadius: '20px', padding: '1.75rem', maxWidth: '380px', width: '100%', boxShadow: '0 20px 50px rgba(0,0,0,0.6)', backdropFilter: 'blur(16px)' }}>
+              <div style={{ borderBottom: '1px solid rgba(255,255,255,0.1)', paddingBottom: '1rem', marginBottom: '1.25rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <span style={{ fontSize: '0.8rem', fontWeight: '700', color: '#de1f26', textTransform: 'uppercase', letterSpacing: '0.04em' }}>Master Butcher Counter</span>
+                <span style={{ fontSize: '0.78rem', background: 'rgba(16,185,129,0.15)', color: '#34d399', padding: '3px 10px', borderRadius: '12px', fontWeight: '600' }}>Open Today</span>
               </div>
 
-              <div className="live-counter-media-body">
+              <div style={{ height: '200px', borderRadius: '12px', overflow: 'hidden', position: 'relative', marginBottom: '1.25rem', border: '1px solid rgba(255,255,255,0.1)' }}>
                 <div className="slideshow-stacked-container">
                   {rotatingMeatSlides.map((slide, idx) => (
                     <img 
@@ -1658,17 +1645,30 @@ function App() {
                     />
                   ))}
                 </div>
-
-                <div className="live-counter-caption-tag">
-                  <div style={{ color: '#34d399', fontSize: '0.72rem', textTransform: 'uppercase', letterSpacing: '0.04em', marginBottom: '2px' }}>
-                    {rotatingMeatSlides[heroSlideIdx].tag}
-                  </div>
-                  <div>{rotatingMeatSlides[heroSlideIdx].name}</div>
-                  <div style={{ fontSize: '0.72rem', color: '#9ca3af', marginTop: '2px', fontWeight: 'normal' }}>
-                    100% Hand-Slaughtered Zabiha Halal
-                  </div>
+                <div style={{ position: 'absolute', bottom: '10px', left: '10px', right: '10px', background: 'rgba(7,10,19,0.9)', padding: '6px 12px', borderRadius: '8px', fontSize: '0.78rem', color: 'white', fontWeight: '600', display: 'flex', justifyContent: 'space-between' }}>
+                  <span>{rotatingMeatSlides[heroSlideIdx].tag}</span>
+                  <span style={{ color: '#34d399' }}>100% Zabiha</span>
                 </div>
               </div>
+
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem', fontSize: '0.88rem', color: '#cbd5e1' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  <MapPin size={16} style={{ color: '#de1f26' }} />
+                  <span>12920 W Parmer Ln #106, Cedar Park</span>
+                </div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  <Clock size={16} style={{ color: '#f59e0b' }} />
+                  <span>Daily 9:00 AM - 9:00 PM</span>
+                </div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  <Phone size={16} style={{ color: '#34d399' }} />
+                  <span>512.260.7677</span>
+                </div>
+              </div>
+
+              <button onClick={() => navigateTo('counter')} className="btn-red" style={{ width: '100%', marginTop: '1.25rem', justifyContent: 'center' }}>
+                View All Butcher Cuts ➔
+              </button>
             </div>
           </div>
         </div>

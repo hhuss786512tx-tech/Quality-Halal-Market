@@ -800,8 +800,14 @@ function App() {
 
   // E-Commerce States
   const [cart, setCart] = useState(() => {
-    const stored = localStorage.getItem('qhm_cart');
-    return stored ? JSON.parse(stored) : [];
+    try {
+      const stored = localStorage.getItem('qhm_cart');
+      const parsed = stored ? JSON.parse(stored) : [];
+      return Array.isArray(parsed) ? parsed : [];
+    } catch (e) {
+      console.error("Error reading cart from localStorage", e);
+      return [];
+    }
   });
   const [isCartDrawerOpen, setIsCartDrawerOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
@@ -836,8 +842,14 @@ function App() {
 
   // Persistent Order Queue for Store Owner & Thermal Printing
   const [allOrdersList, setAllOrdersList] = useState(() => {
-    const saved = localStorage.getItem('qhm_store_orders_v1');
-    return saved ? JSON.parse(saved) : [];
+    try {
+      const saved = localStorage.getItem('qhm_store_orders_v1');
+      const parsed = saved ? JSON.parse(saved) : [];
+      return Array.isArray(parsed) ? parsed : [];
+    } catch (e) {
+      console.error("Error reading store orders from localStorage", e);
+      return [];
+    }
   });
   const [printReceiptOrder, setPrintReceiptOrder] = useState(null);
   const [adminTab, setAdminTab] = useState('inventory'); // 'inventory' | 'orders'
@@ -1168,9 +1180,9 @@ function App() {
     setCart(prev => prev.filter((_, idx) => idx !== index));
   };
 
-  const cartCountTotal = () => cart.reduce((sum, item) => sum + item.qty, 0);
+  const cartCountTotal = () => (Array.isArray(cart) ? cart : []).reduce((sum, item) => sum + (Number(item?.qty) || 0), 0);
   
-  const cartSubtotal = () => cart.reduce((sum, item) => sum + ((item.price || 0) * item.qty), 0);
+  const cartSubtotal = () => (Array.isArray(cart) ? cart : []).reduce((sum, item) => sum + ((Number(item?.price) || 0) * (Number(item?.qty) || 0)), 0);
 
   const handleCheckoutSubmit = (e) => {
     e.preventDefault();

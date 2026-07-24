@@ -830,6 +830,58 @@ function App() {
   const [curbsideNotified, setCurbsideNotified] = useState(false);
   const [deliveryStep, setDeliveryStep] = useState(0);
 
+  // Persistent Order Queue for Store Owner & Thermal Printing
+  const [allOrdersList, setAllOrdersList] = useState(() => {
+    const saved = localStorage.getItem('qhm_store_orders_v1');
+    return saved ? JSON.parse(saved) : [];
+  });
+  const [printReceiptOrder, setPrintReceiptOrder] = useState(null);
+  const [adminTab, setAdminTab] = useState('inventory'); // 'inventory' | 'orders'
+
+  useEffect(() => {
+    localStorage.setItem('qhm_store_orders_v1', JSON.stringify(allOrdersList));
+  }, [allOrdersList]);
+
+  const generateStorePhoneMessage = (order) => {
+    if (!order) return '';
+    let text = `🥩 *NEW ORDER ${order.orderId}* 🥩\n`;
+    text += `👤 *Customer:* ${order.name}\n`;
+    text += `📞 *Phone:* ${order.phone}\n`;
+    text += `📋 *Type:* ${order.type.toUpperCase()}\n`;
+    if (order.address) text += `📍 *Address:* ${order.address}\n`;
+    text += `🕒 *Time:* ${order.date} at ${order.time}\n\n`;
+    text += `🛒 *ORDER ITEMS:*\n`;
+    order.items.forEach(item => {
+      text += `• ${item.qty}x ${item.name} ($${(item.price * item.qty).toFixed(2)})\n`;
+      if (item.customizations) {
+        if (item.customizations.style) text += `  - Cut: ${item.customizations.style}\n`;
+        if (item.customizations.trim) text += `  - Trim: ${item.customizations.trim}\n`;
+        if (item.customizations.skin) text += `  - Skin: ${item.customizations.skin}\n`;
+        if (item.customizations.notes) text += `  - Notes: ${item.customizations.notes}\n`;
+      }
+    });
+    const subtotal = order.subtotal || 0;
+    const fee = order.deliveryFee || 0;
+    const total = order.total || (subtotal * 1.0825 + fee);
+    text += `\n💰 *TOTAL:* $${total.toFixed(2)}`;
+    if (order.notes) text += `\n📝 *Customer Note:* ${order.notes}`;
+    return text;
+  };
+
+  const dispatchToStorePhone = (order) => {
+    const message = generateStorePhoneMessage(order);
+    const whatsappUrl = `https://wa.me/15122607677?text=${encodeURIComponent(message)}`;
+    window.open(whatsappUrl, '_blank');
+    showToast("Store Phone Alert Dispatched", `Notification sent to 512.260.7677 for Order ${order.orderId}`);
+  };
+
+  const printFrontDeskReceipt = (order) => {
+    setPrintReceiptOrder(order);
+    setTimeout(() => {
+      window.print();
+    }, 300);
+  };
+
   // Toast State
   const [toast, setToast] = useState({ isOpen: false, title: '', message: '' });
 
@@ -1125,6 +1177,9 @@ function App() {
     const deliveryDetails = activeAddress ? getDeliveryInfo(activeAddress) : null;
     const deliveryFee = (deliveryDetails && deliveryDetails.eligible) ? deliveryDetails.fee : 0;
     const finalFee = cartSubtotal() >= 75 ? 0 : deliveryFee;
+    const sub = cartSubtotal();
+    const taxAmt = sub * 0.0825;
+    const totalAmt = sub + taxAmt + finalFee;
 
     const orderObj = {
       orderId: `#QHM-${Math.floor(10000 + Math.random() * 90000)}`,
@@ -1134,13 +1189,19 @@ function App() {
       date: checkoutDate || new Date().toISOString().split('T')[0],
       time: checkoutTime,
       address: activeAddress,
-      subtotal: cartSubtotal(),
+      subtotal: sub,
       deliveryFee: finalFee,
+      tax: taxAmt,
+      total: totalAmt,
       notes: checkoutNotes,
-      items: [...cart]
+      items: [...cart],
+      createdAt: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+      status: 'Placed'
     };
 
     setActiveOrder(orderObj);
+    setPrintReceiptOrder(orderObj);
+    setAllOrdersList(prev => [orderObj, ...prev]);
     setCurbsideNotified(false);
     setCurbsideVehicularStatus('');
     setDeliveryStep(0);
@@ -1148,7 +1209,7 @@ function App() {
     // Reset checkout & cart
     setCart([]);
     setIsCheckoutModalOpen(false);
-    showToast("Order Successfully Placed!", `Order ID: ${orderObj.orderId}`);
+    showToast("Order Successfully Placed!", `Order ID: ${orderObj.orderId}. Notifying store phone (512.260.7677) & front desk printer.`);
   };
 
   // --- ADMIN PORTAL ACTIONS ---
@@ -2257,86 +2318,216 @@ function App() {
                   <div className="admin-title-group">
                     <h2>
                       <ShieldCheck size={28} style={{ color: '#10b981' }} />
-                      Meat & Pastry Store Inventory Manager
+                      Meat & Pastry Store Owner Dashboard
                     </h2>
-                    <p>Logged in as Store Owner • Live catalog sync enabled</p>
+                    <p>Logged in as Store Owner • Live catalog sync & order dispatch enabled</p>
                   </div>
 
                   <div className="admin-actions-bar">
-                    <button className="btn btn-primary" onClick={handleOpenAddProduct} style={{ padding: '0.65rem 1.25rem' }}>
-                      <Plus size={16} />
-                      Add New Item
-                    </button>
+                    <div style={{ display: 'flex', gap: '0.5rem', background: 'rgba(255, 255, 255, 0.05)', padding: '4px', borderRadius: 'var(--radius-full)', border: '1px solid rgba(255, 255, 255, 0.1)' }}>
+                      <button 
+                        className={`btn ${adminTab === 'inventory' ? 'btn-primary' : 'btn-secondary'}`}
+                        onClick={() => setAdminTab('inventory')}
+                        style={{ padding: '0.45rem 1rem', fontSize: '0.85rem' }}
+                      >
+                        <Package size={15} />
+                        Inventory Catalog ({productsList.length})
+                      </button>
+                      
+                      <button 
+                        className={`btn ${adminTab === 'orders' ? 'btn-primary' : 'btn-secondary'}`}
+                        onClick={() => setAdminTab('orders')}
+                        style={{ padding: '0.45rem 1rem', fontSize: '0.85rem', position: 'relative' }}
+                      >
+                        <ShoppingBag size={15} />
+                        Live Orders Queue ({allOrdersList.length})
+                        {allOrdersList.length > 0 && (
+                          <span style={{ position: 'absolute', top: '-4px', right: '-4px', background: '#ef4444', color: 'white', borderRadius: '50%', width: '18px', height: '18px', fontSize: '0.7rem', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: '800' }}>
+                            {allOrdersList.length}
+                          </span>
+                        )}
+                      </button>
+                    </div>
 
-                    <button className="btn btn-secondary" onClick={handleResetCatalog} style={{ padding: '0.65rem 1rem' }} title="Reset catalog to initial state">
-                      <RefreshCw size={15} />
-                      Reset Catalog
-                    </button>
+                    {adminTab === 'inventory' && (
+                      <>
+                        <button className="btn btn-primary" onClick={handleOpenAddProduct} style={{ padding: '0.65rem 1.25rem' }}>
+                          <Plus size={16} />
+                          Add New Item
+                        </button>
+                        <button className="btn btn-secondary" onClick={handleResetCatalog} style={{ padding: '0.65rem 1rem' }} title="Reset catalog to initial state">
+                          <RefreshCw size={15} />
+                          Reset Catalog
+                        </button>
+                      </>
+                    )}
 
                     <button className="btn btn-secondary" onClick={() => setIsAdminLoggedIn(false)} style={{ padding: '0.65rem 1rem', borderColor: '#ef4444', color: '#ef4444' }}>
                       <Lock size={15} />
-                      Lock Admin
+                      Lock Portal
                     </button>
                   </div>
                 </div>
 
-                {/* Dashboard Metrics */}
-                <div className="admin-stats-grid">
-                  <div className="admin-stat-card">
-                    <div className="admin-stat-icon emerald"><Package /></div>
-                    <div className="admin-stat-info">
-                      <h3>{productsList.length}</h3>
-                      <span>Total Catalog Items</span>
+                {adminTab === 'inventory' ? (
+                  <>
+                    {/* Dashboard Metrics */}
+                    <div className="admin-stats-grid">
+                      <div className="admin-stat-card">
+                        <div className="admin-stat-icon emerald"><Package /></div>
+                        <div className="admin-stat-info">
+                          <h3>{productsList.length}</h3>
+                          <span>Total Catalog Items</span>
+                        </div>
+                      </div>
+
+                      <div className="admin-stat-card">
+                        <div className="admin-stat-icon amber"><Award /></div>
+                        <div className="admin-stat-info">
+                          <h3>{productsList.filter(p => p.category === 'pastries').length}</h3>
+                          <span>Pastries & Samosas</span>
+                        </div>
+                      </div>
+
+                      <div className="admin-stat-card">
+                        <div className="admin-stat-icon blue"><CheckCircle2 /></div>
+                        <div className="admin-stat-info">
+                          <h3>{productsList.filter(p => p.inStock !== false).length}</h3>
+                          <span>Active In Stock</span>
+                        </div>
+                      </div>
+
+                      <div className="admin-stat-card">
+                        <div className="admin-stat-icon red"><AlertCircle /></div>
+                        <div className="admin-stat-info">
+                          <h3>{productsList.filter(p => p.inStock === false).length}</h3>
+                          <span>Out of Stock</span>
+                        </div>
+                      </div>
                     </div>
-                  </div>
 
-                  <div className="admin-stat-card">
-                    <div className="admin-stat-icon amber"><Award /></div>
-                    <div className="admin-stat-info">
-                      <h3>{productsList.filter(p => p.category === 'pastries').length}</h3>
-                      <span>Pastries & Samosas</span>
+                    {/* Filter & Search Toolbar */}
+                    <div className="admin-toolbar">
+                      <div className="admin-search-wrapper">
+                        <Search className="admin-search-icon" size={18} />
+                        <input 
+                          type="text" 
+                          placeholder="Search cuts, pastries, status..." 
+                          value={adminSearch}
+                          onChange={(e) => setAdminSearch(e.target.value)}
+                        />
+                      </div>
+
+                      <div className="filter-tabs" style={{ margin: 0 }}>
+                        <button className={`tab-btn ${adminCategory === 'all' ? 'active' : ''}`} onClick={() => setAdminCategory('all')}>All ({productsList.length})</button>
+                        <button className={`tab-btn ${adminCategory === 'goat' ? 'active' : ''}`} onClick={() => setAdminCategory('goat')}>Goat</button>
+                        <button className={`tab-btn ${adminCategory === 'beef' ? 'active' : ''}`} onClick={() => setAdminCategory('beef')}>Beef</button>
+                        <button className={`tab-btn ${adminCategory === 'chicken' ? 'active' : ''}`} onClick={() => setAdminCategory('chicken')}>Chicken</button>
+                        <button className={`tab-btn ${adminCategory === 'lamb' ? 'active' : ''}`} onClick={() => setAdminCategory('lamb')}>Lamb</button>
+                        <button className={`tab-btn ${adminCategory === 'marinated' ? 'active' : ''}`} onClick={() => setAdminCategory('marinated')}>Marinated</button>
+                        <button className={`tab-btn ${adminCategory === 'pastries' ? 'active' : ''}`} onClick={() => setAdminCategory('pastries')}>Pastries</button>
+                      </div>
                     </div>
-                  </div>
-
-                  <div className="admin-stat-card">
-                    <div className="admin-stat-icon blue"><CheckCircle2 /></div>
-                    <div className="admin-stat-info">
-                      <h3>{productsList.filter(p => p.inStock !== false).length}</h3>
-                      <span>Active In Stock</span>
+                  </>
+                ) : (
+                  /* LIVE ORDERS & FRONT DESK PRINTING QUEUE */
+                  <div className="admin-orders-queue animate-fade-in" style={{ margin: '1.5rem 0' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
+                      <h3 style={{ color: 'white', fontSize: '1.2rem', margin: 0 }}>
+                        Live Customer Orders ({allOrdersList.length})
+                      </h3>
+                      {allOrdersList.length > 0 && (
+                        <button 
+                          className="btn btn-secondary" 
+                          onClick={() => {
+                            if (window.confirm("Clear order history?")) setAllOrdersList([]);
+                          }}
+                          style={{ padding: '0.4rem 0.85rem', fontSize: '0.8rem', borderColor: '#ef4444', color: '#ef4444' }}
+                        >
+                          Clear Order History
+                        </button>
+                      )}
                     </div>
-                  </div>
 
-                  <div className="admin-stat-card">
-                    <div className="admin-stat-icon red"><AlertCircle /></div>
-                    <div className="admin-stat-info">
-                      <h3>{productsList.filter(p => p.inStock === false).length}</h3>
-                      <span>Out of Stock</span>
-                    </div>
-                  </div>
-                </div>
+                    {allOrdersList.length === 0 ? (
+                      <div style={{ padding: '3rem', textAlign: 'center', background: 'rgba(2, 6, 23, 0.4)', borderRadius: 'var(--radius-lg)', border: '1px solid var(--glass-border)' }}>
+                        <ShoppingBag size={40} style={{ color: 'var(--text-muted)', marginBottom: '1rem' }} />
+                        <h4 style={{ color: 'white', marginBottom: '0.5rem' }}>No Active Orders Yet</h4>
+                        <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem' }}>
+                          When customers place orders online, they will appear here instantly for store phone dispatch and front desk receipt printing.
+                        </p>
+                      </div>
+                    ) : (
+                      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(380px, 1fr))', gap: '1.25rem' }}>
+                        {allOrdersList.map((ord, idx) => (
+                          <div key={idx} style={{ background: 'rgba(2, 6, 23, 0.7)', border: '1px solid var(--glass-border)', borderRadius: 'var(--radius-lg)', padding: '1.25rem', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                              <div>
+                                <span style={{ color: 'var(--primary-light)', fontWeight: '800', fontSize: '1.1rem' }}>{ord.orderId}</span>
+                                <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginLeft: '8px' }}>({ord.createdAt || 'Just Now'})</span>
+                              </div>
+                              <span style={{ padding: '3px 10px', borderRadius: '50px', fontSize: '0.75rem', fontWeight: '700', textTransform: 'uppercase', background: ord.type === 'pickup' ? 'rgba(16, 185, 129, 0.15)' : 'rgba(245, 158, 11, 0.15)', color: ord.type === 'pickup' ? '#10b981' : '#f59e0b', border: '1px solid currentColor' }}>
+                                {ord.type}
+                              </span>
+                            </div>
 
-                {/* Filter & Search Toolbar */}
-                <div className="admin-toolbar">
-                  <div className="admin-search-wrapper">
-                    <Search className="admin-search-icon" size={18} />
-                    <input 
-                      type="text" 
-                      placeholder="Search cuts, pastries, status..." 
-                      value={adminSearch}
-                      onChange={(e) => setAdminSearch(e.target.value)}
-                    />
-                  </div>
+                            <div style={{ fontSize: '0.88rem', color: 'var(--text-light)', background: 'rgba(255, 255, 255, 0.03)', padding: '0.75rem', borderRadius: 'var(--radius-md)' }}>
+                              <div><strong>Customer:</strong> {ord.name}</div>
+                              <div><strong>Phone:</strong> <a href={`tel:${ord.phone}`} style={{ color: 'var(--primary-light)' }}>{ord.phone}</a></div>
+                              {ord.address && <div><strong>Address:</strong> {ord.address}</div>}
+                              <div><strong>Scheduled:</strong> {ord.date} at {ord.time}</div>
+                            </div>
 
-                  <div className="filter-tabs" style={{ margin: 0 }}>
-                    <button className={`tab-btn ${adminCategory === 'all' ? 'active' : ''}`} onClick={() => setAdminCategory('all')}>All ({productsList.length})</button>
-                    <button className={`tab-btn ${adminCategory === 'goat' ? 'active' : ''}`} onClick={() => setAdminCategory('goat')}>Goat</button>
-                    <button className={`tab-btn ${adminCategory === 'beef' ? 'active' : ''}`} onClick={() => setAdminCategory('beef')}>Beef</button>
-                    <button className={`tab-btn ${adminCategory === 'chicken' ? 'active' : ''}`} onClick={() => setAdminCategory('chicken')}>Chicken</button>
-                    <button className={`tab-btn ${adminCategory === 'lamb' ? 'active' : ''}`} onClick={() => setAdminCategory('lamb')}>Lamb</button>
-                    <button className={`tab-btn ${adminCategory === 'marinated' ? 'active' : ''}`} onClick={() => setAdminCategory('marinated')}>Marinated</button>
-                    <button className={`tab-btn ${adminCategory === 'pastries' ? 'active' : ''}`} onClick={() => setAdminCategory('pastries')}>Pastries</button>
+                            {/* Itemized Butcher Cut List */}
+                            <div style={{ fontSize: '0.85rem' }}>
+                              <strong style={{ color: 'var(--text-muted)', display: 'block', marginBottom: '4px' }}>Items ({ord.items.length}):</strong>
+                              <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                                {ord.items.map((it, iIdx) => (
+                                  <li key={iIdx} style={{ color: 'white', display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid rgba(255,255,255,0.05)', paddingBottom: '4px' }}>
+                                    <span>
+                                      <strong>{it.qty}x</strong> {it.name}
+                                      {it.customizations && (
+                                        <span style={{ display: 'block', fontSize: '0.78rem', color: 'var(--text-muted)' }}>
+                                          [{it.customizations.style || 'Standard'}]
+                                        </span>
+                                      )}
+                                    </span>
+                                    <strong>${((it.price || 0) * it.qty).toFixed(2)}</strong>
+                                  </li>
+                                ))}
+                              </ul>
+                            </div>
+
+                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingTop: '0.5rem', borderTop: '1px solid var(--glass-border)' }}>
+                              <span style={{ color: 'var(--text-muted)', fontSize: '0.85rem' }}>Order Total:</span>
+                              <span style={{ fontSize: '1.2rem', fontWeight: '800', color: 'white' }}>
+                                ${((ord.total) || (ord.subtotal || 0) * 1.0825).toFixed(2)}
+                              </span>
+                            </div>
+
+                            <div style={{ display: 'flex', gap: '0.5rem' }}>
+                              <button 
+                                className="btn btn-primary" 
+                                onClick={() => dispatchToStorePhone(ord)}
+                                style={{ flex: 1, padding: '0.5rem 0.75rem', fontSize: '0.8rem', backgroundColor: '#25D366', borderColor: '#25D366', justifyContent: 'center' }}
+                              >
+                                📱 Alert Phone
+                              </button>
+                              
+                              <button 
+                                className="btn btn-primary" 
+                                onClick={() => printFrontDeskReceipt(ord)}
+                                style={{ flex: 1, padding: '0.5rem 0.75rem', fontSize: '0.8rem', justifyContent: 'center' }}
+                              >
+                                🖨️ Print Ticket
+                              </button>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    )}
                   </div>
-                </div>
+                )}
 
                 {/* Admin Product Items Grid */}
                 <div className="admin-products-grid">
@@ -2866,6 +3057,93 @@ function App() {
           <h4 id="toastTitle">{toast.title}</h4>
           <p id="toastMessage">{toast.message}</p>
         </div>
+      </div>
+
+      {/* FRONT DESK THERMAL RECEIPT PRINT AREA (@media print) */}
+      <div id="thermal-receipt-print-area" style={{ display: 'none' }}>
+        {printReceiptOrder && (
+          <div className="receipt-box" style={{ width: '80mm', fontFamily: 'monospace', padding: '10px', fontSize: '12px', color: 'black', background: 'white' }}>
+            <div style={{ textAlign: 'center', marginBottom: '10px' }}>
+              <h2 style={{ fontSize: '18px', margin: '0 0 4px 0', textTransform: 'uppercase' }}>QUALITY HALAL MARKET</h2>
+              <p style={{ fontSize: '11px', margin: '0 0 2px 0' }}>100% Zabiha Hand-Slaughtered Meats</p>
+              <p style={{ fontSize: '11px', margin: '0 0 2px 0' }}>12920 West Parmer Lane #106, Cedar Park TX</p>
+              <p style={{ fontSize: '11px', margin: 0 }}>Tel: (512) 260-7677 | Fax: (512) 260-7734</p>
+              <p style={{ fontSize: '11px', margin: 0 }}>Email: QualityHalalMarket@gmail.com</p>
+              <div style={{ borderBottom: '1px dashed #000', margin: '8px 0' }}></div>
+            </div>
+
+            <div style={{ fontSize: '12px', marginBottom: '10px' }}>
+              <div><strong>ORDER #:</strong> {printReceiptOrder.orderId}</div>
+              <div><strong>TYPE:</strong> {printReceiptOrder.type.toUpperCase()}</div>
+              <div><strong>DATE/TIME:</strong> {printReceiptOrder.date} at {printReceiptOrder.time}</div>
+              <div><strong>CUSTOMER:</strong> {printReceiptOrder.name}</div>
+              <div><strong>PHONE:</strong> {printReceiptOrder.phone}</div>
+              {printReceiptOrder.address && <div><strong>DELIVERY ADDR:</strong> {printReceiptOrder.address}</div>}
+              <div style={{ borderBottom: '1px dashed #000', margin: '8px 0' }}></div>
+            </div>
+
+            <div style={{ fontSize: '12px', marginBottom: '10px' }}>
+              <div style={{ fontWeight: 'bold', display: 'flex', justifyContent: 'space-between', marginBottom: '4px' }}>
+                <span>QTY / ITEM</span>
+                <span>AMOUNT</span>
+              </div>
+              <div style={{ borderBottom: '1px solid #000', marginBottom: '6px' }}></div>
+              
+              {printReceiptOrder.items.map((item, idx) => (
+                <div key={idx} style={{ marginBottom: '8px' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', fontWeight: 'bold' }}>
+                    <span>{item.qty}x {item.name}</span>
+                    <span>${((item.price || 0) * item.qty).toFixed(2)}</span>
+                  </div>
+                  {item.customizations && (
+                    <div style={{ fontSize: '10px', paddingLeft: '8px', color: '#333' }}>
+                      {item.customizations.style && <div>- Cut: {item.customizations.style}</div>}
+                      {item.customizations.trim && <div>- Trim: {item.customizations.trim}</div>}
+                      {item.customizations.skin && <div>- Skin: {item.customizations.skin}</div>}
+                      {item.customizations.notes && <div>- Note: {item.customizations.notes}</div>}
+                    </div>
+                  )}
+                </div>
+              ))}
+              <div style={{ borderBottom: '1px dashed #000', margin: '8px 0' }}></div>
+            </div>
+
+            <div style={{ fontSize: '12px', marginBottom: '10px' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                <span>Subtotal:</span>
+                <span>${(printReceiptOrder.subtotal || 0).toFixed(2)}</span>
+              </div>
+              {printReceiptOrder.deliveryFee > 0 && (
+                <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                  <span>Delivery Fee:</span>
+                  <span>${(printReceiptOrder.deliveryFee).toFixed(2)}</span>
+                </div>
+              )}
+              <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                <span>Est. Tax (8.25%):</span>
+                <span>${((printReceiptOrder.subtotal || 0) * 0.0825).toFixed(2)}</span>
+              </div>
+              <div style={{ display: 'flex', justifyContent: 'space-between', fontWeight: 'bold', fontSize: '14px', marginTop: '4px' }}>
+                <span>ORDER TOTAL:</span>
+                <span>${((printReceiptOrder.total) || (printReceiptOrder.subtotal || 0) * 1.0825).toFixed(2)}</span>
+              </div>
+              <div style={{ borderBottom: '1px dashed #000', margin: '8px 0' }}></div>
+            </div>
+
+            {printReceiptOrder.notes && (
+              <div style={{ fontSize: '11px', marginBottom: '10px' }}>
+                <strong>CUSTOMER NOTES:</strong> {printReceiptOrder.notes}
+                <div style={{ borderBottom: '1px dashed #000', margin: '8px 0' }}></div>
+              </div>
+            )}
+
+            <div style={{ textAlign: 'center', fontSize: '10px', marginTop: '12px' }}>
+              <p style={{ margin: '0 0 6px 0' }}>BUTCHER SIGNATURE: ____________________</p>
+              <p style={{ fontWeight: 'bold', margin: '0 0 2px 0' }}>THANK YOU FOR YOUR ORDER!</p>
+              <p style={{ margin: 0 }}>Quality Halal Meat Market - Cedar Park TX</p>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

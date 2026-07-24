@@ -3810,6 +3810,37 @@ textarea.form-input {
   }
 }
 
+/* -------------------------------------------------------------
+   THERMAL RECEIPT PRINT STYLES (@media print)
+   ------------------------------------------------------------- */
+@media print {
+  body > *:not(#root) {
+    display: none !important;
+  }
+  
+  #root > *:not(#thermal-receipt-print-area) {
+    display: none !important;
+  }
+
+  #thermal-receipt-print-area {
+    display: block !important;
+    position: absolute !important;
+    left: 0 !important;
+    top: 0 !important;
+    width: 80mm !important;
+    background: #ffffff !important;
+    color: #000000 !important;
+    padding: 10px !important;
+    margin: 0 !important;
+    box-shadow: none !important;
+  }
+
+  .modal, .header, .footer, .hero, .section {
+    display: none !important;
+  }
+}
+
+
 
 
 

@@ -19,7 +19,12 @@ class ErrorBoundary extends Component {
 
   handleReset = () => {
     try {
-      localStorage.clear();
+      if (typeof window !== 'undefined' && window.localStorage) {
+        localStorage.clear();
+      }
+      if (typeof window !== 'undefined' && window.sessionStorage) {
+        sessionStorage.clear();
+      }
     } catch (e) {
       console.error(e);
     }

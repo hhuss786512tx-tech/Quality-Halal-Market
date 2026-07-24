@@ -739,10 +739,32 @@ const getDefaultCustomizations = (product) => {
   };
 };
 
+// Safe localStorage accessor that gracefully handles Incognito mode & blocked storage
+const safeGetStorage = (key) => {
+  try {
+    if (typeof window !== 'undefined' && window.localStorage) {
+      return localStorage.getItem(key);
+    }
+  } catch (err) {
+    console.warn("Storage access denied:", err);
+  }
+  return null;
+};
+
+const safeSetStorage = (key, value) => {
+  try {
+    if (typeof window !== 'undefined' && window.localStorage) {
+      localStorage.setItem(key, value);
+    }
+  } catch (err) {
+    console.warn("Storage write denied:", err);
+  }
+};
+
 function App() {
   // Navigation & Language States
   const [currentLang, setCurrentLang] = useState(() => {
-    return localStorage.getItem('qhm_lang') || 'en';
+    return safeGetStorage('qhm_lang') || 'en';
   });
 
   const [currentView, setCurrentView] = useState('home'); // 'home' | 'counter'
@@ -767,7 +789,7 @@ function App() {
 
   // Dynamic Products List with LocalStorage Persistence (Meat & Pastries Catalog v7)
   const [productsList, setProductsList] = useState(() => {
-    const saved = localStorage.getItem('qhm_products_meat_v9');
+    const saved = safeGetStorage('qhm_products_meat_v9');
     if (saved) {
       try {
         return JSON.parse(saved);
@@ -801,7 +823,7 @@ function App() {
   // E-Commerce States
   const [cart, setCart] = useState(() => {
     try {
-      const stored = localStorage.getItem('qhm_cart');
+      const stored = safeGetStorage('qhm_cart');
       const parsed = stored ? JSON.parse(stored) : [];
       return Array.isArray(parsed) ? parsed : [];
     } catch (e) {
@@ -843,7 +865,7 @@ function App() {
   // Persistent Order Queue for Store Owner & Thermal Printing
   const [allOrdersList, setAllOrdersList] = useState(() => {
     try {
-      const saved = localStorage.getItem('qhm_store_orders_v1');
+      const saved = safeGetStorage('qhm_store_orders_v1');
       const parsed = saved ? JSON.parse(saved) : [];
       return Array.isArray(parsed) ? parsed : [];
     } catch (e) {
@@ -855,7 +877,7 @@ function App() {
   const [adminTab, setAdminTab] = useState('inventory'); // 'inventory' | 'orders'
 
   useEffect(() => {
-    localStorage.setItem('qhm_store_orders_v1', JSON.stringify(allOrdersList));
+    safeSetStorage('qhm_store_orders_v1', JSON.stringify(allOrdersList));
   }, [allOrdersList]);
 
   const generateStorePhoneMessage = (order) => {
@@ -915,12 +937,12 @@ function App() {
 
   // Sync Language
   useEffect(() => {
-    localStorage.setItem('qhm_lang', currentLang);
+    safeSetStorage('qhm_lang', currentLang);
   }, [currentLang]);
 
   // Sync Products to LocalStorage
   useEffect(() => {
-    localStorage.setItem('qhm_products_meat_v9', JSON.stringify(productsList));
+    safeSetStorage('qhm_products_meat_v9', JSON.stringify(productsList));
   }, [productsList]);
 
   // Calculate scroll progress
@@ -938,7 +960,7 @@ function App() {
 
   // Save Cart to local storage when it updates
   useEffect(() => {
-    localStorage.setItem('qhm_cart', JSON.stringify(cart));
+    safeSetStorage('qhm_cart', JSON.stringify(cart));
   }, [cart]);
 
   // Leaflet Map Initialization

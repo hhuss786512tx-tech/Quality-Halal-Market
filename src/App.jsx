@@ -9,6 +9,9 @@ import {
   Package, Sparkles, CheckCircle2, Globe
 } from 'lucide-react';
 
+import cardFront from './assets/card_front.jpg';
+import cardBack from './assets/card_back.jpg';
+
 const Facebook = ({ size = 24, ...props }) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -1736,99 +1739,112 @@ function App() {
         </div>
       </section>
 
-      {/* About Us Section */}
+      {/* About Section */}
       <section id="about" className="section">
         <div className="container">
-          <div className="about-wrapper">
-            <div className="about-content-left">
-              <span className="subtitle">Quality You Can Trust</span>
-              <h2 className="section-title" style={{ fontSize: '2.5rem', textAlign: 'left' }}>About Quality Halal Market</h2>
-              <p>
-                Established with a vision to serve Cedar Park and the greater Austin community with pristine 100% Zabiha Halal meats and handcrafted meat pastries. Under direct management by store owners, our customer service is as quality-oriented as our inventory.
-              </p>
-              <p>
-                Every cut of meat and pastry we offer is hand-slaughtered, custom trimmed, and thoroughly inspected to meet strict Zabiha halal guidelines.
+          <div className="about-bento-grid">
+            
+            {/* Left Bento Card: Story & Contact Info */}
+            <div className="about-info-card">
+              <div className="card-header-badge">
+                <Award size={16} style={{ color: 'var(--primary-light)' }} />
+                <span>Quality You Can Trust</span>
+              </div>
+              
+              <h2 className="about-title">About Quality Halal Market</h2>
+              
+              <p className="about-lead">
+                Established with a vision to serve Cedar Park and the greater Austin community with pristine <strong>100% Zabiha Halal</strong> meats and handcrafted meat pastries. Under direct management by store owners, our customer service is as quality-oriented as our inventory.
               </p>
               
-              <div className="contact-details-box">
-                <div className="detail-item">
-                  <div className="detail-icon"><Phone size={18} /></div>
-                  <div className="detail-info">
-                    <span>Phone Number</span>
-                    <a href="tel:5122607677"><strong>512.260.7677</strong></a>
+              <p className="about-text">
+                Every cut of meat and pastry we offer is hand-slaughtered, custom trimmed, and thoroughly inspected to meet strict Zabiha halal guidelines.
+              </p>
+
+              {/* Contact Info Pills Grid */}
+              <div className="about-contact-pills">
+                <a href="tel:5122607677" className="contact-pill-item">
+                  <div className="pill-icon"><Phone size={18} /></div>
+                  <div className="pill-text">
+                    <span className="pill-label">Phone Number</span>
+                    <strong className="pill-value">512.260.7677</strong>
+                  </div>
+                </a>
+
+                <div className="contact-pill-item">
+                  <div className="pill-icon"><Printer size={18} /></div>
+                  <div className="pill-text">
+                    <span className="pill-label">Store Fax</span>
+                    <strong className="pill-value">512.260.7734</strong>
                   </div>
                 </div>
-                
-                <div className="detail-item">
-                  <div className="detail-icon"><Printer size={18} /></div>
-                  <div className="detail-info">
-                    <span>Store Fax</span>
-                    <strong>512.260.7734</strong>
+
+                <a href="mailto:QualityHalalMarket@gmail.com" className="contact-pill-item">
+                  <div className="pill-icon"><Mail size={18} /></div>
+                  <div className="pill-text">
+                    <span className="pill-label">Email Us</span>
+                    <strong className="pill-value">QualityHalalMarket@gmail.com</strong>
+                  </div>
+                </a>
+              </div>
+            </div>
+
+            {/* Right Bento Card: Interactive Business Cards Showcase */}
+            <div className="about-cards-card">
+              <div className="card-header-badge yellow">
+                <Rotate3d size={16} />
+                <span>Store Business Cards • Click to Flip</span>
+              </div>
+
+              <div className="business-cards-container">
+                {/* Card 1: Front */}
+                <div 
+                  className={`flip-card-wrapper ${flippedCards[1] ? 'flipped' : ''}`}
+                  onClick={() => handleCardFlip(1)}
+                >
+                  <div className="flip-card-inner">
+                    <div className="flip-card-front">
+                      <img src={cardFront} alt="Business Card Front" />
+                      <button className="zoom-btn" onClick={(e) => handleOpenLightbox(cardFront, e)}>
+                        <Maximize2 size={16} />
+                      </button>
+                    </div>
+                    <div className="flip-card-back">
+                      <div className="back-card-design">
+                        <div className="logo-icon">Q</div>
+                        <h3>Quality Halal Market</h3>
+                        <p>100% Zabiha Hand-Slaughtered Meats & Pastries</p>
+                        <span className="click-to-flip-tag">Click to Flip Back</span>
+                      </div>
+                    </div>
                   </div>
                 </div>
-                
-                <div className="detail-item">
-                  <div className="detail-icon"><Mail size={18} /></div>
-                  <div className="detail-info">
-                    <span>Email Us</span>
-                    <a href="mailto:QualityHalalMarket@gmail.com"><strong>QualityHalalMarket@gmail.com</strong></a>
+
+                {/* Card 2: Back */}
+                <div 
+                  className={`flip-card-wrapper ${flippedCards[2] ? 'flipped' : ''}`}
+                  onClick={() => handleCardFlip(2)}
+                >
+                  <div className="flip-card-inner">
+                    <div className="flip-card-front">
+                      <img src={cardBack} alt="Business Card Back" />
+                      <button className="zoom-btn" onClick={(e) => handleOpenLightbox(cardBack, e)}>
+                        <Maximize2 size={16} />
+                      </button>
+                    </div>
+                    <div className="flip-card-back">
+                      <div className="back-card-design">
+                        <div className="logo-icon">Q</div>
+                        <h3>Store Location & Hours</h3>
+                        <p>12920 West Parmer Lane #106<br />Cedar Park, TX 78613</p>
+                        <span className="click-to-flip-tag">Click to Flip Back</span>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
 
-            <div className="cards-display-right">
-              <span className="swipe-hint">
-                <Rotate3d size={16} style={{ marginRight: '6px' }} />
-                Click card to flip
-              </span>
-
-              {/* Card 1: Front */}
-              <div 
-                className={`flip-card-wrapper ${flippedCards[1] ? 'flipped' : ''}`}
-                onClick={() => handleCardFlip(1)}
-              >
-                <div className="flip-card-inner">
-                  <div className="flip-card-front">
-                    <img src="/assets/card_front.jpg" alt="Business Card Front" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                    <button className="zoom-btn" onClick={(e) => handleOpenLightbox('/assets/card_front.jpg', e)}>
-                      <Maximize2 size={16} />
-                    </button>
-                  </div>
-                  <div className="flip-card-back">
-                    <div className="back-card-design">
-                      <div className="logo-icon">Q</div>
-                      <h3>Quality Halal Market</h3>
-                      <p>Fresh Zabiha Meats & Savory Pastries</p>
-                      <span className="click-to-flip-tag">Click to Flip Back</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Card 2: Back */}
-              <div 
-                className={`flip-card-wrapper ${flippedCards[2] ? 'flipped' : ''}`}
-                onClick={() => handleCardFlip(2)}
-              >
-                <div className="flip-card-inner">
-                  <div className="flip-card-front">
-                    <img src="/assets/card_back.jpg" alt="Business Card Back" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                    <button className="zoom-btn" onClick={(e) => handleOpenLightbox('/assets/card_back.jpg', e)}>
-                      <Maximize2 size={16} />
-                    </button>
-                  </div>
-                  <div className="flip-card-back">
-                    <div className="back-card-design">
-                      <div className="logo-icon">Q</div>
-                      <h3>Our Location & Hours</h3>
-                      <p>12920 West Parmer Lane #106<br />Cedar Park, TX 78613</p>
-                      <span className="click-to-flip-tag">Click to Flip Back</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
           </div>
         </div>
       </section>

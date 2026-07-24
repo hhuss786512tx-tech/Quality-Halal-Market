@@ -1585,97 +1585,96 @@ function App() {
         </div>
       </div>
 
-      {/* Hero Section */}
-      <section id="home" className="hero">
-        <div className="hero-bg">
-          <div className="slideshow-stacked-container">
-            {rotatingMeatSlides.map((slide, idx) => (
-              <img
-                key={idx}
-                src={slide.img}
-                alt={slide.name}
-                className={`slideshow-slide-img ${idx === heroSlideIdx ? 'active' : ''}`}
-                style={{ filter: 'brightness(0.32) contrast(1.15)' }}
-              />
-            ))}
-          </div>
-          <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', background: 'linear-gradient(to bottom, rgba(15, 23, 42, 0.5) 0%, rgba(15, 23, 42, 0.95) 100%)', pointerEvents: 'none' }}></div>
-        </div>
-        <div className="container hero-grid">
-          <div className="hero-content">
-            <div className="hero-badge" style={{ background: 'rgba(222, 31, 38, 0.15)', borderColor: 'rgba(222, 31, 38, 0.4)', color: '#fca5a5' }}>
-              <ShieldCheck size={16} style={{ marginRight: '6px', color: '#de1f26' }} />
-              100% HAND-SLAUGHTERED ZABIHA HALAL
-            </div>
-            <h1 className="hero-title" style={{ fontFamily: 'var(--font-serif)', fontSize: '3.8rem', fontWeight: '800' }}>
-              Cedar Park's Premier <span style={{ color: '#de1f26', display: 'inline' }}>Zabiha Halal</span> Butcher Shop
-            </h1>
-            <p className="hero-subtitle" style={{ color: '#cbd5e1', fontSize: '1.15rem', lineHeight: '1.7', margin: '1.5rem 0 2.5rem 0', maxWidth: '620px' }}>
-              Domestically raised, 100% hand-slaughtered goat, lamb, grass-fed beef, chicken & freshly baked samosas. Custom cut, fat trimmed, and prepared to your exact recipe by our master butchers.
-            </p>
-
-            <div className="hero-btns" style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
-              <button onClick={() => navigateTo('counter')} className="btn-red" style={{ padding: '0.85rem 2rem', fontSize: '1rem' }}>
-                Explore Butcher Cuts
-                <ArrowRight size={18} style={{ marginLeft: '8px' }} />
-              </button>
-              <a href="tel:5122607677" className="btn btn-secondary" style={{ padding: '0.85rem 1.5rem', fontSize: '0.95rem' }}>
-                <Phone size={16} style={{ marginRight: '8px', color: '#34d399' }} />
-                Call Counter: 512.260.7677
-              </a>
-            </div>
-          </div>
-          
-          {/* Hero Right side: Authentic Butcher Card Showcase */}
-          <div className="hero-card-container">
-            <div style={{ background: 'rgba(15, 23, 42, 0.95)', border: '1px solid rgba(255, 255, 255, 0.12)', borderRadius: '20px', padding: '1.75rem', maxWidth: '380px', width: '100%', boxShadow: '0 20px 50px rgba(0,0,0,0.6)', backdropFilter: 'blur(16px)' }}>
-              <div style={{ borderBottom: '1px solid rgba(255,255,255,0.1)', paddingBottom: '1rem', marginBottom: '1.25rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <span style={{ fontSize: '0.8rem', fontWeight: '700', color: '#de1f26', textTransform: 'uppercase', letterSpacing: '0.04em' }}>Master Butcher Counter</span>
-                <span style={{ fontSize: '0.78rem', background: 'rgba(16,185,129,0.15)', color: '#34d399', padding: '3px 10px', borderRadius: '12px', fontWeight: '600' }}>Open Today</span>
-              </div>
-
-              <div style={{ height: '200px', borderRadius: '12px', overflow: 'hidden', position: 'relative', marginBottom: '1.25rem', border: '1px solid rgba(255,255,255,0.1)' }}>
-                <div className="slideshow-stacked-container">
-                  {rotatingMeatSlides.map((slide, idx) => (
-                    <img 
-                      key={idx}
-                      src={slide.img} 
-                      alt={slide.name}
-                      className={`slideshow-slide-img ${idx === heroSlideIdx ? 'active' : ''}`}
-                    />
-                  ))}
-                </div>
-                <div style={{ position: 'absolute', bottom: '10px', left: '10px', right: '10px', background: 'rgba(7,10,19,0.9)', padding: '6px 12px', borderRadius: '8px', fontSize: '0.78rem', color: 'white', fontWeight: '600', display: 'flex', justifyContent: 'space-between' }}>
-                  <span>{rotatingMeatSlides[heroSlideIdx].tag}</span>
-                  <span style={{ color: '#34d399' }}>100% Zabiha</span>
-                </div>
-              </div>
-
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem', fontSize: '0.88rem', color: '#cbd5e1' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                  <MapPin size={16} style={{ color: '#de1f26' }} />
-                  <span>12920 W Parmer Ln #106, Cedar Park</span>
-                </div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                  <Clock size={16} style={{ color: '#f59e0b' }} />
-                  <span>Daily 9:00 AM - 9:00 PM</span>
-                </div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                  <Phone size={16} style={{ color: '#34d399' }} />
-                  <span>512.260.7677</span>
-                </div>
-              </div>
-
-              <button onClick={() => navigateTo('counter')} className="btn-red" style={{ width: '100%', marginTop: '1.25rem', justifyContent: 'center' }}>
-                View All Butcher Cuts ➔
-              </button>
-            </div>
-          </div>
-        </div>
-      </section>
-
       {currentView === 'home' ? (
         <>
+          {/* Hero Section */}
+          <section id="home" className="hero">
+            <div className="hero-bg">
+              <div className="slideshow-stacked-container">
+                {rotatingMeatSlides.map((slide, idx) => (
+                  <img
+                    key={idx}
+                    src={slide.img}
+                    alt={slide.name}
+                    className={`slideshow-slide-img ${idx === heroSlideIdx ? 'active' : ''}`}
+                    style={{ filter: 'brightness(0.32) contrast(1.15)' }}
+                  />
+                ))}
+              </div>
+              <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', background: 'linear-gradient(to bottom, rgba(15, 23, 42, 0.5) 0%, rgba(15, 23, 42, 0.95) 100%)', pointerEvents: 'none' }}></div>
+            </div>
+            <div className="container hero-grid">
+              <div className="hero-content">
+                <div className="hero-badge" style={{ background: 'rgba(222, 31, 38, 0.15)', borderColor: 'rgba(222, 31, 38, 0.4)', color: '#fca5a5' }}>
+                  <ShieldCheck size={16} style={{ marginRight: '6px', color: '#de1f26' }} />
+                  100% HAND-SLAUGHTERED ZABIHA HALAL
+                </div>
+                <h1 className="hero-title" style={{ fontFamily: 'var(--font-serif)', fontSize: '3.8rem', fontWeight: '800' }}>
+                  Cedar Park's Premier <span style={{ color: '#de1f26', display: 'inline' }}>Zabiha Halal</span> Butcher Shop
+                </h1>
+                <p className="hero-subtitle" style={{ color: '#cbd5e1', fontSize: '1.15rem', lineHeight: '1.7', margin: '1.5rem 0 2.5rem 0', maxWidth: '620px' }}>
+                  Domestically raised, 100% hand-slaughtered goat, lamb, grass-fed beef, chicken & freshly baked samosas. Custom cut, fat trimmed, and prepared to your exact recipe by our master butchers.
+                </p>
+
+                <div className="hero-btns" style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
+                  <button onClick={() => navigateTo('counter')} className="btn-red" style={{ padding: '0.85rem 2rem', fontSize: '1rem' }}>
+                    Explore Butcher Cuts
+                    <ArrowRight size={18} style={{ marginLeft: '8px' }} />
+                  </button>
+                  <a href="tel:5122607677" className="btn btn-secondary" style={{ padding: '0.85rem 1.5rem', fontSize: '0.95rem' }}>
+                    <Phone size={16} style={{ marginRight: '8px', color: '#34d399' }} />
+                    Call Counter: 512.260.7677
+                  </a>
+                </div>
+              </div>
+              
+              {/* Hero Right side: Authentic Butcher Card Showcase */}
+              <div className="hero-card-container">
+                <div style={{ background: 'rgba(15, 23, 42, 0.95)', border: '1px solid rgba(255, 255, 255, 0.12)', borderRadius: '20px', padding: '1.75rem', maxWidth: '380px', width: '100%', boxShadow: '0 20px 50px rgba(0,0,0,0.6)', backdropFilter: 'blur(16px)' }}>
+                  <div style={{ borderBottom: '1px solid rgba(255,255,255,0.1)', paddingBottom: '1rem', marginBottom: '1.25rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <span style={{ fontSize: '0.8rem', fontWeight: '700', color: '#de1f26', textTransform: 'uppercase', letterSpacing: '0.04em' }}>Master Butcher Counter</span>
+                    <span style={{ fontSize: '0.78rem', background: 'rgba(16,185,129,0.15)', color: '#34d399', padding: '3px 10px', borderRadius: '12px', fontWeight: '600' }}>Open Today</span>
+                  </div>
+
+                  <div style={{ height: '200px', borderRadius: '12px', overflow: 'hidden', position: 'relative', marginBottom: '1.25rem', border: '1px solid rgba(255,255,255,0.1)' }}>
+                    <div className="slideshow-stacked-container">
+                      {rotatingMeatSlides.map((slide, idx) => (
+                        <img 
+                          key={idx}
+                          src={slide.img} 
+                          alt={slide.name}
+                          className={`slideshow-slide-img ${idx === heroSlideIdx ? 'active' : ''}`}
+                        />
+                      ))}
+                    </div>
+                    <div style={{ position: 'absolute', bottom: '10px', left: '10px', right: '10px', background: 'rgba(7,10,19,0.9)', padding: '6px 12px', borderRadius: '8px', fontSize: '0.78rem', color: 'white', fontWeight: '600', display: 'flex', justifyContent: 'space-between' }}>
+                      <span>{rotatingMeatSlides[heroSlideIdx].tag}</span>
+                      <span style={{ color: '#34d399' }}>100% Zabiha</span>
+                    </div>
+                  </div>
+
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem', fontSize: '0.88rem', color: '#cbd5e1' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                      <MapPin size={16} style={{ color: '#de1f26' }} />
+                      <span>12920 W Parmer Ln #106, Cedar Park</span>
+                    </div>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                      <Clock size={16} style={{ color: '#f59e0b' }} />
+                      <span>Daily 9:00 AM - 9:00 PM</span>
+                    </div>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                      <Phone size={16} style={{ color: '#34d399' }} />
+                      <span>512.260.7677</span>
+                    </div>
+                  </div>
+
+                  <button onClick={() => navigateTo('counter')} className="btn-red" style={{ width: '100%', marginTop: '1.25rem', justifyContent: 'center' }}>
+                    View All Butcher Cuts ➔
+                  </button>
+                </div>
+              </div>
+            </div>
+          </section>
           {/* Southern Steer Template: "A Cut Above the Rest" Feature Section */}
           <section className="section bg-light" style={{ padding: '4.5rem 0', background: 'rgba(7, 10, 19, 0.95)' }}>
             <div className="container text-center">
@@ -2028,112 +2027,6 @@ function App() {
               </div>
             </div>
           </section>
-        </>
-      ) : (
-        /* Butcher Counter Dedicated Page View Header Banner */
-        <>
-          <div className="section bg-dark text-white" style={{ paddingTop: '110px', paddingBottom: '2.5rem', background: 'linear-gradient(135deg, #091310 0%, #112820 100%)', textAlign: 'center' }}>
-            <div className="container">
-              <button 
-                className="btn btn-secondary" 
-                style={{ marginBottom: '1.5rem', fontSize: '0.85rem', padding: '0.45rem 1.1rem', color: '#10b981', borderColor: 'rgba(16, 185, 129, 0.3)' }}
-                onClick={() => navigateTo('home')}
-              >
-                &larr; Return to Home Page
-              </button>
-              <br />
-              <span className="subtitle" style={{ color: '#10b981' }}>100% Hand-Slaughtered Zabiha Halal</span>
-              <h1 style={{ fontSize: '2.8rem', fontWeight: 900, margin: '0.5rem 0', color: '#ffffff' }}>The Butcher Counter</h1>
-              <p style={{ maxWidth: '680px', margin: '0 auto', color: '#9ca3af', fontSize: '1.05rem' }}>
-                Explore our full catalog of fresh meat cuts, custom butcher preps, marinated BBQ botis, and bakery pastries. Custom cut and trimmed to order.
-              </p>
-            </div>
-          </div>
-
-          {/* Virtual Counter Section */}
-          <section id="counter" className="section bg-light">
-            <div className="container">
-              <div className="text-center" style={{ marginBottom: '4rem' }}>
-                <span className="subtitle">Interactive Counter</span>
-                <h2 className="section-title">{txt('counter')}</h2>
-                <p className="section-desc">
-                  Select your fresh Zabiha meat cuts or bakery meat pastries below, choose custom butcher prep styles, and order for store pickup or local delivery.
-                </p>
-                
-                {/* Filter Tabs */}
-                <div className="filter-tabs">
-                  <button className={`tab-btn ${activeCategory === 'all' ? 'active' : ''}`} onClick={() => setActiveCategory('all')}>{txt('allCuts')} ({productsList.length})</button>
-                  <button className={`tab-btn ${activeCategory === 'goat' ? 'active' : ''}`} onClick={() => setActiveCategory('goat')}>{txt('goatCat')}</button>
-                  <button className={`tab-btn ${activeCategory === 'beef' ? 'active' : ''}`} onClick={() => setActiveCategory('beef')}>{txt('beefCat')}</button>
-                  <button className={`tab-btn ${activeCategory === 'chicken' ? 'active' : ''}`} onClick={() => setActiveCategory('chicken')}>{txt('chickenCat')}</button>
-                  <button className={`tab-btn ${activeCategory === 'lamb' ? 'active' : ''}`} onClick={() => setActiveCategory('lamb')}>{txt('lambCat')}</button>
-                  <button className={`tab-btn ${activeCategory === 'marinated' ? 'active' : ''}`} onClick={() => setActiveCategory('marinated')}>{txt('marinatedCat')}</button>
-                  <button className={`tab-btn ${activeCategory === 'pastries' ? 'active' : ''}`} onClick={() => setActiveCategory('pastries')}>{txt('pastriesCat')}</button>
-                </div>
-              </div>
-
-              {/* Products Grid */}
-              <div className="products-grid">
-                {filteredProducts.map((p) => {
-                  const isOut = p.inStock === false;
-                  return (
-                    <div 
-                      key={p.id} 
-                      className={`product-card ${isOut ? 'out-of-stock-card' : ''}`}
-                      onClick={() => !isOut && setSelectedProduct(p)}
-                      style={{ position: 'relative' }}
-                    >
-                      {isOut && (
-                        <div className="out-of-stock-overlay">
-                          <span className="out-of-stock-badge">{txt('outOfStock')}</span>
-                        </div>
-                      )}
-
-                      <div className="product-header">
-                        <span className="product-category">{getCategoryLabel(p.category)}</span>
-                        <span className="product-halal-badge">
-                          <CheckCircle2 size={12} />
-                          {p.status || '100% Zabiha Halal'}
-                        </span>
-                      </div>
-
-                      <div className="product-img-wrapper">
-                        <img src={p.img} alt={p.name} className="product-img" />
-                      </div>
-
-                      <h3 className="product-name">{p.name}</h3>
-                      <p className="product-desc">{p.desc}</p>
-                      
-                      <div className="product-footer" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                        <div className="product-price-tag">
-                          ${p.price.toFixed(2)}
-                          <span className="product-price-unit">/ {p.unit}</span>
-                        </div>
-                      </div>
-                      
-                      {/* Direct quick add controls on the card */}
-                      <div className="product-card-actions" onClick={(e) => e.stopPropagation()}>
-                        <div className="card-qty-selector">
-                          <button className="card-qty-btn minus" disabled={isOut} onClick={(e) => handleCardQtyChange(p.id, -1, e)}>-</button>
-                          <input type="number" className="card-qty-input" value={cardQuantities[p.id] || 1} readOnly />
-                          <button className="card-qty-btn plus" disabled={isOut} onClick={(e) => handleCardQtyChange(p.id, 1, e)}>+</button>
-                        </div>
-                        <button 
-                          className="btn btn-primary card-add-btn" 
-                          disabled={isOut} 
-                          onClick={(e) => quickAddToCart(p, e)}
-                        >
-                          {isOut ? txt('unavailable') : (p.category === 'pastries' ? txt('quickAdd') : txt('customizeCut'))}
-                        </button>
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-          </section>
-        </>
-      )}
 
       {/* About Section */}
       <section id="about" className="section">
@@ -2340,6 +2233,113 @@ function App() {
           </div>
         </div>
       </section>
+        </>
+      ) : (
+        /* Butcher Counter Dedicated Page View */
+        <>
+          {/* Butcher Counter Dedicated Page View Header Banner */}
+          <div className="section bg-dark text-white" style={{ paddingTop: '110px', paddingBottom: '2.5rem', background: 'linear-gradient(135deg, #091310 0%, #112820 100%)', textAlign: 'center' }}>
+            <div className="container">
+              <button 
+                className="btn btn-secondary" 
+                style={{ marginBottom: '1.5rem', fontSize: '0.85rem', padding: '0.45rem 1.1rem', color: '#10b981', borderColor: 'rgba(16, 185, 129, 0.3)' }}
+                onClick={() => navigateTo('home')}
+              >
+                &larr; Return to Home Page
+              </button>
+              <br />
+              <span className="subtitle" style={{ color: '#10b981' }}>100% Hand-Slaughtered Zabiha Halal</span>
+              <h1 style={{ fontSize: '2.8rem', fontWeight: 900, margin: '0.5rem 0', color: '#ffffff' }}>The Butcher Counter</h1>
+              <p style={{ maxWidth: '680px', margin: '0 auto', color: '#9ca3af', fontSize: '1.05rem' }}>
+                Explore our full catalog of fresh meat cuts, custom butcher preps, marinated BBQ botis, and bakery pastries. Custom cut and trimmed to order.
+              </p>
+            </div>
+          </div>
+
+          {/* Virtual Counter Section */}
+          <section id="counter" className="section bg-light">
+            <div className="container">
+              <div className="text-center" style={{ marginBottom: '4rem' }}>
+                <span className="subtitle">Interactive Counter</span>
+                <h2 className="section-title">{txt('counter')}</h2>
+                <p className="section-desc">
+                  Select your fresh Zabiha meat cuts or bakery meat pastries below, choose custom butcher prep styles, and order for store pickup or local delivery.
+                </p>
+                
+                {/* Filter Tabs */}
+                <div className="filter-tabs">
+                  <button className={`tab-btn ${activeCategory === 'all' ? 'active' : ''}`} onClick={() => setActiveCategory('all')}>{txt('allCuts')} ({productsList.length})</button>
+                  <button className={`tab-btn ${activeCategory === 'goat' ? 'active' : ''}`} onClick={() => setActiveCategory('goat')}>{txt('goatCat')}</button>
+                  <button className={`tab-btn ${activeCategory === 'beef' ? 'active' : ''}`} onClick={() => setActiveCategory('beef')}>{txt('beefCat')}</button>
+                  <button className={`tab-btn ${activeCategory === 'chicken' ? 'active' : ''}`} onClick={() => setActiveCategory('chicken')}>{txt('chickenCat')}</button>
+                  <button className={`tab-btn ${activeCategory === 'lamb' ? 'active' : ''}`} onClick={() => setActiveCategory('lamb')}>{txt('lambCat')}</button>
+                  <button className={`tab-btn ${activeCategory === 'marinated' ? 'active' : ''}`} onClick={() => setActiveCategory('marinated')}>{txt('marinatedCat')}</button>
+                  <button className={`tab-btn ${activeCategory === 'pastries' ? 'active' : ''}`} onClick={() => setActiveCategory('pastries')}>{txt('pastriesCat')}</button>
+                </div>
+              </div>
+
+              {/* Products Grid */}
+              <div className="products-grid">
+                {filteredProducts.map((p) => {
+                  const isOut = p.inStock === false;
+                  return (
+                    <div 
+                      key={p.id} 
+                      className={`product-card ${isOut ? 'out-of-stock-card' : ''}`}
+                      onClick={() => !isOut && setSelectedProduct(p)}
+                      style={{ position: 'relative' }}
+                    >
+                      {isOut && (
+                        <div className="out-of-stock-overlay">
+                          <span className="out-of-stock-badge">{txt('outOfStock')}</span>
+                        </div>
+                      )}
+
+                      <div className="product-header">
+                        <span className="product-category">{getCategoryLabel(p.category)}</span>
+                        <span className="product-halal-badge">
+                          <CheckCircle2 size={12} />
+                          {p.status || '100% Zabiha Halal'}
+                        </span>
+                      </div>
+
+                      <div className="product-img-wrapper">
+                        <img src={p.img} alt={p.name} className="product-img" />
+                      </div>
+
+                      <h3 className="product-name">{p.name}</h3>
+                      <p className="product-desc">{p.desc}</p>
+                      
+                      <div className="product-footer" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                        <div className="product-price-tag">
+                          ${p.price.toFixed(2)}
+                          <span className="product-price-unit">/ {p.unit}</span>
+                        </div>
+                      </div>
+                      
+                      {/* Direct quick add controls on the card */}
+                      <div className="product-card-actions" onClick={(e) => e.stopPropagation()}>
+                        <div className="card-qty-selector">
+                          <button className="card-qty-btn minus" disabled={isOut} onClick={(e) => handleCardQtyChange(p.id, -1, e)}>-</button>
+                          <input type="number" className="card-qty-input" value={cardQuantities[p.id] || 1} readOnly />
+                          <button className="card-qty-btn plus" disabled={isOut} onClick={(e) => handleCardQtyChange(p.id, 1, e)}>+</button>
+                        </div>
+                        <button 
+                          className="btn btn-primary card-add-btn" 
+                          disabled={isOut} 
+                          onClick={(e) => quickAddToCart(p, e)}
+                        >
+                          {isOut ? txt('unavailable') : (p.category === 'pastries' ? txt('quickAdd') : txt('customizeCut'))}
+                        </button>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          </section>
+        </>
+      )}
 
       {/* Footer */}
       <footer className="footer">

@@ -1583,6 +1583,103 @@ function App() {
 
       {currentView === 'home' ? (
         <>
+          {/* Southern Steer Template: "A Cut Above the Rest" Feature Section */}
+          <section className="section bg-light" style={{ padding: '4.5rem 0', background: 'rgba(7, 10, 19, 0.95)' }}>
+            <div className="container text-center">
+              <h2 className="section-title" style={{ fontSize: '2.5rem', textTransform: 'uppercase', letterSpacing: '0.04em', color: 'white', marginBottom: '1rem', fontFamily: 'var(--font-sans)', fontWeight: '800' }}>
+                A Cut Above the Rest
+              </h2>
+              <p style={{ maxWidth: '820px', margin: '0 auto 3rem auto', color: '#cbd5e1', fontSize: '1.05rem', lineHeight: '1.7' }}>
+                Whether you want goat curry cuts, lamb chops, beef tenderloin, chicken breast, or freshly baked samosas, our artisanal Zabiha meats are a cut above the rest. Our meats are domestically raised, 100% hand-slaughtered, and sustainably sourced so you feel good about what you cook.
+              </p>
+
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '2rem' }}>
+                {/* Category Card 1 */}
+                <div className="category-post-group" style={{ background: `linear-gradient(to top, rgba(7,10,19,0.95) 0%, rgba(7,10,19,0.3) 100%), url('https://upload.wikimedia.org/wikipedia/commons/thumb/6/62/Raw_leg_chicken_quarters.jpg/1280px-Raw_leg_chicken_quarters.jpg')`, backgroundSize: 'cover', backgroundPosition: 'center', height: '360px', borderRadius: '16px', border: '1px solid rgba(255,255,255,0.1)', padding: '2rem', display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', textAlign: 'center' }}>
+                  <h3 style={{ fontSize: '1.5rem', fontWeight: '800', color: 'white', marginBottom: '1rem', textTransform: 'uppercase' }}>Goat &amp; Mutton</h3>
+                  <button onClick={() => { navigateTo('counter'); setActiveCategory('goat'); }} className="btn-red" style={{ margin: '0 auto' }}>Learn More</button>
+                </div>
+
+                {/* Category Card 2 */}
+                <div className="category-post-group" style={{ background: `linear-gradient(to top, rgba(7,10,19,0.95) 0%, rgba(7,10,19,0.3) 100%), url('https://images.pexels.com/photos/65175/pexels-photo-65175.jpeg')`, backgroundSize: 'cover', backgroundPosition: 'center', height: '360px', borderRadius: '16px', border: '1px solid rgba(255,255,255,0.1)', padding: '2rem', display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', textAlign: 'center' }}>
+                  <h3 style={{ fontSize: '1.5rem', fontWeight: '800', color: 'white', marginBottom: '1rem', textTransform: 'uppercase' }}>Black Angus Beef</h3>
+                  <button onClick={() => { navigateTo('counter'); setActiveCategory('beef'); }} className="btn-red" style={{ margin: '0 auto' }}>Learn More</button>
+                </div>
+
+                {/* Category Card 3 */}
+                <div className="category-post-group" style={{ background: `linear-gradient(to top, rgba(7,10,19,0.95) 0%, rgba(7,10,19,0.3) 100%), url('https://upload.wikimedia.org/wikipedia/commons/thumb/0/00/Raw_chicken.jpg/1280px-Raw_chicken.jpg')`, backgroundSize: 'cover', backgroundPosition: 'center', height: '360px', borderRadius: '16px', border: '1px solid rgba(255,255,255,0.1)', padding: '2rem', display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', textAlign: 'center' }}>
+                  <h3 style={{ fontSize: '1.5rem', fontWeight: '800', color: 'white', marginBottom: '1rem', textTransform: 'uppercase' }}>Fresh Poultry</h3>
+                  <button onClick={() => { navigateTo('counter'); setActiveCategory('chicken'); }} className="btn-red" style={{ margin: '0 auto' }}>Learn More</button>
+                </div>
+
+                {/* Category Card 4 */}
+                <div className="category-post-group" style={{ background: `linear-gradient(to top, rgba(7,10,19,0.95) 0%, rgba(7,10,19,0.3) 100%), url('https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/Inside_Yank_Sing_Chicken_Curry_Puff_Pastry.jpg/1280px-Inside_Yank_Sing_Chicken_Curry_Puff_Pastry.jpg')`, backgroundSize: 'cover', backgroundPosition: 'center', height: '360px', borderRadius: '16px', border: '1px solid rgba(255,255,255,0.1)', padding: '2rem', display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', textAlign: 'center' }}>
+                  <h3 style={{ fontSize: '1.5rem', fontWeight: '800', color: 'white', marginBottom: '1rem', textTransform: 'uppercase' }}>Pastries &amp; Samosas</h3>
+                  <button onClick={() => { navigateTo('counter'); setActiveCategory('pastries'); }} className="btn-red" style={{ margin: '0 auto' }}>Learn More</button>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* Southern Steer Template: Double Content Feature Rows */}
+          <section className="section" style={{ padding: '4.5rem 0', background: 'rgba(15, 23, 42, 0.4)', borderTop: '1px solid rgba(255,255,255,0.05)', borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
+            <div className="container" style={{ display: 'flex', flexDirection: 'column', gap: '5rem' }}>
+              
+              {/* Row 1 */}
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '3rem', alignItems: 'center' }}>
+                <div>
+                  <h2 style={{ fontSize: '2.2rem', fontWeight: '800', textTransform: 'uppercase', marginBottom: '1rem', color: 'white' }}>
+                    All about the Experience
+                  </h2>
+                  <p style={{ color: '#cbd5e1', fontSize: '1.05rem', lineHeight: '1.7', marginBottom: '2rem' }}>
+                    Creating the perfect meal isn’t just about quality food—it’s about butcher preparation, custom cut thickness, fat trimming, and marinades. At Quality Halal Market, our certified butchers cut and prepare every item to your exact specifications.
+                  </p>
+                  <button onClick={() => navigateTo('counter')} className="btn-red">
+                    View Butcher Counter
+                  </button>
+                </div>
+                <div>
+                  <img src="https://images.pexels.com/photos/65175/pexels-photo-65175.jpeg" alt="Butcher Experience" style={{ borderRadius: '16px', border: '1px solid rgba(255,255,255,0.1)', width: '100%', height: '340px', objectFit: 'cover' }} />
+                </div>
+              </div>
+
+              {/* Row 2 */}
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '3rem', alignItems: 'center' }}>
+                <div>
+                  <img src="https://images.pexels.com/photos/1639557/pexels-photo-1639557.jpeg" alt="Signature Boxes" style={{ borderRadius: '16px', border: '1px solid rgba(255,255,255,0.1)', width: '100%', height: '340px', objectFit: 'cover' }} />
+                </div>
+                <div>
+                  <h2 style={{ fontSize: '2.2rem', fontWeight: '800', textTransform: 'uppercase', marginBottom: '1rem', color: 'white' }}>
+                    Quality Halal Signature Boxes
+                  </h2>
+                  <p style={{ color: '#cbd5e1', fontSize: '1.05rem', lineHeight: '1.7', marginBottom: '2rem' }}>
+                    Looking for convenience and savings? Explore Quality Halal Signature Meat Boxes—from Family Quarter Boxes to Party Grill Boxes, available for express pickup or on-demand delivery!
+                  </p>
+                  <button onClick={() => navigateTo('counter')} className="btn-red">
+                    View Signature Boxes
+                  </button>
+                </div>
+              </div>
+
+            </div>
+          </section>
+
+          {/* Southern Steer Template: Rewards CTA Section */}
+          <section className="section" style={{ background: 'linear-gradient(135deg, #111827 0%, #1f2937 100%)', borderTop: '1px solid rgba(222,31,38,0.4)', borderBottom: '1px solid rgba(222,31,38,0.4)', padding: '4rem 0' }}>
+            <div className="container text-center">
+              <h2 style={{ fontSize: '2.2rem', fontWeight: '800', color: 'white', marginBottom: '1rem' }}>
+                For the best value and savings, join Quality Halal Rewards!
+              </h2>
+              <p style={{ color: '#94a3b8', fontSize: '1.05rem', marginBottom: '2rem' }}>
+                Subscribe to receive our latest weekly specials, fresh cut drops, and exclusive discounts.
+              </p>
+              <form onSubmit={(e) => { e.preventDefault(); alert('Thank you for subscribing to Quality Halal Rewards!'); }} style={{ display: 'flex', justifyContent: 'center', gap: '0.75rem', maxWidth: '520px', margin: '0 auto', flexWrap: 'wrap' }}>
+                <input type="email" placeholder="Enter your email address" required style={{ flex: '1 1 240px', padding: '0.8rem 1.25rem', borderRadius: '4px', border: '1px solid rgba(255,255,255,0.2)', background: 'rgba(0,0,0,0.6)', color: 'white', fontSize: '0.95rem' }} />
+                <button type="submit" className="btn-red">SIGN UP</button>
+              </form>
+            </div>
+          </section>
+
           {/* Featured Fresh Meats Showcase (Homepage Selection) */}
           <section className="section bg-light" style={{ paddingBottom: '3.5rem' }}>
             <div className="container">

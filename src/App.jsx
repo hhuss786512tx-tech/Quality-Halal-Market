@@ -244,6 +244,16 @@ const translations = {
   }
 };
 
+// Default Category Preset Imagery
+const presetImages = {
+  goat: "https://upload.wikimedia.org/wikipedia/commons/4/4c/Raw_goat_meat.jpg",
+  beef: "https://images.pexels.com/photos/65175/pexels-photo-65175.jpeg",
+  chicken: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/00/Raw_chicken.jpg/1280px-Raw_chicken.jpg",
+  lamb: "https://images.pexels.com/photos/65175/pexels-photo-65175.jpeg",
+  marinated: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/00/Raw_chicken.jpg/1280px-Raw_chicken.jpg",
+  pastries: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/Inside_Yank_Sing_Chicken_Curry_Puff_Pastry.jpg/1280px-Inside_Yank_Sing_Chicken_Curry_Puff_Pastry.jpg"
+};
+
 // Concise 100% Zabiha Hand-Slaughtered Halal Meat & Pastries Catalog
 const defaultProducts = [
   // --- GOAT & MUTTON CUTS ---

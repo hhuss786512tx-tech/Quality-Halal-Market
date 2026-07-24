@@ -3337,7 +3337,7 @@ function App() {
 
       {/* FRONT DESK THERMAL RECEIPT PRINT AREA (@media print) */}
       <div id="thermal-receipt-print-area" style={{ display: 'none' }}>
-        {printReceiptOrder && (
+        {printReceiptOrder && printReceiptOrder.orderId && (
           <div className="receipt-box" style={{ width: '80mm', fontFamily: 'monospace', padding: '10px', fontSize: '12px', color: 'black', background: 'white' }}>
             <div style={{ textAlign: 'center', marginBottom: '10px' }}>
               <h2 style={{ fontSize: '18px', margin: '0 0 4px 0', textTransform: 'uppercase' }}>QUALITY HALAL MARKET</h2>
@@ -3350,10 +3350,10 @@ function App() {
 
             <div style={{ fontSize: '12px', marginBottom: '10px' }}>
               <div><strong>ORDER #:</strong> {printReceiptOrder.orderId}</div>
-              <div><strong>TYPE:</strong> {printReceiptOrder.type.toUpperCase()}</div>
-              <div><strong>DATE/TIME:</strong> {printReceiptOrder.date} at {printReceiptOrder.time}</div>
-              <div><strong>CUSTOMER:</strong> {printReceiptOrder.name}</div>
-              <div><strong>PHONE:</strong> {printReceiptOrder.phone}</div>
+              <div><strong>TYPE:</strong> {(printReceiptOrder.type || 'pickup').toUpperCase()}</div>
+              <div><strong>DATE/TIME:</strong> {printReceiptOrder.date || ''} at {printReceiptOrder.time || ''}</div>
+              <div><strong>CUSTOMER:</strong> {printReceiptOrder.name || ''}</div>
+              <div><strong>PHONE:</strong> {printReceiptOrder.phone || ''}</div>
               {printReceiptOrder.address && <div><strong>DELIVERY ADDR:</strong> {printReceiptOrder.address}</div>}
               <div style={{ borderBottom: '1px dashed #000', margin: '8px 0' }}></div>
             </div>
@@ -3365,7 +3365,7 @@ function App() {
               </div>
               <div style={{ borderBottom: '1px solid #000', marginBottom: '6px' }}></div>
               
-              {printReceiptOrder.items.map((item, idx) => (
+              {(printReceiptOrder.items || []).map((item, idx) => (
                 <div key={idx} style={{ marginBottom: '8px' }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', fontWeight: 'bold' }}>
                     <span>{item.qty}x {item.name}</span>
@@ -3392,7 +3392,7 @@ function App() {
               {printReceiptOrder.deliveryFee > 0 && (
                 <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                   <span>Delivery Fee:</span>
-                  <span>${(printReceiptOrder.deliveryFee).toFixed(2)}</span>
+                  <span>${(printReceiptOrder.deliveryFee || 0).toFixed(2)}</span>
                 </div>
               )}
               <div style={{ display: 'flex', justifyContent: 'space-between' }}>

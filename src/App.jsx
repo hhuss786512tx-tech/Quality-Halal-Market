@@ -776,27 +776,27 @@ const rotatingMeatSlides = [
   {
     name: "Zabiha Goat Curry Cut",
     tag: "🐐 GOAT & MUTTON",
-    img: "https://images.unsplash.com/photo-1603048588665-791ca8aea617?auto=format&fit=crop&w=1000&q=80"
+    img: "https://upload.wikimedia.org/wikipedia/commons/4/4c/Raw_goat_meat.jpg"
   },
   {
     name: "Fresh Poultry Legs",
     tag: "🍗 FRESH POULTRY",
-    img: "https://images.unsplash.com/photo-1587593810167-a84920ea0781?auto=format&fit=crop&w=1000&q=80"
+    img: "https://images.unsplash.com/photo-1587593810167-a84920ea0781?auto=format&fit=crop&w=1200&q=80"
   },
   {
     name: "Black Angus Beef Steaks",
     tag: "🥩 ANGUS BEEF",
-    img: "https://images.pexels.com/photos/65175/pexels-photo-65175.jpeg"
+    img: "https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=1200&q=80"
   },
   {
-    name: "Whole Hand-Slaughtered Chicken",
-    tag: "🐔 FRESH CHICKEN",
-    img: "https://images.unsplash.com/photo-1587593810167-a84920ea0781?auto=format&fit=crop&w=1000&q=80"
+    name: "Artisanal Grilled Meat Cuts",
+    tag: "🔥 MARINATED & GRILL",
+    img: "https://images.unsplash.com/photo-1558030006-450675393462?auto=format&fit=crop&w=1200&q=80"
   },
   {
     name: "Bakery Samosas & Pastries",
     tag: "🥟 MEAT PASTRIES",
-    img: "https://images.unsplash.com/photo-1601050690597-df0568f70950?auto=format&fit=crop&w=1000&q=80"
+    img: "https://images.unsplash.com/photo-1601050690597-df0568f70950?auto=format&fit=crop&w=1200&q=80"
   }
 ];
 
@@ -1588,7 +1588,20 @@ function App() {
 
       {/* Hero Section */}
       <section id="home" className="hero">
-        <div className="hero-bg" style={{ background: `linear-gradient(to bottom, rgba(7, 10, 19, 0.65) 0%, rgba(7, 10, 19, 0.95) 100%), url('${rotatingMeatSlides[heroSlideIdx].img}')` }}></div>
+        <div className="hero-bg">
+          <div className="slideshow-stacked-container">
+            {rotatingMeatSlides.map((slide, idx) => (
+              <img
+                key={idx}
+                src={slide.img}
+                alt={slide.name}
+                className={`slideshow-slide-img ${idx === heroSlideIdx ? 'active' : ''}`}
+                style={{ filter: 'brightness(0.35) contrast(1.1)' }}
+              />
+            ))}
+          </div>
+          <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', background: 'linear-gradient(to bottom, rgba(7, 10, 19, 0.45) 0%, rgba(7, 10, 19, 0.95) 100%)', pointerEvents: 'none' }}></div>
+        </div>
         <div className="container hero-grid">
           <div className="hero-content">
             <div className="hero-badge">
@@ -1626,7 +1639,7 @@ function App() {
             </div>
           </div>
           
-          {/* Hero Right side: Vertical Live Butcher Counter Showcase Frame (Matching Solid State Screenshot) */}
+          {/* Hero Right side: Vertical Live Butcher Counter Showcase Frame with Stacked Dissolve Slideshow */}
           <div className="hero-card-container">
             <div className="live-counter-phone-card">
               <div className="live-counter-header-tag">
@@ -1635,14 +1648,16 @@ function App() {
               </div>
 
               <div className="live-counter-media-body">
-                <img 
-                  key={heroSlideIdx}
-                  src={rotatingMeatSlides[heroSlideIdx].img} 
-                  alt={rotatingMeatSlides[heroSlideIdx].name} 
-                  onError={(e) => {
-                    e.target.src = "https://images.pexels.com/photos/65175/pexels-photo-65175.jpeg";
-                  }}
-                />
+                <div className="slideshow-stacked-container">
+                  {rotatingMeatSlides.map((slide, idx) => (
+                    <img 
+                      key={idx}
+                      src={slide.img} 
+                      alt={slide.name}
+                      className={`slideshow-slide-img ${idx === heroSlideIdx ? 'active' : ''}`}
+                    />
+                  ))}
+                </div>
 
                 <div className="live-counter-caption-tag">
                   <div style={{ color: '#34d399', fontSize: '0.72rem', textTransform: 'uppercase', letterSpacing: '0.04em', marginBottom: '2px' }}>

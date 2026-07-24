@@ -1032,10 +1032,10 @@ function App() {
             html: `<div style="
               width: 20px; 
               height: 20px; 
-              background-color: #10b981; 
-              border: 3px solid #ffffff; 
+              background-color: #ffffff; 
+              border: 3px solid #000000; 
               border-radius: 50%;
-              box-shadow: 0 0 10px rgba(16, 185, 129, 0.8);
+              box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
             "></div>`,
             iconSize: [20, 20],
             iconAnchor: [10, 10]
@@ -1043,12 +1043,12 @@ function App() {
 
           const marker = L.marker([storeLat, storeLng], { icon: greenIcon }).addTo(map);
           marker.bindPopup(`
-            <div style="color: #0f172a; padding: 5px; font-family: 'Outfit', sans-serif;">
-              <strong style="font-size: 1.1rem; color: #064e3b; display: block; margin-bottom: 2px;">Quality Halal Market</strong>
-              <span style="font-size: 0.85rem; color: #64748b; display: block; margin-bottom: 8px;">Fresh Zabiha Halal Meats & Pastries</span>
+            <div style="color: #000000; padding: 5px; font-family: 'Outfit', sans-serif;">
+              <strong style="font-size: 1.1rem; color: #000000; display: block; margin-bottom: 2px;">Quality Halal Market</strong>
+              <span style="font-size: 0.85rem; color: #525252; display: block; margin-bottom: 8px;">Fresh Zabiha Halal Meats & Pastries</span>
               <a href="https://maps.google.com/?q=Quality+Halal+Market+12920+West+Parmer+Lane+106+Cedar+Park+TX+78613" target="_blank" style="
                 display: inline-block;
-                background-color: #064e3b;
+                background-color: #000000;
                 color: white;
                 padding: 6px 12px;
                 border-radius: 6px;
@@ -1455,7 +1455,7 @@ function App() {
       <div className="scroll-progress" style={{ width: `${scrollProgress}%` }}></div>
 
       {/* Top Live Announcement Header Banner */}
-      <div className="top-live-banner" style={{ background: 'linear-gradient(90deg, #991b1b 0%, #de1f26 50%, #991b1b 100%)', color: 'white', padding: '0.4rem 2rem', fontSize: '0.82rem', fontWeight: '600', display: 'flex', justifyContent: 'space-between', alignItems: 'center', zIndex: '1001', position: 'relative' }}>
+      <div className="top-live-banner" style={{ background: '#000000', borderBottom: '1px solid rgba(255, 255, 255, 0.15)', color: 'white', padding: '0.4rem 2rem', fontSize: '0.82rem', fontWeight: '600', display: 'flex', justifyContent: 'space-between', alignItems: 'center', zIndex: '1001', position: 'relative' }}>
         <div style={{ display: 'inline-flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
           <span>📍 12920 W Parmer Ln #106, Cedar Park, TX</span>
           <span style={{ opacity: 0.5 }}>•</span>
@@ -1465,8 +1465,8 @@ function App() {
         </div>
 
         {/* Clean Compact Language Switcher */}
-        <div className="language-selector" style={{ margin: 0, padding: '2px 8px', background: 'rgba(0,0,0,0.3)', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.2)' }}>
-          <Globe size={13} style={{ color: '#fca5a5' }} />
+        <div className="language-selector" style={{ margin: 0, padding: '2px 8px', background: 'rgba(255,255,255,0.1)', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.2)' }}>
+          <Globe size={13} style={{ color: '#ffffff' }} />
           <select 
             value={currentLang} 
             onChange={(e) => setCurrentLang(e.target.value)}
@@ -1482,11 +1482,11 @@ function App() {
       </div>
 
       {/* Header Navigation */}
-      <header className="header" style={{ background: 'rgba(15, 23, 42, 0.96)', borderBottom: '1px solid rgba(255, 255, 255, 0.1)' }}>
+      <header className="header" style={{ background: 'rgba(0, 0, 0, 0.95)', borderBottom: '1px solid rgba(255, 255, 255, 0.15)' }}>
         <div className="container nav-container">
           <a href="#home" onClick={(e) => { e.preventDefault(); navigateTo('home'); }} className="logo" style={{ marginRight: '2.5rem' }}>
-            <div className="logo-icon" style={{ background: '#de1f26' }}>Q</div>
-            Quality Halal<span style={{ marginLeft: '6px', color: '#de1f26' }}>Meat Market</span>
+            <div className="logo-icon" style={{ background: '#ffffff', color: '#000000' }}>Q</div>
+            Quality Halal<span style={{ marginLeft: '6px', color: '#ffffff' }}>Meat Market</span>
           </a>
           
           <ul className="nav-links" style={{ gap: '1.75rem' }}>
@@ -1536,8 +1536,8 @@ function App() {
       <div className={`mobile-menu-drawer ${isMobileMenuOpen ? 'active' : ''}`}>
         <div className="drawer-header">
           <a href="#home" onClick={(e) => { e.preventDefault(); setIsMobileMenuOpen(false); navigateTo('home'); }} className="logo">
-            <div className="logo-icon" style={{ background: '#de1f26' }}>Q</div>
-            Quality Halal<span style={{ color: '#de1f26' }}>Meat Market</span>
+            <div className="logo-icon" style={{ background: '#ffffff', color: '#000000' }}>Q</div>
+            Quality Halal<span style={{ color: '#ffffff' }}>Meat Market</span>
           </a>
           <button className="mobile-menu-close" onClick={() => setIsMobileMenuOpen(false)} aria-label="Close menu">
             <X size={24} />
@@ -1553,7 +1553,7 @@ function App() {
         </ul>
         <div className="drawer-footer" style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
           <div className="language-selector" style={{ width: '100%', justifyContent: 'center', padding: '0.65rem' }}>
-            <Globe size={16} style={{ color: 'var(--primary-light)' }} />
+            <Globe size={16} style={{ color: '#ffffff' }} />
             <select 
               value={currentLang} 
               onChange={(e) => setCurrentLang(e.target.value)}
@@ -1568,7 +1568,7 @@ function App() {
 
           <button 
             className="btn btn-secondary" 
-            style={{ width: '100%', justifyContent: 'center', borderColor: '#f59e0b', color: '#f59e0b' }}
+            style={{ width: '100%', justifyContent: 'center', borderColor: 'rgba(255,255,255,0.4)', color: '#ffffff' }}
             onClick={() => {
               setIsMobileMenuOpen(false);
               setIsAdminModalOpen(true);
@@ -1605,12 +1605,12 @@ function App() {
             </div>
             <div className="container hero-grid">
               <div className="hero-content">
-                <div className="hero-badge" style={{ background: 'rgba(222, 31, 38, 0.15)', borderColor: 'rgba(222, 31, 38, 0.4)', color: '#fca5a5' }}>
-                  <ShieldCheck size={16} style={{ marginRight: '6px', color: '#de1f26' }} />
+                <div className="hero-badge" style={{ background: 'rgba(255, 255, 255, 0.08)', borderColor: 'rgba(255, 255, 255, 0.25)', color: '#ffffff' }}>
+                  <ShieldCheck size={16} style={{ marginRight: '6px', color: '#ffffff' }} />
                   100% HAND-SLAUGHTERED ZABIHA HALAL
                 </div>
                 <h1 className="hero-title" style={{ fontFamily: 'var(--font-serif)', fontSize: '3.8rem', fontWeight: '800' }}>
-                  Cedar Park's Premier <span style={{ color: '#de1f26', display: 'inline' }}>Zabiha Halal</span> Butcher Shop
+                  Cedar Park's Premier <span style={{ color: '#ffffff', textDecoration: 'underline', textDecorationColor: 'rgba(255,255,255,0.5)', display: 'inline' }}>Zabiha Halal</span> Butcher Shop
                 </h1>
                 <p className="hero-subtitle" style={{ color: '#cbd5e1', fontSize: '1.15rem', lineHeight: '1.7', margin: '1.5rem 0 2.5rem 0', maxWidth: '620px' }}>
                   Domestically raised, 100% hand-slaughtered goat, lamb, grass-fed beef, chicken & freshly baked samosas. Custom cut, fat trimmed, and prepared to your exact recipe by our master butchers.
@@ -1622,7 +1622,7 @@ function App() {
                     <ArrowRight size={18} style={{ marginLeft: '8px' }} />
                   </button>
                   <a href="tel:5122607677" className="btn btn-secondary" style={{ padding: '0.85rem 1.5rem', fontSize: '0.95rem' }}>
-                    <Phone size={16} style={{ marginRight: '8px', color: '#34d399' }} />
+                    <Phone size={16} style={{ marginRight: '8px', color: '#ffffff' }} />
                     Call Counter: 512.260.7677
                   </a>
                 </div>
@@ -1630,13 +1630,13 @@ function App() {
               
               {/* Hero Right side: Authentic Butcher Card Showcase */}
               <div className="hero-card-container">
-                <div style={{ background: 'rgba(15, 23, 42, 0.95)', border: '1px solid rgba(255, 255, 255, 0.12)', borderRadius: '20px', padding: '1.75rem', maxWidth: '380px', width: '100%', boxShadow: '0 20px 50px rgba(0,0,0,0.6)', backdropFilter: 'blur(16px)' }}>
-                  <div style={{ borderBottom: '1px solid rgba(255,255,255,0.1)', paddingBottom: '1rem', marginBottom: '1.25rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <span style={{ fontSize: '0.8rem', fontWeight: '700', color: '#de1f26', textTransform: 'uppercase', letterSpacing: '0.04em' }}>Master Butcher Counter</span>
-                    <span style={{ fontSize: '0.78rem', background: 'rgba(16,185,129,0.15)', color: '#34d399', padding: '3px 10px', borderRadius: '12px', fontWeight: '600' }}>Open Today</span>
+                <div style={{ background: 'rgba(10, 10, 10, 0.95)', border: '1px solid rgba(255, 255, 255, 0.18)', borderRadius: '20px', padding: '1.75rem', maxWidth: '380px', width: '100%', boxShadow: '0 20px 50px rgba(0,0,0,0.8)', backdropFilter: 'blur(16px)' }}>
+                  <div style={{ borderBottom: '1px solid rgba(255,255,255,0.15)', paddingBottom: '1rem', marginBottom: '1.25rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <span style={{ fontSize: '0.8rem', fontWeight: '700', color: '#ffffff', textTransform: 'uppercase', letterSpacing: '0.04em' }}>Master Butcher Counter</span>
+                    <span style={{ fontSize: '0.78rem', background: 'rgba(255,255,255,0.15)', color: '#ffffff', border: '1px solid rgba(255,255,255,0.3)', padding: '3px 10px', borderRadius: '12px', fontWeight: '600' }}>Open Today</span>
                   </div>
 
-                  <div style={{ height: '200px', borderRadius: '12px', overflow: 'hidden', position: 'relative', marginBottom: '1.25rem', border: '1px solid rgba(255,255,255,0.1)' }}>
+                  <div style={{ height: '200px', borderRadius: '12px', overflow: 'hidden', position: 'relative', marginBottom: '1.25rem', border: '1px solid rgba(255,255,255,0.15)' }}>
                     <div className="slideshow-stacked-container">
                       {rotatingMeatSlides.map((slide, idx) => (
                         <img 
@@ -1647,23 +1647,23 @@ function App() {
                         />
                       ))}
                     </div>
-                    <div style={{ position: 'absolute', bottom: '10px', left: '10px', right: '10px', background: 'rgba(7,10,19,0.9)', padding: '6px 12px', borderRadius: '8px', fontSize: '0.78rem', color: 'white', fontWeight: '600', display: 'flex', justifyContent: 'space-between' }}>
+                    <div style={{ position: 'absolute', bottom: '10px', left: '10px', right: '10px', background: 'rgba(0,0,0,0.9)', padding: '6px 12px', borderRadius: '8px', fontSize: '0.78rem', color: 'white', fontWeight: '600', display: 'flex', justifyContent: 'space-between' }}>
                       <span>{rotatingMeatSlides[heroSlideIdx].tag}</span>
-                      <span style={{ color: '#34d399' }}>100% Zabiha</span>
+                      <span style={{ color: '#ffffff' }}>100% Zabiha</span>
                     </div>
                   </div>
 
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem', fontSize: '0.88rem', color: '#cbd5e1' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                      <MapPin size={16} style={{ color: '#de1f26' }} />
+                      <MapPin size={16} style={{ color: '#ffffff' }} />
                       <span>12920 W Parmer Ln #106, Cedar Park</span>
                     </div>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                      <Clock size={16} style={{ color: '#f59e0b' }} />
+                      <Clock size={16} style={{ color: '#a3a3a3' }} />
                       <span>Daily 9:00 AM - 9:00 PM</span>
                     </div>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                      <Phone size={16} style={{ color: '#34d399' }} />
+                      <Phone size={16} style={{ color: '#ffffff' }} />
                       <span>512.260.7677</span>
                     </div>
                   </div>
@@ -2238,17 +2238,17 @@ function App() {
         /* Butcher Counter Dedicated Page View */
         <>
           {/* Butcher Counter Dedicated Page View Header Banner */}
-          <div className="section bg-dark text-white" style={{ paddingTop: '110px', paddingBottom: '2.5rem', background: 'linear-gradient(135deg, #091310 0%, #112820 100%)', textAlign: 'center' }}>
+          <div className="section bg-dark text-white" style={{ paddingTop: '110px', paddingBottom: '2.5rem', background: 'linear-gradient(135deg, #000000 0%, #171717 100%)', borderBottom: '1px solid rgba(255,255,255,0.15)', textAlign: 'center' }}>
             <div className="container">
               <button 
                 className="btn btn-secondary" 
-                style={{ marginBottom: '1.5rem', fontSize: '0.85rem', padding: '0.45rem 1.1rem', color: '#10b981', borderColor: 'rgba(16, 185, 129, 0.3)' }}
+                style={{ marginBottom: '1.5rem', fontSize: '0.85rem', padding: '0.45rem 1.1rem', color: '#ffffff', borderColor: 'rgba(255, 255, 255, 0.4)' }}
                 onClick={() => navigateTo('home')}
               >
                 &larr; Return to Home Page
               </button>
               <br />
-              <span className="subtitle" style={{ color: '#10b981' }}>100% Hand-Slaughtered Zabiha Halal</span>
+              <span className="subtitle" style={{ color: '#a3a3a3' }}>100% Hand-Slaughtered Zabiha Halal</span>
               <h1 style={{ fontSize: '2.8rem', fontWeight: 900, margin: '0.5rem 0', color: '#ffffff' }}>The Butcher Counter</h1>
               <p style={{ maxWidth: '680px', margin: '0 auto', color: '#9ca3af', fontSize: '1.05rem' }}>
                 Explore our full catalog of fresh meat cuts, custom butcher preps, marinated BBQ botis, and bakery pastries. Custom cut and trimmed to order.

@@ -67,13 +67,13 @@ const translations = {
     openDaily: "Open Daily: 9:00 AM - 9:00 PM",
     deptTitle: "Meat Counter Departments",
     deptDesc: "Every cut of meat and savory pastry we offer is hand-slaughtered, thoroughly inspected, and prepared by our professional butchers.",
-    allCuts: "All Meat Cuts & Pastries",
-    goatCat: "Goat & Mutton",
-    beefCat: "Halal Beef Cuts",
-    chickenCat: "Chicken & Poultry",
-    lambCat: "Lamb Cuts",
-    marinatedCat: "Marinated & BBQ",
-    pastriesCat: "Meat Pastries & Samosas",
+    allCuts: "All Cuts",
+    goatCat: "Goat",
+    beefCat: "Beef",
+    chickenCat: "Chicken",
+    lambCat: "Lamb",
+    marinatedCat: "Marinated",
+    pastriesCat: "Pastries",
     customizeCut: "Customize Cut",
     quickAdd: "Quick Add",
     unavailable: "Unavailable",
@@ -244,39 +244,29 @@ const translations = {
   }
 };
 
-// High-Resolution Verified Raw Meat Cut & Food Image Presets
-const presetImages = {
-  goat: "https://upload.wikimedia.org/wikipedia/commons/9/95/Raw_beef_steak%2C_2011.jpg",
-  beef: "https://upload.wikimedia.org/wikipedia/commons/9/95/Raw_beef_steak%2C_2011.jpg",
-  chicken: "https://upload.wikimedia.org/wikipedia/commons/f/f5/Whole_raw_chicken_-_Japan_Dec_22_2019.jpeg",
-  lamb: "https://upload.wikimedia.org/wikipedia/commons/4/49/Beef_shank.jpg",
-  marinated: "https://upload.wikimedia.org/wikipedia/commons/d/d5/Marinated_Tandoori_Chicken_pieces.JPG",
-  pastries: "https://upload.wikimedia.org/wikipedia/commons/1/12/Inside_Yank_Sing_Chicken_Curry_Puff_Pastry_%2815271515734%29.jpg"
-};
-
-// Comprehensive 100% Zabiha Hand-Slaughtered Halal Meat & Pastries Catalog
+// Concise 100% Zabiha Hand-Slaughtered Halal Meat & Pastries Catalog
 const defaultProducts = [
   // --- GOAT & MUTTON CUTS ---
   {
     id: 1,
-    name: "Goat Curry Cut (Bone-In)",
-    desc: "Fresh Zabiha goat meat cut into medium curry-sized cubes. Sourced daily, perfect for traditional karahi, korma, stew, and biryanis.",
+    name: "Goat Curry Cut",
+    desc: "Fresh Zabiha bone-in goat cubes. Ideal for curry, stew, and biryani.",
     category: "goat",
     price: 12.99,
     unit: "per lb",
-    status: "100% Zabiha Halal",
+    status: "100% Zabiha",
     halal: true,
     inStock: true,
-    img: "https://upload.wikimedia.org/wikipedia/commons/9/95/Raw_beef_steak%2C_2011.jpg"
+    img: "https://upload.wikimedia.org/wikipedia/commons/4/4c/Raw_goat_meat.jpg"
   },
   {
     id: 2,
-    name: "Goat Keema (Ground Goat)",
-    desc: "Freshly minced 100% Zabiha goat keema. Lean, finely ground, and rich in natural flavor—ideal for keema fry, kebabs, and samosa filling.",
+    name: "Ground Goat (Keema)",
+    desc: "Freshly minced 100% Zabiha goat meat. Lean and rich in flavor.",
     category: "goat",
     price: 13.99,
     unit: "per lb",
-    status: "Hand Slaughtered",
+    status: "Minced Fresh",
     halal: true,
     inStock: true,
     img: "https://upload.wikimedia.org/wikipedia/commons/d/d1/Hackfleisch-1.jpg"
@@ -284,31 +274,31 @@ const defaultProducts = [
   {
     id: 3,
     name: "Goat Chops & Ribs",
-    desc: "Juicy, hand-trimmed rib goat chops. Excellent for clay oven grilling, pan-searing with spicy herb rubs, or rich gravy chops.",
+    desc: "Juicy, hand-trimmed rib chops. Perfect for grilling or searing.",
     category: "goat",
     price: 14.49,
     unit: "per lb",
-    status: "Zabiha Halal",
+    status: "Fresh Cut",
     halal: true,
     inStock: true,
     img: "https://upload.wikimedia.org/wikipedia/commons/4/49/Beef_shank.jpg"
   },
   {
     id: 4,
-    name: "Goat Leg (Sliced or Whole Raan)",
-    desc: "Premium bone-in Zabiha goat leg. Can be sliced into thick steaks, curry cut, or left whole for festive slow roasted Raan.",
+    name: "Goat Leg (Raan)",
+    desc: "Bone-in Zabiha goat leg. Available whole or sliced into steaks.",
     category: "goat",
     price: 13.49,
     unit: "per lb",
-    status: "Custom Cut",
+    status: "Custom Trim",
     halal: true,
     inStock: true,
     img: "https://upload.wikimedia.org/wikipedia/commons/9/95/Raw_beef_steak%2C_2011.jpg"
   },
   {
     id: 5,
-    name: "Goat Shoulder Cut (Bone-In)",
-    desc: "Tender goat shoulder pieces, rich in flavor. Perfectly suited for slow-simmered goat curries, korma, and stews.",
+    name: "Goat Shoulder Cut",
+    desc: "Tender bone-in goat shoulder chunks. Great for slow stews.",
     category: "goat",
     price: 12.99,
     unit: "per lb",
@@ -319,20 +309,20 @@ const defaultProducts = [
   },
   {
     id: 6,
-    name: "Goat Biryani Cut (Large Chunks)",
-    desc: "Extra large bone-in goat cuts specially sized for dum biryani so meat stays juicy and intact during long steaming.",
+    name: "Goat Biryani Cut",
+    desc: "Large bone-in goat chunks sized specifically for dum biryani.",
     category: "goat",
     price: 13.29,
     unit: "per lb",
-    status: "Specialty Cut",
+    status: "Biryani Cut",
     halal: true,
     inStock: true,
     img: "https://upload.wikimedia.org/wikipedia/commons/9/95/Raw_beef_steak%2C_2011.jpg"
   },
   {
     id: 7,
-    name: "Goat Shank (Nalli Cut)",
-    desc: "Marrow-rich bone-in goat shanks. Slow cook into rich, velvety gravies and traditional soups.",
+    name: "Goat Shank (Nalli)",
+    desc: "Marrow-rich bone-in goat shanks for slow-cooked gravies.",
     category: "goat",
     price: 13.99,
     unit: "per lb",
@@ -344,7 +334,7 @@ const defaultProducts = [
   {
     id: 8,
     name: "Boneless Goat Cubes",
-    desc: "Pure boneless tenderloin goat cubes, fully trimmed of excess fat. Excellent for boneless handi, tikka, and stews.",
+    desc: "Pure boneless goat tenderloin cubes, trimmed of excess fat.",
     category: "goat",
     price: 15.99,
     unit: "per lb",
@@ -357,32 +347,32 @@ const defaultProducts = [
   // --- HALAL BEEF CUTS ---
   {
     id: 9,
-    name: "Halal Beef Curry Cut (Bone-In)",
-    desc: "Grass-fed Zabiha beef cut into hearty curry chunks. Perfectly balanced fat and bone for rich stew bases and slow cooking.",
+    name: "Beef Curry Cut",
+    desc: "Grass-fed Zabiha beef bone-in curry chunks. Rich stew base.",
     category: "beef",
     price: 8.99,
     unit: "per lb",
-    status: "Grass-Fed Halal",
+    status: "Grass-Fed",
     halal: true,
     inStock: true,
-    img: "https://upload.wikimedia.org/wikipedia/commons/9/95/Raw_beef_steak%2C_2011.jpg"
+    img: "https://upload.wikimedia.org/wikipedia/commons/1/1f/Raw_beef.jpg"
   },
   {
     id: 10,
-    name: "Halal Beef Nihari Shank Cut (Nalli)",
-    desc: "Authentic bone-in beef shanks with rich marrow (Nalli cut). Slow-simmers into velvety, aromatic traditional Nihari.",
+    name: "Beef Nihari Shank (Nalli)",
+    desc: "Bone-in beef shanks with rich marrow. Perfect for Nihari.",
     category: "beef",
     price: 9.99,
     unit: "per lb",
-    status: "Nalli Specialty",
+    status: "Nalli Shank",
     halal: true,
     inStock: true,
     img: "https://upload.wikimedia.org/wikipedia/commons/4/49/Beef_shank.jpg"
   },
   {
     id: 11,
-    name: "Halal Beef Keema (Lean Ground Beef)",
-    desc: "Fresh ground Zabiha beef minced daily at our counter. Clean, lean ground beef for burger patties, keema matar, or seekh kebabs.",
+    name: "Ground Beef (Keema)",
+    desc: "Fresh lean Zabiha ground beef minced daily at counter.",
     category: "beef",
     price: 7.99,
     unit: "per lb",
@@ -393,60 +383,60 @@ const defaultProducts = [
   },
   {
     id: 12,
-    name: "Halal Beef Ribeye Steak",
-    desc: "Beautifully marbled, thick-cut grass-fed Zabiha beef ribeye steaks. Incredibly juicy, tender, and steakhouse quality.",
+    name: "Beef Ribeye Steak",
+    desc: "Thick-cut grass-fed Zabiha ribeye. Tender and well marbled.",
     category: "beef",
     price: 14.99,
     unit: "per lb",
-    status: "Steakhouse Grade",
+    status: "Steakhouse",
     halal: true,
     inStock: true,
     img: "https://upload.wikimedia.org/wikipedia/commons/9/95/Raw_beef_steak%2C_2011.jpg"
   },
   {
     id: 13,
-    name: "Halal Beef Bihari Strips (Pasanda Cut)",
-    desc: "Thinly sliced, tenderized beef strip cuts. Ideal for authentic Bihari boti marinade, stir-fries, and fajita wraps.",
+    name: "Beef Bihari Strips",
+    desc: "Thinly sliced tender beef strips for wraps and Bihari boti.",
     category: "beef",
     price: 10.99,
     unit: "per lb",
-    status: "Hand Sliced",
+    status: "Thin Sliced",
     halal: true,
     inStock: true,
-    img: "https://upload.wikimedia.org/wikipedia/commons/9/95/Raw_beef_steak%2C_2011.jpg"
+    img: "https://upload.wikimedia.org/wikipedia/commons/1/1f/Raw_beef.jpg"
   },
   {
     id: 14,
-    name: "Halal Beef Short Ribs",
-    desc: "Meaty beef short ribs, perfect for BBQ, smoking, braising, or slow cooker stews.",
+    name: "Beef Short Ribs",
+    desc: "Meaty beef short ribs. Great for BBQ, smoking, or braising.",
     category: "beef",
     price: 11.99,
     unit: "per lb",
-    status: "BBQ Prime Cut",
+    status: "BBQ Cut",
     halal: true,
     inStock: true,
     img: "https://upload.wikimedia.org/wikipedia/commons/9/95/Raw_beef_steak%2C_2011.jpg"
   },
   {
     id: 15,
-    name: "Halal Beef Boneless Cubes",
-    desc: "Lean boneless beef cuts trimmed into uniform cooking cubes. Great for beef stew, goulash, or handi recipes.",
+    name: "Beef Boneless Cubes",
+    desc: "Lean boneless beef trimmed into uniform cooking cubes.",
     category: "beef",
     price: 9.49,
     unit: "per lb",
-    status: "Clean Trimmed",
+    status: "Clean Trim",
     halal: true,
     inStock: true,
-    img: "https://upload.wikimedia.org/wikipedia/commons/9/95/Raw_beef_steak%2C_2011.jpg"
+    img: "https://upload.wikimedia.org/wikipedia/commons/1/1f/Raw_beef.jpg"
   },
   {
     id: 16,
-    name: "Halal Beef Tenderloin / Fillet Mignon",
-    desc: "Ultra-tender, melt-in-your-mouth whole beef tenderloin fillet. Highest quality beef cut available.",
+    name: "Beef Tenderloin Fillet",
+    desc: "Melt-in-your-mouth whole beef tenderloin fillet.",
     category: "beef",
     price: 18.99,
     unit: "per lb",
-    status: "Prime Gourmet",
+    status: "Prime Cut",
     halal: true,
     inStock: true,
     img: "https://upload.wikimedia.org/wikipedia/commons/9/95/Raw_beef_steak%2C_2011.jpg"
@@ -455,8 +445,8 @@ const defaultProducts = [
   // --- CHICKEN & POULTRY CUTS ---
   {
     id: 17,
-    name: "Whole Skinless Chicken (Cut to Order)",
-    desc: "Fresh, clean Zabiha whole chicken, skinless and cut to your exact preference (curry cut, 4-piece, 8-piece, or whole for roast).",
+    name: "Whole Skinless Chicken",
+    desc: "Fresh Zabiha whole chicken cut to your preference.",
     category: "chicken",
     price: 3.49,
     unit: "per lb",
@@ -467,8 +457,8 @@ const defaultProducts = [
   },
   {
     id: 18,
-    name: "Bone-In Chicken Curry Cut",
-    desc: "Pre-cut fresh chicken pieces with skinless bone-in perfection. Standard curry-size cuts ready for cooking.",
+    name: "Chicken Curry Cut",
+    desc: "Fresh skinless bone-in chicken pieces for daily curry.",
     category: "chicken",
     price: 3.99,
     unit: "per lb",
@@ -479,8 +469,8 @@ const defaultProducts = [
   },
   {
     id: 19,
-    name: "Boneless Chicken Breast Cubes",
-    desc: "100% Zabiha skinless, boneless chicken breast trimmed into uniform cubes. Great for Chicken Tikka, Handi, skewering, or salads.",
+    name: "Chicken Breast Cubes",
+    desc: "Skinless boneless chicken breast trimmed into uniform cubes.",
     category: "chicken",
     price: 6.49,
     unit: "per lb",
@@ -492,19 +482,19 @@ const defaultProducts = [
   {
     id: 20,
     name: "Boneless Chicken Thighs",
-    desc: "Juicy boneless dark meat chicken thighs. Remains tender and moist under high heat grilling or shawarma style roasting.",
+    desc: "Juicy boneless dark meat chicken thighs for grilling.",
     category: "chicken",
     price: 5.99,
     unit: "per lb",
-    status: "Juicy Dark Meat",
+    status: "Juicy Dark",
     halal: true,
     inStock: true,
     img: "https://upload.wikimedia.org/wikipedia/commons/4/4e/Raw_chicken_thighs.jpg"
   },
   {
     id: 21,
-    name: "Fresh Halal Chicken Drumsticks",
-    desc: "Plump, fresh hand-slaughtered chicken drumsticks. Perfect for tandoori drumsticks, frying, or chicken curry.",
+    name: "Chicken Drumsticks",
+    desc: "Plump fresh chicken drumsticks for tandoori or curry.",
     category: "chicken",
     price: 3.79,
     unit: "per lb",
@@ -515,8 +505,8 @@ const defaultProducts = [
   },
   {
     id: 22,
-    name: "Halal Chicken Party Wings",
-    desc: "Freshly split party chicken wingettes and drumettes. Cleaned and trimmed for oven bake, deep fry, or grill.",
+    name: "Chicken Party Wings",
+    desc: "Split chicken wingettes & drumettes ready for frying.",
     category: "chicken",
     price: 3.99,
     unit: "per lb",
@@ -527,8 +517,8 @@ const defaultProducts = [
   },
   {
     id: 23,
-    name: "Halal Chicken Keema (Ground Chicken)",
-    desc: "Fresh ground lean chicken breast and thigh meat minced daily at counter for kebabs and chicken keema fry.",
+    name: "Ground Chicken (Keema)",
+    desc: "Fresh ground lean chicken minced daily at counter.",
     category: "chicken",
     price: 5.99,
     unit: "per lb",
@@ -541,8 +531,8 @@ const defaultProducts = [
   // --- HALAL LAMB CUTS ---
   {
     id: 24,
-    name: "Tender Lamb Chops (Rib Cut)",
-    desc: "Juicy, hand-trimmed Zabiha lamb rib chops. Season with rosemary, garlic, and sea salt for pan searing or grilling.",
+    name: "Lamb Chops",
+    desc: "Juicy Zabiha lamb rib chops. Great for searing or grilling.",
     category: "lamb",
     price: 14.99,
     unit: "per lb",
@@ -553,8 +543,8 @@ const defaultProducts = [
   },
   {
     id: 25,
-    name: "Halal Lamb Curry Cut (Bone-In)",
-    desc: "Sweet, succulent bone-in Zabiha lamb chunks. Ideal for Rogan Josh, Kashmiri gravies, and aromatic lamb Yakhni pulao.",
+    name: "Lamb Curry Cut",
+    desc: "Sweet bone-in Zabiha lamb chunks for Rogan Josh & pulao.",
     category: "lamb",
     price: 12.99,
     unit: "per lb",
@@ -565,8 +555,8 @@ const defaultProducts = [
   },
   {
     id: 26,
-    name: "Halal Lamb Shank (Nalli)",
-    desc: "Whole Zabiha lamb shanks rich in meat and bone marrow. Slow cooks into fall-off-the-bone tender gourmet gravies.",
+    name: "Lamb Shank (Nalli)",
+    desc: "Whole Zabiha lamb shanks rich in meat and bone marrow.",
     category: "lamb",
     price: 13.99,
     unit: "per lb",
@@ -577,12 +567,12 @@ const defaultProducts = [
   },
   {
     id: 27,
-    name: "Halal Lamb Leg (Whole or Sliced)",
-    desc: "Premium bone-in lamb leg. Can be sliced into steaks, curry cut, or left whole for slow oven roast.",
+    name: "Lamb Leg",
+    desc: "Bone-in lamb leg. Available whole or sliced into steaks.",
     category: "lamb",
     price: 13.49,
     unit: "per lb",
-    status: "Custom Trimmed",
+    status: "Custom Trim",
     halal: true,
     inStock: true,
     img: "https://upload.wikimedia.org/wikipedia/commons/9/95/Raw_beef_steak%2C_2011.jpg"
@@ -591,32 +581,32 @@ const defaultProducts = [
   // --- MARINATED & BBQ READY CUTS ---
   {
     id: 28,
-    name: "Masala Pantry Style Marinated Tandoori Chicken",
-    desc: "Signature house marinaded Zabiha chicken cut in yogurt, Kashmiri red chili, garlic, lemon, and tandoori spices. Ready to cook!",
+    name: "Tandoori Chicken",
+    desc: "Zabiha chicken marinated in yogurt, lemon, and tandoori spices.",
     category: "marinated",
     price: 5.49,
     unit: "per lb",
-    status: "House Marinated",
+    status: "House Marinade",
     halal: true,
     inStock: true,
     img: "https://upload.wikimedia.org/wikipedia/commons/d/d5/Marinated_Tandoori_Chicken_pieces.JPG"
   },
   {
     id: 29,
-    name: "Marinated Malai Chicken Boti",
-    desc: "Tender boneless chicken breast boti marinated in cream, garlic, green chilies, and white pepper. Mild & luscious.",
+    name: "Malai Chicken Boti",
+    desc: "Tender boneless chicken breast marinated in cream & white pepper.",
     category: "marinated",
     price: 6.99,
     unit: "per lb",
     status: "Creamy Malai",
     halal: true,
     inStock: true,
-    img: "https://upload.wikimedia.org/wikipedia/commons/b/b8/Raw_chicken_slices.jpg"
+    img: "https://upload.wikimedia.org/wikipedia/commons/d/d1/Raw_chicken.jpg"
   },
   {
     id: 30,
-    name: "Marinated Bihari Beef Boti",
-    desc: "Masala Pantry style tenderized beef boti infused with raw papaya, mustard oil, nutmeg, and aromatic Bihari spices. Charcoal ready!",
+    name: "Bihari Beef Boti",
+    desc: "Tenderized beef boti infused with papaya & aromatic Bihari spices.",
     category: "marinated",
     price: 11.99,
     unit: "per lb",
@@ -629,32 +619,32 @@ const defaultProducts = [
   // --- MEAT PASTRIES & SAMOSAS ---
   {
     id: 31,
-    name: "Zabiha Beef Keema Samosas (6-Pack)",
-    desc: "Crispy handcrafted golden triangular pastries filled with spiced ground Zabiha beef, caramelised onions, coriander, and fresh mint.",
+    name: "Beef Samosas (6-Pk)",
+    desc: "Golden crispy pastries filled with spiced ground Zabiha beef.",
     category: "pastries",
     price: 6.99,
-    unit: "6-Pack",
-    status: "Handcrafted Fresh",
+    unit: "6-Pk",
+    status: "Fresh Baked",
     halal: true,
     inStock: true,
     img: "https://upload.wikimedia.org/wikipedia/commons/e/ed/Samosa_4.jpg"
   },
   {
     id: 32,
-    name: "Halal Chicken Keema Samosas (6-Pack)",
-    desc: "Crispy flaky pastry crust stuffed with seasoned ground chicken, green peas, and traditional aromatic spice blend.",
+    name: "Chicken Samosas (6-Pk)",
+    desc: "Flaky pastry crust stuffed with seasoned ground chicken & peas.",
     category: "pastries",
     price: 6.49,
-    unit: "6-Pack",
-    status: "Crispy & Flaky",
+    unit: "6-Pk",
+    status: "Crispy Flaky",
     halal: true,
     inStock: true,
     img: "https://upload.wikimedia.org/wikipedia/commons/e/ed/Samosa_4.jpg"
   },
   {
     id: 33,
-    name: "Traditional Halal Meat Pie (Beef & Gravy)",
-    desc: "Bakery-style golden puff pastry pie stuffed with slow-braised Zabiha beef chunks, onions, and rich savory gravy sauce.",
+    name: "Beef Meat Pie",
+    desc: "Bakery golden puff pastry pie stuffed with slow-braised beef.",
     category: "pastries",
     price: 4.99,
     unit: "per pie",
@@ -665,8 +655,8 @@ const defaultProducts = [
   },
   {
     id: 34,
-    name: "Halal Chicken & Mushroom Puff Pastry",
-    desc: "Golden buttery puff pastry pocket filled with creamy tandoori chicken, herbs, and savory mushrooms.",
+    name: "Chicken Puff Pastry",
+    desc: "Golden buttery puff pastry pocket filled with creamy chicken.",
     category: "pastries",
     price: 4.49,
     unit: "per piece",
@@ -677,11 +667,11 @@ const defaultProducts = [
   },
   {
     id: 35,
-    name: "Zabiha Beef Shami Kabab Patties (4-Pack)",
-    desc: "Traditional pan-seared spiced beef & lentil kabab patties. Made fresh daily, just heat and serve.",
+    name: "Beef Shami Kababs (4-Pk)",
+    desc: "Pan-seared spiced beef & lentil patties. Heat and serve.",
     category: "pastries",
     price: 8.99,
-    unit: "4-Pack",
+    unit: "4-Pk",
     status: "Ready to Heat",
     halal: true,
     inStock: true,
@@ -777,7 +767,7 @@ function App() {
 
   // Dynamic Products List with LocalStorage Persistence (Meat & Pastries Catalog v7)
   const [productsList, setProductsList] = useState(() => {
-    const saved = localStorage.getItem('qhm_products_meat_v8');
+    const saved = localStorage.getItem('qhm_products_meat_v9');
     if (saved) {
       try {
         return JSON.parse(saved);
@@ -918,7 +908,7 @@ function App() {
 
   // Sync Products to LocalStorage
   useEffect(() => {
-    localStorage.setItem('qhm_products_meat_v8', JSON.stringify(productsList));
+    localStorage.setItem('qhm_products_meat_v9', JSON.stringify(productsList));
   }, [productsList]);
 
   // Calculate scroll progress

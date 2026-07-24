@@ -944,48 +944,52 @@ function App() {
   // Leaflet Map Initialization
   useEffect(() => {
     if (window.L) {
-      const L = window.L;
-      const mapContainer = document.getElementById('map');
-      if (mapContainer && !mapContainer._leaflet_id) {
-        const storeLat = 30.528438;
-        const storeLng = -97.828629;
-        const map = L.map('map', { scrollWheelZoom: false }).setView([storeLat, storeLng], 15);
-        
-        L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
-          attribution: '&copy; OpenStreetMap &copy; CARTO'
-        }).addTo(map);
-        
-        const greenIcon = L.divIcon({
-          className: 'custom-div-icon',
-          html: `<div style="
-            width: 20px; 
-            height: 20px; 
-            background-color: #10b981; 
-            border: 3px solid #ffffff; 
-            border-radius: 50%;
-            box-shadow: 0 0 10px rgba(16, 185, 129, 0.8);
-            animation: pulsePin 2s infinite;
-          "></div>`,
-          iconSize: [20, 20],
-          iconAnchor: [10, 10]
-        });
+      try {
+        const L = window.L;
+        const mapContainer = document.getElementById('map');
+        if (mapContainer && !mapContainer._leaflet_id) {
+          const storeLat = 30.528438;
+          const storeLng = -97.828629;
+          const map = L.map('map', { scrollWheelZoom: false }).setView([storeLat, storeLng], 15);
+          
+          L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+            attribution: '&copy; OpenStreetMap &copy; CARTO'
+          }).addTo(map);
+          
+          const greenIcon = L.divIcon({
+            className: 'custom-div-icon',
+            html: `<div style="
+              width: 20px; 
+              height: 20px; 
+              background-color: #10b981; 
+              border: 3px solid #ffffff; 
+              border-radius: 50%;
+              box-shadow: 0 0 10px rgba(16, 185, 129, 0.8);
+            "></div>`,
+            iconSize: [20, 20],
+            iconAnchor: [10, 10]
+          });
 
-        const marker = L.marker([storeLat, storeLng], { icon: greenIcon }).addTo(map);
-        marker.bindPopup(`
-          <div style="color: #0f172a; padding: 5px; font-family: 'Outfit', sans-serif;">
-            <strong style="font-size: 1.1rem; color: #064e3b; display: block; margin-bottom: 2px;">Quality Halal Market</strong>
-            <span style="font-size: 0.85rem; color: #64748b; display: block; margin-bottom: 8px;">Fresh Zabiha Halal Meats & Pastries</span>
-            <a href="https://maps.google.com/?q=Quality+Halal+Market+12920+West+Parmer+Lane+106+Cedar+Park+TX+78613" target="_blank" style="
-              display: inline-block;
-              background-color: #064e3b;
-              color: white;
-              padding: 4px 10px;
-              font-size: 0.8rem;
-              border-radius: 4px;
-              font-weight: 600;
-            ">Get Directions</a>
-          </div>
-        `).openPopup();
+          const marker = L.marker([storeLat, storeLng], { icon: greenIcon }).addTo(map);
+          marker.bindPopup(`
+            <div style="color: #0f172a; padding: 5px; font-family: 'Outfit', sans-serif;">
+              <strong style="font-size: 1.1rem; color: #064e3b; display: block; margin-bottom: 2px;">Quality Halal Market</strong>
+              <span style="font-size: 0.85rem; color: #64748b; display: block; margin-bottom: 8px;">Fresh Zabiha Halal Meats & Pastries</span>
+              <a href="https://maps.google.com/?q=Quality+Halal+Market+12920+West+Parmer+Lane+106+Cedar+Park+TX+78613" target="_blank" style="
+                display: inline-block;
+                background-color: #064e3b;
+                color: white;
+                padding: 6px 12px;
+                border-radius: 6px;
+                text-decoration: none;
+                font-size: 0.8rem;
+                font-weight: 600;
+              ">Get Directions &rarr;</a>
+            </div>
+          `);
+        }
+      } catch (err) {
+        console.warn("Leaflet map initialization skipped:", err);
       }
     }
   }, []);
@@ -1017,11 +1021,12 @@ function App() {
 
   // Update configuration defaults when modal product opens
   useEffect(() => {
-    if (selectedProduct) {
+    if (selectedProduct && selectedProduct.name) {
       setModalQty(1);
       setCustomNotes('');
-      const isChicken = selectedProduct.name.toLowerCase().includes('chicken');
-      const isSteak = selectedProduct.name.toLowerCase().includes('ribeye') || selectedProduct.name.toLowerCase().includes('steak');
+      const prodName = (selectedProduct.name || '').toLowerCase();
+      const isChicken = prodName.includes('chicken');
+      const isSteak = prodName.includes('ribeye') || prodName.includes('steak');
       setPrepStyle(isSteak ? 'Steakhouse Thick (1.5")' : 'Curry Cut (Medium)');
       setFatTrim('Standard (Balanced)');
       setSkinPref(isChicken ? 'Skinless' : '');

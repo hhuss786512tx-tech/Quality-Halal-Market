@@ -1367,61 +1367,63 @@ function App() {
       <div className="scroll-progress" style={{ width: `${scrollProgress}%` }}></div>
 
       {/* Top Live Announcement Header Banner */}
-      <div className="top-live-banner" style={{ background: 'linear-gradient(90deg, #059669 0%, #10b981 50%, #047857 100%)', color: 'white', padding: '0.45rem 1rem', fontSize: '0.82rem', fontWeight: '600', textAlign: 'center', display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '1rem', letterSpacing: '0.02em', zIndex: '1001', position: 'relative' }}>
-        <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
+      <div className="top-live-banner" style={{ background: 'linear-gradient(90deg, #059669 0%, #10b981 50%, #047857 100%)', color: 'white', padding: '0.35rem 2rem', fontSize: '0.8rem', fontWeight: '600', display: 'flex', justifyContent: 'space-between', alignItems: 'center', zIndex: '1001', position: 'relative' }}>
+        <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
           <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#34d399', boxShadow: '0 0 8px #34d399' }}></span>
           <span>LIVE STORE COUNTER: Open Today 9:00 AM - 9:00 PM</span>
+          <span style={{ opacity: 0.5 }}>•</span>
+          <span>100% Zabiha Halal Guarantee</span>
+          <span style={{ opacity: 0.5 }}>•</span>
+          <span>Free Cedar Park Delivery Over $75</span>
         </div>
-        <span style={{ opacity: 0.5 }}>|</span>
-        <span>100% Zabiha Hand-Slaughtered Halal</span>
-        <span style={{ opacity: 0.5 }}>|</span>
-        <span>Free Cedar Park Delivery Over $75</span>
+
+        {/* Clean Compact Language Switcher */}
+        <div className="language-selector" style={{ margin: 0, padding: '2px 8px', background: 'rgba(0,0,0,0.25)', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.2)' }}>
+          <Globe size={13} style={{ color: '#34d399' }} />
+          <select 
+            value={currentLang} 
+            onChange={(e) => setCurrentLang(e.target.value)}
+            className="lang-select"
+            aria-label="Select Interface Language"
+            style={{ fontSize: '0.78rem', color: 'white', border: 'none', background: 'transparent', padding: '2px 4px', cursor: 'pointer' }}
+          >
+            <option value="en" style={{ color: 'black' }}>🇬🇧 English</option>
+            <option value="ur" style={{ color: 'black' }}>🇵🇰 اردو (Urdu)</option>
+            <option value="es" style={{ color: 'black' }}>🇪🇸 Español</option>
+          </select>
+        </div>
       </div>
 
       {/* Header Navigation */}
       <header className="header">
         <div className="container nav-container">
-          <a href="#home" onClick={(e) => { e.preventDefault(); navigateTo('home'); }} className="logo">
+          <a href="#home" onClick={(e) => { e.preventDefault(); navigateTo('home'); }} className="logo" style={{ marginRight: '2.5rem' }}>
             <div className="logo-icon">Q</div>
-            Quality Halal<span>Meat Market</span>
+            Quality Halal<span style={{ marginLeft: '6px' }}>Meat Market</span>
           </a>
           
-          <ul className="nav-links">
-            <li><a href="#home" onClick={(e) => { e.preventDefault(); navigateTo('home'); }} className={`nav-link ${currentView === 'home' ? 'active' : ''}`}>{txt('home')}</a></li>
-            <li><a href="#specialties" onClick={(e) => { e.preventDefault(); navigateTo('home', 'specialties'); }} className="nav-link">{txt('departments')}</a></li>
-            <li><a href="#delivery-section" onClick={(e) => { e.preventDefault(); navigateTo('home', 'delivery-section'); }} className="nav-link">{txt('deliveryZone')}</a></li>
-            <li><a href="#counter" onClick={(e) => { e.preventDefault(); navigateTo('counter'); }} className={`nav-link ${currentView === 'counter' ? 'active' : ''}`}>{txt('counter')}</a></li>
-            <li><a href="#about" onClick={(e) => { e.preventDefault(); navigateTo('home', 'about'); }} className="nav-link">{txt('aboutUs')}</a></li>
-            <li><a href="#contact" onClick={(e) => { e.preventDefault(); navigateTo('home', 'contact'); }} className="nav-link">{txt('contact')}</a></li>
+          <ul className="nav-links" style={{ gap: '1.75rem' }}>
+            <li><a href="#home" onClick={(e) => { e.preventDefault(); navigateTo('home'); }} className={`nav-link ${currentView === 'home' ? 'active' : ''}`}>Home</a></li>
+            <li><a href="#specialties" onClick={(e) => { e.preventDefault(); navigateTo('home', 'specialties'); }} className="nav-link">Departments</a></li>
+            <li><a href="#delivery-section" onClick={(e) => { e.preventDefault(); navigateTo('home', 'delivery-section'); }} className="nav-link">Delivery</a></li>
+            <li><a href="#counter" onClick={(e) => { e.preventDefault(); navigateTo('counter'); }} className={`nav-link ${currentView === 'counter' ? 'active' : ''}`}>Counter</a></li>
+            <li><a href="#about" onClick={(e) => { e.preventDefault(); navigateTo('home', 'about'); }} className="nav-link">About</a></li>
+            <li><a href="#contact" onClick={(e) => { e.preventDefault(); navigateTo('home', 'contact'); }} className="nav-link">Contact</a></li>
           </ul>
           
           <div className="nav-cta" style={{ display: 'flex', gap: '0.75rem', alignItems: 'center' }}>
-            {/* Language Selector Dropdown */}
-            <div className="language-selector">
-              <Globe size={16} style={{ color: 'var(--primary-light)' }} />
-              <select 
-                value={currentLang} 
-                onChange={(e) => setCurrentLang(e.target.value)}
-                className="lang-select"
-                aria-label="Select Interface Language"
-              >
-                <option value="en">🇬🇧 English</option>
-                <option value="ur">🇵🇰 اردو (Urdu)</option>
-                <option value="es">🇪🇸 Español (Spanish)</option>
-              </select>
-            </div>
-
             <button 
               className={`admin-nav-btn ${isAdminLoggedIn ? 'logged-in' : ''}`}
               onClick={() => setIsAdminModalOpen(true)}
               title="Manage store inventory & meat cuts"
+              style={{ padding: '0.55rem 0.9rem', fontSize: '0.82rem' }}
             >
-              <ShieldCheck size={16} />
-              {isAdminLoggedIn ? txt('ownerDashboard') : txt('ownerAccess')}
+              <ShieldCheck size={15} />
+              {isAdminLoggedIn ? "Dashboard" : "Owner Login"}
             </button>
 
-            <a href="tel:5122607677" className="btn btn-primary" style={{ padding: '0.65rem 1.4rem', fontSize: '0.9rem' }}>
-              <Phone size={15} style={{ marginRight: '6px' }} />
+            <a href="tel:5122607677" className="btn btn-primary" style={{ padding: '0.55rem 1.25rem', fontSize: '0.88rem' }}>
+              <Phone size={14} style={{ marginRight: '6px' }} />
               512.260.7677
             </a>
           </div>

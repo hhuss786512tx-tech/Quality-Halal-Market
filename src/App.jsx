@@ -1995,7 +1995,7 @@ function App() {
                         {checkerResult.eligible ? <Check size={24} /> : <X size={24} />}
                       </div>
                       <div className="result-details">
-                        <h4>{checkerResult.eligible ? "🟢 Delivery Available!" : "🔴 Outside Local Delivery Area"}</h4>
+                        <h4>{checkerResult.eligible ? "⚪ Delivery Available!" : "⚫ Outside Local Delivery Area"}</h4>
                         <p className="result-text">
                           {checkerResult.eligible ? (
                             <>
@@ -2652,7 +2652,7 @@ function App() {
                 <div className="admin-header-bar">
                   <div className="admin-title-group">
                     <h2>
-                      <ShieldCheck size={28} style={{ color: '#10b981' }} />
+                      <ShieldCheck size={28} style={{ color: '#ffffff' }} />
                       Meat & Pastry Store Owner Dashboard
                     </h2>
                     <p>Logged in as Store Owner • Live catalog sync & order dispatch enabled</p>
@@ -2677,7 +2677,7 @@ function App() {
                         <ShoppingBag size={15} />
                         Live Orders Queue ({allOrdersList.length})
                         {allOrdersList.length > 0 && (
-                          <span style={{ position: 'absolute', top: '-4px', right: '-4px', background: '#ef4444', color: 'white', borderRadius: '50%', width: '18px', height: '18px', fontSize: '0.7rem', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: '800' }}>
+                          <span style={{ position: 'absolute', top: '-4px', right: '-4px', background: '#ffffff', color: '#000000', borderRadius: '50%', width: '18px', height: '18px', fontSize: '0.7rem', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: '800' }}>
                             {allOrdersList.length}
                           </span>
                         )}
@@ -2697,7 +2697,7 @@ function App() {
                       </>
                     )}
 
-                    <button className="btn btn-secondary" onClick={() => setIsAdminLoggedIn(false)} style={{ padding: '0.65rem 1rem', borderColor: '#ef4444', color: '#ef4444' }}>
+                    <button className="btn btn-secondary" onClick={() => setIsAdminLoggedIn(false)} style={{ padding: '0.65rem 1rem', borderColor: 'rgba(255,255,255,0.4)', color: '#ffffff' }}>
                       <Lock size={15} />
                       Lock Portal
                     </button>
@@ -2777,7 +2777,7 @@ function App() {
                           onClick={() => {
                             if (window.confirm("Clear order history?")) setAllOrdersList([]);
                           }}
-                          style={{ padding: '0.4rem 0.85rem', fontSize: '0.8rem', borderColor: '#ef4444', color: '#ef4444' }}
+                          style={{ padding: '0.4rem 0.85rem', fontSize: '0.8rem', borderColor: 'rgba(255,255,255,0.4)', color: '#ffffff' }}
                         >
                           Clear Order History
                         </button>
@@ -2798,10 +2798,10 @@ function App() {
                           <div key={idx} style={{ background: 'rgba(2, 6, 23, 0.7)', border: '1px solid var(--glass-border)', borderRadius: 'var(--radius-lg)', padding: '1.25rem', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
                             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                               <div>
-                                <span style={{ color: 'var(--primary-light)', fontWeight: '800', fontSize: '1.1rem' }}>{ord.orderId}</span>
+                                <span style={{ color: '#ffffff', fontWeight: '800', fontSize: '1.1rem' }}>{ord.orderId}</span>
                                 <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginLeft: '8px' }}>({ord.createdAt || 'Just Now'})</span>
                               </div>
-                              <span style={{ padding: '3px 10px', borderRadius: '50px', fontSize: '0.75rem', fontWeight: '700', textTransform: 'uppercase', background: ord.type === 'pickup' ? 'rgba(16, 185, 129, 0.15)' : 'rgba(245, 158, 11, 0.15)', color: ord.type === 'pickup' ? '#10b981' : '#f59e0b', border: '1px solid currentColor' }}>
+                              <span style={{ padding: '3px 10px', borderRadius: '50px', fontSize: '0.75rem', fontWeight: '700', textTransform: 'uppercase', background: 'rgba(255, 255, 255, 0.15)', color: '#ffffff', border: '1px solid currentColor' }}>
                                 {ord.type}
                               </span>
                             </div>

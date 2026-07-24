@@ -771,6 +771,35 @@ const safeSetStorage = (key, value) => {
   }
 };
 
+// Rotating Hero Meat Cut Background Slideshow Items
+const rotatingMeatSlides = [
+  {
+    name: "Zabiha Goat Curry Cut",
+    tag: "🐐 GOAT & MUTTON",
+    img: "https://upload.wikimedia.org/wikipedia/commons/4/4c/Raw_goat_meat.jpg"
+  },
+  {
+    name: "Fresh Poultry Quarters",
+    tag: "🍗 FRESH POULTRY",
+    img: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/62/Raw_leg_chicken_quarters.jpg/1280px-Raw_leg_chicken_quarters.jpg"
+  },
+  {
+    name: "Black Angus Beef Steaks",
+    tag: "🥩 ANGUS BEEF",
+    img: "https://images.pexels.com/photos/65175/pexels-photo-65175.jpeg"
+  },
+  {
+    name: "Whole Hand-Slaughtered Chicken",
+    tag: "🐔 FRESH CHICKEN",
+    img: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/00/Raw_chicken.jpg/1280px-Raw_chicken.jpg"
+  },
+  {
+    name: "Bakery Samosas & Pastries",
+    tag: "🥟 MEAT PASTRIES",
+    img: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/Inside_Yank_Sing_Chicken_Curry_Puff_Pastry.jpg/1280px-Inside_Yank_Sing_Chicken_Curry_Puff_Pastry.jpg"
+  }
+];
+
 function App() {
   // Navigation & Language States
   const [currentLang, setCurrentLang] = useState(() => {
@@ -797,6 +826,15 @@ function App() {
   const [activeCategory, setActiveCategory] = useState('all');
   const [flippedCards, setFlippedCards] = useState({ 1: false, 2: false });
   const [lightboxImg, setLightboxImg] = useState(null);
+
+  const [heroSlideIdx, setHeroSlideIdx] = useState(0);
+
+  useEffect(() => {
+    const slideTimer = setInterval(() => {
+      setHeroSlideIdx(prev => (prev + 1) % rotatingMeatSlides.length);
+    }, 3200);
+    return () => clearInterval(slideTimer);
+  }, []);
 
   // Dynamic Products List with LocalStorage Persistence (Meat & Pastries Catalog v7)
   const [productsList, setProductsList] = useState(() => {
@@ -1550,7 +1588,7 @@ function App() {
 
       {/* Hero Section */}
       <section id="home" className="hero">
-        <div className="hero-bg"></div>
+        <div className="hero-bg" style={{ background: `linear-gradient(to bottom, rgba(7, 10, 19, 0.65) 0%, rgba(7, 10, 19, 0.95) 100%), url('${rotatingMeatSlides[heroSlideIdx].img}')` }}></div>
         <div className="container hero-grid">
           <div className="hero-content">
             <div className="hero-badge">
@@ -1588,7 +1626,7 @@ function App() {
             </div>
           </div>
           
-          {/* Hero Right side: Circular Orbit Badge Frame (Azul Bio style from Screenshot 2) */}
+          {/* Hero Right side: Circular Orbit Badge Frame with Rotating Meat Cut Slideshow */}
           <div className="hero-card-container">
             <div className="hero-orbit-wrapper">
               <div className="hero-orbit-ring">
@@ -1600,12 +1638,16 @@ function App() {
 
               <div className="hero-orbit-img-container">
                 <img 
-                  src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/62/Raw_leg_chicken_quarters.jpg/1280px-Raw_leg_chicken_quarters.jpg" 
-                  alt="Fresh Zabiha Butcher Cut" 
+                  key={heroSlideIdx}
+                  src={rotatingMeatSlides[heroSlideIdx].img} 
+                  alt={rotatingMeatSlides[heroSlideIdx].name} 
+                  style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                 />
-                <div style={{ position: 'absolute', bottom: '20px', left: '50%', transform: 'translateX(-50%)', background: 'rgba(7, 10, 19, 0.85)', backdropFilter: 'blur(12px)', padding: '8px 16px', borderRadius: '50px', border: '1px solid rgba(16, 185, 129, 0.4)', color: 'white', fontSize: '0.78rem', fontWeight: '700', whiteSpace: 'nowrap', display: 'flex', alignItems: 'center', gap: '6px' }}>
-                  <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#34d399', boxShadow: '0 0 8px #34d399' }}></span>
-                  100% ZABIHA HALAL GUARANTEE
+                <div style={{ position: 'absolute', bottom: '20px', left: '50%', transform: 'translateX(-50%)', background: 'rgba(7, 10, 19, 0.88)', backdropFilter: 'blur(12px)', padding: '8px 18px', borderRadius: '50px', border: '1px solid rgba(16, 185, 129, 0.5)', color: 'white', fontSize: '0.78rem', fontWeight: '700', whiteSpace: 'nowrap', display: 'flex', alignItems: 'center', gap: '8px', boxShadow: '0 8px 20px rgba(0,0,0,0.6)' }}>
+                  <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#34d399', boxShadow: '0 0 10px #34d399' }}></span>
+                  <span>{rotatingMeatSlides[heroSlideIdx].tag}</span>
+                  <span style={{ opacity: 0.5 }}>•</span>
+                  <span>{rotatingMeatSlides[heroSlideIdx].name}</span>
                 </div>
               </div>
             </div>

@@ -1626,28 +1626,29 @@ function App() {
             </div>
           </div>
           
-          {/* Hero Right side: Circular Orbit Badge Frame with Rotating Meat Cut Slideshow */}
+          {/* Hero Right side: Vertical Live Butcher Counter Showcase Frame (Matching Solid State Screenshot) */}
           <div className="hero-card-container">
-            <div className="hero-orbit-wrapper">
-              <div className="hero-orbit-ring">
-                <span className="orbit-node node-top"></span>
-                <span className="orbit-node node-bottom"></span>
-                <span className="orbit-node node-left"></span>
-                <span className="orbit-node node-right"></span>
+            <div className="live-counter-phone-card">
+              <div className="live-counter-header-tag">
+                <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#ef4444', boxShadow: '0 0 8px #ef4444' }}></span>
+                <span>📹 LIVE BUTCHER WORK • CEDAR PARK TX</span>
               </div>
 
-              <div className="hero-orbit-img-container">
+              <div className="live-counter-media-body">
                 <img 
                   key={heroSlideIdx}
                   src={rotatingMeatSlides[heroSlideIdx].img} 
                   alt={rotatingMeatSlides[heroSlideIdx].name} 
-                  style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                 />
-                <div style={{ position: 'absolute', bottom: '20px', left: '50%', transform: 'translateX(-50%)', background: 'rgba(7, 10, 19, 0.88)', backdropFilter: 'blur(12px)', padding: '8px 18px', borderRadius: '50px', border: '1px solid rgba(16, 185, 129, 0.5)', color: 'white', fontSize: '0.78rem', fontWeight: '700', whiteSpace: 'nowrap', display: 'flex', alignItems: 'center', gap: '8px', boxShadow: '0 8px 20px rgba(0,0,0,0.6)' }}>
-                  <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#34d399', boxShadow: '0 0 10px #34d399' }}></span>
-                  <span>{rotatingMeatSlides[heroSlideIdx].tag}</span>
-                  <span style={{ opacity: 0.5 }}>•</span>
-                  <span>{rotatingMeatSlides[heroSlideIdx].name}</span>
+
+                <div className="live-counter-caption-tag">
+                  <div style={{ color: '#34d399', fontSize: '0.72rem', textTransform: 'uppercase', letterSpacing: '0.04em', marginBottom: '2px' }}>
+                    {rotatingMeatSlides[heroSlideIdx].tag}
+                  </div>
+                  <div>{rotatingMeatSlides[heroSlideIdx].name}</div>
+                  <div style={{ fontSize: '0.72rem', color: '#9ca3af', marginTop: '2px', fontWeight: 'normal' }}>
+                    100% Hand-Slaughtered Zabiha Halal
+                  </div>
                 </div>
               </div>
             </div>

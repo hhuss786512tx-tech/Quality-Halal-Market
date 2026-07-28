@@ -474,10 +474,13 @@ export default function App() {
           </div>
           <div style={{ display: 'flex', gap: '1.5rem', alignItems: 'center' }}>
             <span style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+              <MapPin size={14} className="text-gold" /> 12920 W Parmer Ln #106, Cedar Park, TX
+            </span>
+            <span style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
               <Clock size={14} /> Open Daily: 9:00 AM - 9:00 PM
             </span>
             <span style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
-              <Phone size={14} /> (800) 555-HALAL
+              <Phone size={14} className="text-gold" /> (512) 260-7677
             </span>
           </div>
         </div>
@@ -1419,12 +1422,13 @@ export default function App() {
             </div>
 
             <div className="footer-col">
-              <h4>Customer Support</h4>
+              <h4>Store Location & Support</h4>
               <ul>
-                <li><span>Store Hours: 9 AM - 9 PM</span></li>
-                <li><span>Express Delivery Zone</span></li>
-                <li><span>Loyalty Rewards Club</span></li>
-                <li><a href="#dev" onClick={() => setOwnerDashboardOpen(true)}>Dev / Owner Portal</a></li>
+                <li><span style={{ color: 'var(--gold-accent)', fontWeight: '700' }}>📞 Phone: (512) 260-7677</span></li>
+                <li><span>📍 12920 W Parmer Ln #106</span></li>
+                <li><span>Cedar Park, TX 78613</span></li>
+                <li><span>🕒 Open Daily: 9:00 AM - 9:00 PM</span></li>
+                <li><a href="#dev" onClick={() => setOwnerDashboardOpen(true)} style={{ color: 'var(--text-muted)' }}>Dev / Owner Portal</a></li>
               </ul>
             </div>
 

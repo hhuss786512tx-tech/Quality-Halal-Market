@@ -4,7 +4,7 @@ import {
   Clock, Mail, ShoppingCart, Trash2, Maximize2, Check,
   Truck, Sliders, User, Plus, Minus, Search, Star, Heart,
   Eye, RefreshCw, Grid, List, Sparkles, CheckCircle2, Award,
-  ChevronDown, Filter, Lock, ShoppingBag
+  ChevronDown, Filter, Lock, ShoppingBag, Zap, ExternalLink, PackageCheck, Tag
 } from 'lucide-react';
 
 // Imported Assets
@@ -310,7 +310,7 @@ export default function App() {
   const [products] = useState(INITIAL_PRODUCTS);
   const [activeCategory, setActiveCategory] = useState('All');
   const [searchQuery, setSearchQuery] = useState('');
-  const [viewMode, setViewMode] = useState('cols-3'); // cols-4, cols-3, cols-2, list-view
+  const [viewMode, setViewMode] = useState('cols-3');
   const [sortOption, setSortOption] = useState('default');
   const [priceMaxFilter, setPriceMaxFilter] = useState(30);
   const [selectedPreps, setSelectedPreps] = useState([]);
@@ -324,8 +324,9 @@ export default function App() {
   const [checkoutModalOpen, setCheckoutModalOpen] = useState(false);
   const [orderComplete, setOrderComplete] = useState(false);
   const [ownerDashboardOpen, setOwnerDashboardOpen] = useState(false);
+  const [doordashModalOpen, setDoordashModalOpen] = useState(false);
   
-  // User Profile & Zip Verification
+  // User Profile
   const [userPoints, setUserPoints] = useState(120);
 
   // Checkout Form State
@@ -339,7 +340,7 @@ export default function App() {
     notes: ''
   });
 
-  // Custom Prep Options for Selected Product in Modal
+  // Custom Prep Options
   const [customPrepOptions, setCustomPrepOptions] = useState({
     weight: '1 lb',
     cutStyle: 'Curry Cut (Medium)',
@@ -463,8 +464,8 @@ export default function App() {
               100% Hand-Slaughtered Zabiha Halal Guarantee
             </span>
             <span className="announcement-item" style={{ marginLeft: '1.5rem' }}>
-              <Truck size={16} />
-              Free Same-Day Express Delivery on orders over ${freeDeliveryThreshold}
+              <Zap size={16} className="text-doordash" />
+              Now Marketing on DoorDash! 30-Min On-Demand Delivery
             </span>
           </div>
           <div style={{ display: 'flex', gap: '1.5rem', alignItems: 'center' }}>
@@ -515,6 +516,15 @@ export default function App() {
 
             {/* Header Right Actions */}
             <div className="header-actions">
+              {/* DoorDash Badge Button */}
+              <button 
+                className="doordash-header-badge"
+                onClick={() => setDoordashModalOpen(true)}
+              >
+                <Zap size={14} />
+                <span>DoorDash Delivery</span>
+              </button>
+
               <div className="reward-badge-btn">
                 <Award size={16} />
                 <span>{userPoints} Pts</span>
@@ -561,18 +571,109 @@ export default function App() {
                 <span>Shop Meat Counter</span>
                 <ArrowRight size={18} />
               </button>
+
+              <button className="btn-doordash-red" onClick={() => setDoordashModalOpen(true)}>
+                <Zap size={18} />
+                <span>Order on DoorDash</span>
+              </button>
+
               <button className="btn-outline-gold" onClick={() => {
                 const el = document.getElementById('categories-section');
                 if (el) el.scrollIntoView({ behavior: 'smooth' });
               }}>
-                <span>Explore Photo Collections</span>
+                <span>Explore Collections</span>
               </button>
             </div>
           </div>
         </div>
       </section>
 
-      {/* 4. PHOTOGRAPHIC CATEGORIES SHOWCASE GRID */}
+      {/* 4. DOORDASH MARKETING & INTEGRATION SPOTLIGHT SECTION */}
+      <section className="doordash-section">
+        <div className="container">
+          <div className="doordash-card-box">
+            <div>
+              <span className="doordash-badge-tag">
+                <Zap size={14} /> DoorDash Partnership & Marketing
+              </span>
+              <h2 className="doordash-title">
+                Fresh Zabiha Halal Cuts Delivered Via <span className="text-doordash">DoorDash</span>
+              </h2>
+              <p style={{ color: 'var(--text-muted)', fontSize: '1.05rem', lineHeight: '1.6' }}>
+                We're launching on DoorDash! Get custom butcher cuts, marinated BBQ botis, fresh chicken, and specialty halal groceries delivered directly to your home in 30-45 minutes.
+              </p>
+
+              <div className="doordash-features-list">
+                <div className="doordash-feature-item">
+                  <div className="doordash-feature-icon">
+                    <Truck size={18} />
+                  </div>
+                  <div>
+                    <strong style={{ color: '#ffffff', display: 'block', fontSize: '0.95rem' }}>Express 30-45 Min Delivery</strong>
+                    <span style={{ fontSize: '0.82rem', color: 'var(--text-muted)' }}>Packed in temperature-controlled thermal insulation.</span>
+                  </div>
+                </div>
+
+                <div className="doordash-feature-item">
+                  <div className="doordash-feature-icon">
+                    <PackageCheck size={18} />
+                  </div>
+                  <div>
+                    <strong style={{ color: '#ffffff', display: 'block', fontSize: '0.95rem' }}>DashPass $0 Delivery Fee</strong>
+                    <span style={{ fontSize: '0.82rem', color: 'var(--text-muted)' }}>Free delivery for all DoorDash Pass subscribers.</span>
+                  </div>
+                </div>
+
+                <div className="doordash-feature-item">
+                  <div className="doordash-feature-icon">
+                    <ShieldCheck size={18} />
+                  </div>
+                  <div>
+                    <strong style={{ color: '#ffffff', display: 'block', fontSize: '0.95rem' }}>100% Zabiha Guaranteed</strong>
+                    <span style={{ fontSize: '0.82rem', color: 'var(--text-muted)' }}>Same counter-fresh quality cut right before pickup.</span>
+                  </div>
+                </div>
+
+                <div className="doordash-feature-item">
+                  <div className="doordash-feature-icon">
+                    <Tag size={18} />
+                  </div>
+                  <div>
+                    <strong style={{ color: '#ffffff', display: 'block', fontSize: '0.95rem' }}>Exclusive DoorDash Deals</strong>
+                    <span style={{ fontSize: '0.82rem', color: 'var(--text-muted)' }}>Weekly DoorDash bundles and family steak promos.</span>
+                  </div>
+                </div>
+              </div>
+
+              <div style={{ display: 'flex', gap: '1rem', alignItems: 'center', flexWrap: 'wrap' }}>
+                <button className="btn-doordash-red" onClick={() => setDoordashModalOpen(true)}>
+                  <span>Launch DoorDash Storefront</span>
+                  <ExternalLink size={16} />
+                </button>
+                <span style={{ fontSize: '0.85rem', color: 'var(--gold-accent)', fontWeight: '700' }}>
+                  🟢 Status: Open for DoorDash Delivery Orders
+                </span>
+              </div>
+            </div>
+
+            {/* Right Column: DoorDash Promo Box */}
+            <div className="doordash-promo-code-box">
+              <div style={{ width: '54px', height: '54px', borderRadius: '50%', background: 'rgba(255, 48, 8, 0.2)', color: 'var(--doordash-red)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 1rem auto' }}>
+                <Zap size={28} />
+              </div>
+              <h4 style={{ fontSize: '1.4rem', color: '#ffffff', marginBottom: '0.4rem' }}>First Order Promo</h4>
+              <p style={{ fontSize: '0.88rem', color: 'var(--text-muted)', marginBottom: '1rem' }}>
+                Save $5 on your first $30+ DoorDash butcher order.
+              </p>
+              <div style={{ background: 'var(--bg-dark)', padding: '0.65rem 1.25rem', borderRadius: 'var(--radius-sm)', border: '1px solid var(--gold-accent)', display: 'inline-block' }}>
+                <span style={{ fontSize: '1.1rem', fontWeight: '800', letterSpacing: '0.15em', color: 'var(--gold-accent)' }}>PROMO: HALAL5</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 5. PHOTOGRAPHIC CATEGORIES SHOWCASE GRID */}
       <section id="categories-section" className="categories-showcase-section">
         <div className="container">
           <div className="section-header-center">
@@ -609,7 +710,7 @@ export default function App() {
         </div>
       </section>
 
-      {/* 5. SHOP CATEGORY NAVIGATION RIBBON */}
+      {/* 6. SHOP CATEGORY NAVIGATION RIBBON */}
       <section id="shop-section" className="shop-cat-ribbon-section">
         <div className="container">
           <div className="shop-cat-ribbon-wrap">
@@ -696,7 +797,7 @@ export default function App() {
         </div>
       </section>
 
-      {/* 6. SHOP CONTROL TOOLBAR */}
+      {/* 7. SHOP CONTROL TOOLBAR */}
       <section className="shop-toolbar-section">
         <div className="container">
           <div className="shop-toolbar-bar">
@@ -711,7 +812,6 @@ export default function App() {
             </div>
 
             <div className="shop-toolbar-right">
-              {/* View Mode Switcher */}
               <div className="view-switcher-group">
                 <button 
                   className={`view-btn ${viewMode === 'cols-4' ? 'active' : ''}`}
@@ -743,7 +843,6 @@ export default function App() {
                 </button>
               </div>
 
-              {/* Sorting Select */}
               <select 
                 className="shop-select-box"
                 value={sortOption}
@@ -759,13 +858,12 @@ export default function App() {
         </div>
       </section>
 
-      {/* 7. SHOP MAIN LAYOUT */}
+      {/* 8. SHOP MAIN LAYOUT */}
       <main className="container">
         <div className={`shop-main-layout ${!isSidebarOpen ? 'no-sidebar' : ''}`}>
           {/* Left Sidebar Filter Drawer */}
           {isSidebarOpen && (
             <aside className="shop-sidebar">
-              {/* Price Range Filter */}
               <div className="filter-widget">
                 <h4 className="widget-title">
                   <span>Filter by Price</span>
@@ -795,7 +893,6 @@ export default function App() {
                 </span>
               </div>
 
-              {/* Preparation Style Filters */}
               <div className="filter-widget">
                 <h4 className="widget-title">Butcher Prep Style</h4>
                 <div className="filter-checkbox-list">
@@ -814,7 +911,6 @@ export default function App() {
                 </div>
               </div>
 
-              {/* Certification Guarantee */}
               <div className="filter-widget">
                 <h4 className="widget-title">Halal Certification</h4>
                 <label className="filter-checkbox-label">
@@ -830,7 +926,6 @@ export default function App() {
                 </label>
               </div>
 
-              {/* Reset Filters Action */}
               <button 
                 className="btn-outline-gold" 
                 style={{ width: '100%', justifyContent: 'center', padding: '0.6rem' }}
@@ -860,7 +955,6 @@ export default function App() {
               <div className={`products-grid-container ${viewMode}`}>
                 {filteredProducts.map((product) => (
                   <div key={product.id} className="product-card">
-                    {/* Image Container with Badges */}
                     <div className="product-img-wrapper">
                       <img src={product.image} alt={product.name} className="product-card-img" />
                       <div className="card-badges-stack">
@@ -868,7 +962,6 @@ export default function App() {
                         {product.badge && <span className="badge-sale">{product.badge}</span>}
                       </div>
 
-                      {/* Quick Hover Actions Bar */}
                       <div className="quick-actions-bar">
                         <button 
                           className="action-icon-btn" 
@@ -883,12 +976,10 @@ export default function App() {
                       </div>
                     </div>
 
-                    {/* Product Details */}
                     <div className="product-card-body">
                       <span className="product-sku-tag">SKU: {product.sku}</span>
                       <h3 className="product-title">{product.name}</h3>
 
-                      {/* Star Rating */}
                       <div className="rating-stars-wrap">
                         <div className="stars-group">
                           {[...Array(5)].map((_, i) => (
@@ -898,7 +989,6 @@ export default function App() {
                         <span className="rating-count">({product.reviews})</span>
                       </div>
 
-                      {/* Pricing */}
                       <div className="product-pricing-wrap">
                         <span className="current-price">${product.price.toFixed(2)}</span>
                         {product.originalPrice && (
@@ -907,13 +997,11 @@ export default function App() {
                         <span style={{ fontSize: '0.78rem', color: 'var(--text-muted)', marginLeft: 'auto' }}>/ lb</span>
                       </div>
 
-                      {/* Loyalty Reward Pill */}
                       <div className="loyalty-earn-pill">
                         <Award size={14} />
                         <span>Purchase & earn {product.points} peso point!</span>
                       </div>
 
-                      {/* Card Bottom Controls */}
                       <div className="card-bottom-controls">
                         <button 
                           className="btn-add-cart-card"
@@ -932,7 +1020,53 @@ export default function App() {
         </div>
       </main>
 
-      {/* 8. QUICK VIEW MODAL */}
+      {/* 9. DOORDASH MODAL DIALOG */}
+      {doordashModalOpen && (
+        <div className="modal-overlay" onClick={() => setDoordashModalOpen(false)}>
+          <div className="modal-content-box" onClick={(e) => e.stopPropagation()}>
+            <button className="modal-close-btn" onClick={() => setDoordashModalOpen(false)}>
+              <X size={20} />
+            </button>
+            <div style={{ textAlign: 'center', padding: '1rem 0' }}>
+              <div style={{ width: '64px', height: '64px', borderRadius: '50%', background: 'rgba(255, 48, 8, 0.15)', color: 'var(--doordash-red)', display: 'flex', alignItems: 'center', justify: 'center', margin: '0 auto 1.25rem auto' }}>
+                <Zap size={36} />
+              </div>
+              <h3 style={{ fontSize: '2rem', marginBottom: '0.5rem' }}>DoorDash Marketplace</h3>
+              <p style={{ color: 'var(--text-muted)', fontSize: '0.95rem', maxWidth: '520px', margin: '0 auto 1.5rem auto' }}>
+                Our butcher counter is actively listed on DoorDash for same-day delivery. Save $5 using code <strong style={{ color: 'var(--gold-accent)' }}>HALAL5</strong> at checkout.
+              </p>
+              
+              <div style={{ background: 'var(--bg-surface)', border: '1px solid var(--doordash-red)', padding: '1.5rem', borderRadius: 'var(--radius-md)', textAlign: 'left', marginBottom: '1.5rem' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.5rem' }}>
+                  <strong style={{ color: '#ffffff' }}>Store Status:</strong>
+                  <span style={{ color: '#4ade80', fontWeight: '700' }}>🟢 Open & Accepting Orders</span>
+                </div>
+                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.5rem' }}>
+                  <strong style={{ color: '#ffffff' }}>Estimated Prep Time:</strong>
+                  <span style={{ color: 'var(--text-light)' }}>15 - 20 mins</span>
+                </div>
+                <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                  <strong style={{ color: '#ffffff' }}>DoorDash Pass:</strong>
+                  <span style={{ color: 'var(--gold-accent)', fontWeight: '700' }}>$0 Delivery Fee Eligible</span>
+                </div>
+              </div>
+
+              <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center' }}>
+                <button 
+                  className="btn-doordash-red" 
+                  style={{ padding: '0.85rem 2rem' }}
+                  onClick={() => alert("Redirecting to DoorDash Storefront...")}
+                >
+                  <span>Open DoorDash Storefront</span>
+                  <ExternalLink size={16} />
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* 10. QUICK VIEW MODAL */}
       {quickViewProduct && (
         <div className="modal-overlay" onClick={() => setQuickViewProduct(null)}>
           <div className="modal-content-box" onClick={(e) => e.stopPropagation()}>
@@ -1014,7 +1148,7 @@ export default function App() {
         </div>
       )}
 
-      {/* 9. SIDE CART DRAWER */}
+      {/* 11. SIDE CART DRAWER */}
       {isCartOpen && (
         <div className="cart-drawer-overlay" onClick={() => setIsCartOpen(false)}>
           <div className="cart-drawer-panel" onClick={(e) => e.stopPropagation()}>
@@ -1104,7 +1238,7 @@ export default function App() {
         </div>
       )}
 
-      {/* 10. CHECKOUT MODAL */}
+      {/* 12. CHECKOUT MODAL */}
       {checkoutModalOpen && (
         <div className="modal-overlay" onClick={() => setCheckoutModalOpen(false)}>
           <div className="modal-content-box" onClick={(e) => e.stopPropagation()}>
@@ -1191,7 +1325,7 @@ export default function App() {
         </div>
       )}
 
-      {/* 11. OWNER PORTAL MODAL */}
+      {/* 13. OWNER PORTAL MODAL */}
       {ownerDashboardOpen && (
         <div className="modal-overlay" onClick={() => setOwnerDashboardOpen(false)}>
           <div className="modal-content-box" onClick={(e) => e.stopPropagation()}>
@@ -1209,7 +1343,7 @@ export default function App() {
         </div>
       )}
 
-      {/* 12. FOOTER */}
+      {/* 14. FOOTER */}
       <footer className="site-footer">
         <div className="container">
           <div className="footer-grid">
@@ -1237,12 +1371,12 @@ export default function App() {
             </div>
 
             <div className="footer-col">
-              <h4>Customer Support</h4>
+              <h4>Delivery Platforms</h4>
               <ul>
-                <li><span>Store Hours: 9 AM - 9 PM</span></li>
-                <li><span>Delivery Zone Check</span></li>
-                <li><span>Loyalty Club</span></li>
-                <li><span>Owner Access</span></li>
+                <li><a href="#doordash" onClick={() => setDoordashModalOpen(true)}>DoorDash Express</a></li>
+                <li><span>DashPass Eligible ($0 Fee)</span></li>
+                <li><span>30-45 Min Courier Delivery</span></li>
+                <li><span>Promo Code: HALAL5</span></li>
               </ul>
             </div>
 
@@ -1254,9 +1388,10 @@ export default function App() {
 
           <div className="footer-bottom">
             <span>© {new Date().getFullYear()} The Meat Grinder & Quality Halal Market. All rights reserved.</span>
-            <div style={{ display: 'flex', gap: '1rem' }}>
+            <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
               <ShieldCheck size={18} className="text-gold" />
               <span>100% Zabiha Guarantee</span>
+              <span style={{ color: 'var(--doordash-red)', fontWeight: '700', marginLeft: '1rem' }}>• DoorDash Partner</span>
             </div>
           </div>
         </div>

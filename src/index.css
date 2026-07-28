@@ -1,25 +1,28 @@
 /* 
    The Meat Grinder & Quality Halal Market - Green, Gold & Pitch Black Luxury Theme
-   Background: Obsidian Black
-   Headers & Main Branding: Emerald Green
-   Accents & Highlights: Radiant Gold
+   + DoorDash Integration & Marketing Banner System
 */
 
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,500;0,600;0,700;0,800;1,600&display=swap');
 
 :root {
-  /* Green Palette (Headers, Main Buttons, Badges, Brand Highlights) */
+  /* Green Palette */
   --primary-green: #16a34a;
   --primary-green-hover: #15803d;
   --primary-green-glow: rgba(22, 163, 74, 0.4);
   --emerald-bright: #22c55e;
   --emerald-dark: #064e3b;
   
-  /* Gold Palette (Accents, Icons, Stars, VIP Badges, Borders) */
+  /* Gold Palette */
   --gold-accent: #fbbf24;
   --gold-dark: #d97706;
   --gold-light: #fef08a;
   --gold-glow: rgba(251, 191, 36, 0.35);
+
+  /* DoorDash Brand Palette */
+  --doordash-red: #ff3008;
+  --doordash-red-hover: #e02600;
+  --doordash-glow: rgba(255, 48, 8, 0.4);
 
   /* Deep Pitch Black Background & Dark Accents */
   --bg-dark: #050608;
@@ -51,7 +54,7 @@
   --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.7);
   --shadow-lg: 0 16px 40px rgba(0, 0, 0, 0.9);
   --shadow-green: 0 10px 30px rgba(22, 163, 74, 0.3);
-  --shadow-gold: 0 10px 30px rgba(251, 191, 36, 0.25);
+  --shadow-doordash: 0 10px 30px rgba(255, 48, 8, 0.35);
 
   --transition-fast: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
   --transition-smooth: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
@@ -135,6 +138,9 @@ h1, h2, h3, h4, h5, h6 {
 }
 .text-gold {
   color: var(--gold-accent);
+}
+.text-doordash {
+  color: var(--doordash-red);
 }
 
 /* Top Announcement Bar */
@@ -251,6 +257,25 @@ h1, h2, h3, h4, h5, h6 {
   display: flex;
   align-items: center;
   gap: 1rem;
+}
+.doordash-header-badge {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(255, 48, 8, 0.12);
+  border: 1px solid var(--doordash-red);
+  padding: 0.45rem 0.9rem;
+  border-radius: var(--radius-full);
+  color: #ff6b4a;
+  font-size: 0.82rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: var(--transition-fast);
+}
+.doordash-header-badge:hover {
+  background: var(--doordash-red);
+  color: #ffffff;
+  box-shadow: var(--shadow-doordash);
 }
 .reward-badge-btn {
   display: flex;
@@ -384,6 +409,23 @@ h1, h2, h3, h4, h5, h6 {
   transform: translateY(-2px);
   box-shadow: 0 12px 30px rgba(22, 163, 74, 0.5);
 }
+.btn-doordash-red {
+  background: linear-gradient(135deg, var(--doordash-red) 0%, #c41e00 100%);
+  color: #ffffff;
+  padding: 0.85rem 1.8rem;
+  border-radius: var(--radius-full);
+  font-weight: 700;
+  font-size: 0.95rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  box-shadow: var(--shadow-doordash);
+  transition: var(--transition-smooth);
+}
+.btn-doordash-red:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 30px rgba(255, 48, 8, 0.5);
+}
 .btn-outline-gold {
   background: rgba(251, 191, 36, 0.08);
   border: 1px solid var(--gold-accent);
@@ -401,6 +443,81 @@ h1, h2, h3, h4, h5, h6 {
   background: var(--gold-accent);
   color: #000000;
   transform: translateY(-2px);
+}
+
+/* DoorDash Dedicated Section */
+.doordash-section {
+  padding: 5rem 0;
+  background: linear-gradient(180deg, var(--bg-surface) 0%, var(--bg-dark) 100%);
+  border-bottom: 1px solid var(--border-subtle);
+  position: relative;
+  overflow: hidden;
+}
+.doordash-card-box {
+  background: linear-gradient(135deg, #181b28 0%, #0e111a 100%);
+  border: 1px solid rgba(255, 48, 8, 0.4);
+  border-radius: var(--radius-lg);
+  padding: 3.5rem 3rem;
+  position: relative;
+  box-shadow: var(--shadow-lg), 0 0 35px rgba(255, 48, 8, 0.15);
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 3rem;
+  align-items: center;
+}
+.doordash-badge-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(255, 48, 8, 0.15);
+  border: 1px solid var(--doordash-red);
+  color: #ff7e63;
+  padding: 0.4rem 1rem;
+  border-radius: var(--radius-full);
+  font-size: 0.8rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 1rem;
+}
+.doordash-title {
+  font-size: 2.6rem;
+  font-weight: 800;
+  line-height: 1.15;
+  margin-bottom: 1rem;
+}
+.doordash-features-list {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem;
+  margin: 1.75rem 0 2.25rem 0;
+}
+.doordash-feature-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  background: rgba(10, 12, 18, 0.6);
+  padding: 0.85rem;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-subtle);
+}
+.doordash-feature-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(255, 48, 8, 0.2);
+  color: var(--doordash-red);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.doordash-promo-code-box {
+  background: rgba(251, 191, 36, 0.1);
+  border: 1px dashed var(--gold-accent);
+  border-radius: var(--radius-md);
+  padding: 1.25rem;
+  text-align: center;
 }
 
 /* Category Photo Showcase Section */
@@ -1213,6 +1330,10 @@ h1, h2, h3, h4, h5, h6 {
   .products-grid-container.cols-3 {
     grid-template-columns: repeat(2, 1fr);
   }
+  .doordash-card-box {
+    grid-template-columns: 1fr;
+    padding: 2.5rem 1.5rem;
+  }
   .shop-main-layout {
     grid-template-columns: 1fr;
   }
@@ -1231,6 +1352,9 @@ h1, h2, h3, h4, h5, h6 {
   .products-grid-container.cols-4,
   .products-grid-container.cols-3,
   .products-grid-container.cols-2 {
+    grid-template-columns: 1fr;
+  }
+  .doordash-features-list {
     grid-template-columns: 1fr;
   }
   .header-main {

@@ -461,27 +461,32 @@ export default function App() {
     <div className="site-wrapper">
       {/* 1. TOP ANNOUNCEMENT BAR */}
       <div className="announcement-bar">
-        <div className="container" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
-          <div className="announcement-ticker">
-            <span className="announcement-item">
-              <ShieldCheck size={16} className="text-gold" />
-              100% Hand-Slaughtered Zabiha Halal Guarantee
-            </span>
-            <span className="announcement-item" style={{ marginLeft: '1.5rem' }}>
-              <Truck size={16} />
-              Free Same-Day Express Delivery on orders over ${freeDeliveryThreshold}
-            </span>
-          </div>
-          <div style={{ display: 'flex', gap: '1.5rem', alignItems: 'center' }}>
-            <span style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
-              <MapPin size={14} className="text-gold" /> 12920 W Parmer Ln #106, Cedar Park, TX
-            </span>
-            <span style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
-              <Clock size={14} /> Open Daily: 9:00 AM - 9:00 PM
-            </span>
-            <span style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
-              <Phone size={14} className="text-gold" /> (512) 260-7677
-            </span>
+        <div className="container">
+          <div className="announcement-flex-wrap">
+            <div className="announcement-group-left">
+              <span className="announcement-item">
+                <ShieldCheck size={16} className="text-gold" />
+                <span>100% Hand-Slaughtered Zabiha Halal</span>
+              </span>
+              <span className="announcement-item">
+                <Truck size={16} />
+                <span>Free Express Delivery ${freeDeliveryThreshold}+</span>
+              </span>
+            </div>
+
+            <div className="announcement-group-right">
+              <span className="announcement-item">
+                <MapPin size={14} className="text-gold" />
+                <span>12920 W Parmer Ln #106, Cedar Park, TX</span>
+              </span>
+              <span className="announcement-item">
+                <Clock size={14} />
+                <span>Daily: 9:00 AM - 9:00 PM</span>
+              </span>
+              <span className="announcement-phone-pill">
+                <Phone size={13} /> (512) 260-7677
+              </span>
+            </div>
           </div>
         </div>
       </div>

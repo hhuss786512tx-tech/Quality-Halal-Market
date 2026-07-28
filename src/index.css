@@ -1,29 +1,36 @@
 /* 
-   The Meat Grinder & Quality Halal Market - Remodeled Design System
-   Combines Photo Structure from themeatgrindermarket.com & Shop Template from premiumchoicemeatshop.com
-   Vanilla CSS - Modern Luxury Dark & Vibrant Butchery Aesthetic
+   The Meat Grinder & Quality Halal Market - Green, Gold & Pitch Black Luxury Theme
+   Background: Obsidian Black
+   Headers & Main Branding: Emerald Green
+   Accents & Highlights: Radiant Gold
 */
 
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,500;0,600;0,700;0,800;1,600&display=swap');
 
 :root {
-  /* Color Palette */
-  --primary-red: #dc2626;
-  --primary-red-hover: #b91c1c;
-  --primary-red-glow: rgba(220, 38, 38, 0.4);
+  /* Green Palette (Headers, Main Buttons, Badges, Brand Highlights) */
+  --primary-green: #16a34a;
+  --primary-green-hover: #15803d;
+  --primary-green-glow: rgba(22, 163, 74, 0.4);
+  --emerald-bright: #22c55e;
+  --emerald-dark: #064e3b;
   
-  --gold-accent: #f59e0b;
+  /* Gold Palette (Accents, Icons, Stars, VIP Badges, Borders) */
+  --gold-accent: #fbbf24;
   --gold-dark: #d97706;
-  --gold-glow: rgba(245, 158, 11, 0.3);
+  --gold-light: #fef08a;
+  --gold-glow: rgba(251, 191, 36, 0.35);
 
-  --bg-dark: #0a0b0e;
-  --bg-surface: #12141a;
-  --bg-card: #181b24;
-  --bg-card-hover: #202430;
-  --bg-input: #0f1117;
+  /* Deep Pitch Black Background & Dark Accents */
+  --bg-dark: #050608;
+  --bg-surface: #0e1017;
+  --bg-card: #131722;
+  --bg-card-hover: #1b202e;
+  --bg-input: #0a0c12;
   
   --border-subtle: rgba(255, 255, 255, 0.08);
-  --border-active: rgba(220, 38, 38, 0.5);
+  --border-gold: rgba(251, 191, 36, 0.4);
+  --border-active: rgba(22, 163, 74, 0.6);
 
   --text-white: #ffffff;
   --text-light: #e2e8f0;
@@ -40,10 +47,11 @@
   --radius-lg: 20px;
   --radius-full: 9999px;
 
-  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.4);
-  --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.6);
-  --shadow-lg: 0 16px 40px rgba(0, 0, 0, 0.8);
-  --shadow-red: 0 10px 30px rgba(220, 38, 38, 0.25);
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.5);
+  --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.7);
+  --shadow-lg: 0 16px 40px rgba(0, 0, 0, 0.9);
+  --shadow-green: 0 10px 30px rgba(22, 163, 74, 0.3);
+  --shadow-gold: 0 10px 30px rgba(251, 191, 36, 0.25);
 
   --transition-fast: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
   --transition-smooth: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
@@ -68,8 +76,8 @@ body {
   line-height: 1.5;
   overflow-x: hidden;
   background-image: 
-    radial-gradient(circle at 15% 15%, rgba(220, 38, 38, 0.04) 0%, transparent 40%),
-    radial-gradient(circle at 85% 75%, rgba(245, 158, 11, 0.03) 0%, transparent 40%);
+    radial-gradient(circle at 15% 15%, rgba(22, 163, 74, 0.05) 0%, transparent 40%),
+    radial-gradient(circle at 85% 75%, rgba(251, 191, 36, 0.04) 0%, transparent 40%);
   background-attachment: fixed;
 }
 
@@ -100,11 +108,11 @@ img {
   background: var(--bg-dark);
 }
 ::-webkit-scrollbar-thumb {
-  background: #334155;
+  background: #1e293b;
   border-radius: var(--radius-full);
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--primary-red);
+  background: var(--primary-green);
 }
 
 /* Layout Utilities */
@@ -122,8 +130,8 @@ h1, h2, h3, h4, h5, h6 {
   letter-spacing: -0.01em;
 }
 
-.text-red {
-  color: var(--primary-red);
+.text-green {
+  color: var(--emerald-bright);
 }
 .text-gold {
   color: var(--gold-accent);
@@ -131,7 +139,7 @@ h1, h2, h3, h4, h5, h6 {
 
 /* Top Announcement Bar */
 .announcement-bar {
-  background: linear-gradient(90deg, #991b1b 0%, #dc2626 50%, #b91c1c 100%);
+  background: linear-gradient(90deg, #064e3b 0%, #15803d 50%, #047857 100%);
   color: #ffffff;
   padding: 0.5rem 1rem;
   font-size: 0.85rem;
@@ -140,7 +148,7 @@ h1, h2, h3, h4, h5, h6 {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+  border-bottom: 1px solid rgba(251, 191, 36, 0.3);
 }
 .announcement-ticker {
   display: flex;
@@ -160,7 +168,7 @@ h1, h2, h3, h4, h5, h6 {
   position: sticky;
   top: 0;
   z-index: 900;
-  background: rgba(10, 11, 14, 0.92);
+  background: rgba(5, 6, 8, 0.94);
   backdrop-filter: blur(16px);
   border-bottom: 1px solid var(--border-subtle);
 }
@@ -180,12 +188,13 @@ h1, h2, h3, h4, h5, h6 {
   width: 44px;
   height: 44px;
   border-radius: var(--radius-md);
-  background: linear-gradient(135deg, var(--primary-red) 0%, #7f1d1d 100%);
+  background: linear-gradient(135deg, var(--primary-green) 0%, #064e3b 100%);
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--text-white);
-  box-shadow: var(--shadow-red);
+  color: var(--gold-accent);
+  border: 1px solid var(--gold-accent);
+  box-shadow: var(--shadow-green);
 }
 .logo-text-group h1 {
   font-size: 1.35rem;
@@ -193,17 +202,17 @@ h1, h2, h3, h4, h5, h6 {
   line-height: 1.1;
   text-transform: uppercase;
   letter-spacing: 0.04em;
-  background: linear-gradient(135deg, #ffffff 0%, #cbd5e1 100%);
+  background: linear-gradient(135deg, #ffffff 0%, #4ade80 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 .logo-text-group span {
   font-family: var(--font-sans);
   font-size: 0.7rem;
-  font-weight: 600;
+  font-weight: 700;
   color: var(--gold-accent);
   text-transform: uppercase;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.14em;
   display: block;
 }
 
@@ -225,15 +234,15 @@ h1, h2, h3, h4, h5, h6 {
 }
 .header-search-input:focus {
   outline: none;
-  border-color: var(--primary-red);
-  box-shadow: 0 0 0 3px var(--primary-red-glow);
+  border-color: var(--primary-green);
+  box-shadow: 0 0 0 3px var(--primary-green-glow);
 }
 .header-search-icon {
   position: absolute;
   left: 1rem;
   top: 50%;
   transform: translateY(-50%);
-  color: var(--text-muted);
+  color: var(--gold-accent);
   pointer-events: none;
 }
 
@@ -247,31 +256,32 @@ h1, h2, h3, h4, h5, h6 {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  background: rgba(245, 158, 11, 0.1);
-  border: 1px solid rgba(245, 158, 11, 0.3);
+  background: rgba(251, 191, 36, 0.1);
+  border: 1px solid var(--gold-accent);
   padding: 0.45rem 0.9rem;
   border-radius: var(--radius-full);
   color: var(--gold-accent);
   font-size: 0.82rem;
-  font-weight: 600;
+  font-weight: 700;
 }
 .cart-header-btn {
   position: relative;
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  background: linear-gradient(135deg, var(--primary-red) 0%, #b91c1c 100%);
+  background: linear-gradient(135deg, var(--primary-green) 0%, #15803d 100%);
   color: #ffffff;
   padding: 0.55rem 1.25rem;
   border-radius: var(--radius-full);
   font-weight: 700;
   font-size: 0.9rem;
-  box-shadow: var(--shadow-red);
+  border: 1px solid rgba(251, 191, 36, 0.4);
+  box-shadow: var(--shadow-green);
   transition: var(--transition-smooth);
 }
 .cart-header-btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 12px 28px rgba(220, 38, 38, 0.4);
+  box-shadow: 0 12px 28px rgba(22, 163, 74, 0.45);
 }
 .cart-badge-count {
   position: absolute;
@@ -290,13 +300,13 @@ h1, h2, h3, h4, h5, h6 {
   border: 2px solid var(--bg-dark);
 }
 
-/* Hero Section (Guided by themeatgrindermarket.com) */
+/* Hero Section */
 .hero-section {
   position: relative;
   min-height: 480px;
   display: flex;
   align-items: center;
-  background: radial-gradient(circle at center, rgba(10, 11, 14, 0.4) 0%, rgba(10, 11, 14, 0.95) 100%);
+  background: radial-gradient(circle at center, rgba(5, 6, 8, 0.4) 0%, rgba(5, 6, 8, 0.95) 100%);
   border-bottom: 1px solid var(--border-subtle);
   overflow: hidden;
 }
@@ -307,7 +317,7 @@ h1, h2, h3, h4, h5, h6 {
   height: 100%;
   object-fit: cover;
   opacity: 0.35;
-  filter: brightness(0.7) contrast(1.1);
+  filter: brightness(0.65) contrast(1.1);
   transform: scale(1.05);
   transition: transform 10s ease;
 }
@@ -324,9 +334,9 @@ h1, h2, h3, h4, h5, h6 {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  background: rgba(220, 38, 38, 0.15);
-  border: 1px solid var(--primary-red);
-  color: #fca5a5;
+  background: rgba(22, 163, 74, 0.15);
+  border: 1px solid var(--primary-green);
+  color: #86efac;
   padding: 0.4rem 1rem;
   border-radius: var(--radius-full);
   font-size: 0.8rem;
@@ -340,7 +350,7 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: 800;
   line-height: 1.1;
   margin-bottom: 1.25rem;
-  background: linear-gradient(135deg, #ffffff 30%, #e2e8f0 100%);
+  background: linear-gradient(135deg, #ffffff 40%, #86efac 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -356,8 +366,8 @@ h1, h2, h3, h4, h5, h6 {
   gap: 1.25rem;
   flex-wrap: wrap;
 }
-.btn-primary-red {
-  background: linear-gradient(135deg, var(--primary-red) 0%, #b91c1c 100%);
+.btn-primary-green {
+  background: linear-gradient(135deg, var(--primary-green) 0%, #15803d 100%);
   color: #ffffff;
   padding: 0.9rem 2rem;
   border-radius: var(--radius-full);
@@ -366,15 +376,16 @@ h1, h2, h3, h4, h5, h6 {
   display: inline-flex;
   align-items: center;
   gap: 0.6rem;
-  box-shadow: var(--shadow-red);
+  border: 1px solid rgba(251, 191, 36, 0.3);
+  box-shadow: var(--shadow-green);
   transition: var(--transition-smooth);
 }
-.btn-primary-red:hover {
+.btn-primary-green:hover {
   transform: translateY(-2px);
-  box-shadow: 0 12px 30px rgba(220, 38, 38, 0.5);
+  box-shadow: 0 12px 30px rgba(22, 163, 74, 0.5);
 }
 .btn-outline-gold {
-  background: rgba(245, 158, 11, 0.08);
+  background: rgba(251, 191, 36, 0.08);
   border: 1px solid var(--gold-accent);
   color: var(--gold-accent);
   padding: 0.85rem 1.8rem;
@@ -392,7 +403,7 @@ h1, h2, h3, h4, h5, h6 {
   transform: translateY(-2px);
 }
 
-/* Category Photo Showcase Section (Guided by themeatgrindermarket.com) */
+/* Category Photo Showcase Section */
 .categories-showcase-section {
   padding: 4rem 0 3rem 0;
   border-bottom: 1px solid var(--border-subtle);
@@ -403,7 +414,7 @@ h1, h2, h3, h4, h5, h6 {
   margin: 0 auto 3rem auto;
 }
 .section-tag {
-  color: var(--primary-red);
+  color: var(--gold-accent);
   font-size: 0.82rem;
   font-weight: 800;
   text-transform: uppercase;
@@ -439,8 +450,8 @@ h1, h2, h3, h4, h5, h6 {
 }
 .photo-category-card:hover {
   transform: translateY(-6px);
-  border-color: var(--primary-red);
-  box-shadow: var(--shadow-md), 0 0 20px rgba(220, 38, 38, 0.2);
+  border-color: var(--gold-accent);
+  box-shadow: var(--shadow-md), 0 0 22px rgba(22, 163, 74, 0.3);
 }
 .photo-category-img {
   width: 100%;
@@ -454,7 +465,7 @@ h1, h2, h3, h4, h5, h6 {
 .photo-category-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, rgba(10, 11, 14, 0.1) 0%, rgba(10, 11, 14, 0.88) 100%);
+  background: linear-gradient(180deg, rgba(5, 6, 8, 0.1) 0%, rgba(5, 6, 8, 0.92) 100%);
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
@@ -464,12 +475,12 @@ h1, h2, h3, h4, h5, h6 {
   position: absolute;
   top: 1rem;
   left: 1rem;
-  background: rgba(10, 11, 14, 0.75);
+  background: rgba(5, 6, 8, 0.85);
   backdrop-filter: blur(8px);
   border: 1px solid var(--gold-accent);
   color: var(--gold-accent);
   font-size: 0.72rem;
-  font-weight: 700;
+  font-weight: 800;
   padding: 0.25rem 0.65rem;
   border-radius: var(--radius-full);
   text-transform: uppercase;
@@ -491,7 +502,7 @@ h1, h2, h3, h4, h5, h6 {
   width: 28px;
   height: 28px;
   border-radius: 50%;
-  background: var(--primary-red);
+  background: var(--primary-green);
   color: #ffffff;
   display: flex;
   align-items: center;
@@ -500,9 +511,11 @@ h1, h2, h3, h4, h5, h6 {
 }
 .photo-category-card:hover .photo-category-arrow {
   transform: translateX(4px);
+  background: var(--gold-accent);
+  color: #000000;
 }
 
-/* Category Navigation Ribbon (Guided by premiumchoicemeatshop.com/shop/) */
+/* Category Navigation Ribbon */
 .shop-cat-ribbon-section {
   background: var(--bg-surface);
   border-bottom: 1px solid var(--border-subtle);
@@ -535,31 +548,32 @@ h1, h2, h3, h4, h5, h6 {
 }
 .shop-cat-pill:hover {
   background: var(--bg-card-hover);
-  border-color: var(--primary-red);
+  border-color: var(--primary-green);
   color: #ffffff;
 }
 .shop-cat-pill.active {
-  background: linear-gradient(135deg, var(--primary-red) 0%, #b91c1c 100%);
-  border-color: var(--primary-red);
+  background: linear-gradient(135deg, var(--primary-green) 0%, #15803d 100%);
+  border-color: var(--gold-accent);
   color: #ffffff;
-  box-shadow: var(--shadow-red);
+  box-shadow: var(--shadow-green);
 }
 .shop-cat-icon-thumb {
   width: 28px;
   height: 28px;
   border-radius: 50%;
   object-fit: cover;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: 1px solid var(--gold-accent);
 }
 .shop-cat-count-badge {
   font-size: 0.75rem;
-  opacity: 0.8;
-  background: rgba(0, 0, 0, 0.3);
+  opacity: 0.9;
+  background: rgba(0, 0, 0, 0.4);
+  color: var(--gold-accent);
   padding: 0.15rem 0.5rem;
   border-radius: var(--radius-full);
 }
 
-/* Shop Toolbar Controls Bar (Guided by premiumchoicemeatshop.com/shop/) */
+/* Shop Toolbar Controls Bar */
 .shop-toolbar-bar {
   display: flex;
   align-items: center;
@@ -588,8 +602,8 @@ h1, h2, h3, h4, h5, h6 {
   transition: var(--transition-fast);
 }
 .btn-filter-drawer:hover {
-  border-color: var(--primary-red);
-  color: var(--primary-red);
+  border-color: var(--primary-green);
+  color: var(--emerald-bright);
 }
 .results-count-text {
   color: var(--text-muted);
@@ -615,8 +629,8 @@ h1, h2, h3, h4, h5, h6 {
   transition: var(--transition-fast);
 }
 .view-btn.active, .view-btn:hover {
-  background: rgba(220, 38, 38, 0.2);
-  color: var(--primary-red);
+  background: rgba(22, 163, 74, 0.2);
+  color: var(--emerald-bright);
 }
 .shop-select-box {
   background: var(--bg-card);
@@ -630,7 +644,7 @@ h1, h2, h3, h4, h5, h6 {
   cursor: pointer;
 }
 .shop-select-box:focus {
-  border-color: var(--primary-red);
+  border-color: var(--primary-green);
 }
 
 /* Shop Main Layout Container */
@@ -698,7 +712,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 .price-slider-bar {
   width: 100%;
-  accent-color: var(--primary-red);
+  accent-color: var(--primary-green);
 }
 
 /* Checkbox Filter Options */
@@ -717,14 +731,14 @@ h1, h2, h3, h4, h5, h6 {
   transition: var(--transition-fast);
 }
 .filter-checkbox-label:hover {
-  color: var(--primary-red);
+  color: var(--emerald-bright);
 }
 .filter-checkbox-label input {
-  accent-color: var(--primary-red);
+  accent-color: var(--primary-green);
   margin-right: 0.6rem;
 }
 
-/* Product Card Template (Guided by premiumchoicemeatshop.com/shop/) */
+/* Product Card Template */
 .products-grid-container {
   display: grid;
   gap: 1.5rem;
@@ -754,8 +768,8 @@ h1, h2, h3, h4, h5, h6 {
 }
 .product-card:hover {
   transform: translateY(-5px);
-  border-color: rgba(220, 38, 38, 0.4);
-  box-shadow: var(--shadow-md), 0 0 20px rgba(0, 0, 0, 0.5);
+  border-color: rgba(251, 191, 36, 0.5);
+  box-shadow: var(--shadow-md), 0 0 22px rgba(22, 163, 74, 0.25);
 }
 
 /* List view modification */
@@ -799,8 +813,9 @@ h1, h2, h3, h4, h5, h6 {
   z-index: 10;
 }
 .badge-halal {
-  background: linear-gradient(135deg, #15803d 0%, #166534 100%);
+  background: linear-gradient(135deg, #15803d 0%, #064e3b 100%);
   color: #ffffff;
+  border: 1px solid var(--gold-accent);
   font-size: 0.68rem;
   font-weight: 800;
   padding: 0.2rem 0.55rem;
@@ -809,8 +824,8 @@ h1, h2, h3, h4, h5, h6 {
   letter-spacing: 0.04em;
 }
 .badge-sale {
-  background: linear-gradient(135deg, var(--primary-red) 0%, #b91c1c 100%);
-  color: #ffffff;
+  background: linear-gradient(135deg, var(--gold-accent) 0%, var(--gold-dark) 100%);
+  color: #000000;
   font-size: 0.68rem;
   font-weight: 800;
   padding: 0.2rem 0.55rem;
@@ -824,7 +839,7 @@ h1, h2, h3, h4, h5, h6 {
   bottom: -45px;
   left: 0;
   right: 0;
-  background: rgba(10, 11, 14, 0.88);
+  background: rgba(5, 6, 8, 0.9);
   backdrop-filter: blur(8px);
   display: flex;
   align-items: center;
@@ -850,8 +865,9 @@ h1, h2, h3, h4, h5, h6 {
   border: 1px solid var(--border-subtle);
 }
 .action-icon-btn:hover {
-  background: var(--primary-red);
+  background: var(--primary-green);
   color: #ffffff;
+  border-color: var(--gold-accent);
 }
 
 /* Product Card Details Body */
@@ -902,7 +918,7 @@ h1, h2, h3, h4, h5, h6 {
 .current-price {
   font-size: 1.25rem;
   font-weight: 800;
-  color: var(--primary-red);
+  color: var(--emerald-bright);
 }
 .old-price {
   font-size: 0.9rem;
@@ -910,8 +926,8 @@ h1, h2, h3, h4, h5, h6 {
   text-decoration: line-through;
 }
 .loyalty-earn-pill {
-  background: rgba(245, 158, 11, 0.1);
-  border: 1px dashed rgba(245, 158, 11, 0.4);
+  background: rgba(251, 191, 36, 0.1);
+  border: 1px dashed rgba(251, 191, 36, 0.4);
   color: var(--gold-accent);
   font-size: 0.75rem;
   font-weight: 600;
@@ -941,8 +957,9 @@ h1, h2, h3, h4, h5, h6 {
 }
 .btn-add-cart-card {
   flex: 1;
-  background: linear-gradient(135deg, var(--primary-red) 0%, #b91c1c 100%);
+  background: linear-gradient(135deg, var(--primary-green) 0%, #15803d 100%);
   color: #ffffff;
+  border: 1px solid rgba(251, 191, 36, 0.3);
   border-radius: var(--radius-sm);
   padding: 0.55rem 0.75rem;
   font-weight: 700;
@@ -954,8 +971,8 @@ h1, h2, h3, h4, h5, h6 {
   transition: var(--transition-fast);
 }
 .btn-add-cart-card:hover {
-  background: var(--primary-red-hover);
-  box-shadow: var(--shadow-red);
+  background: var(--primary-green-hover);
+  box-shadow: var(--shadow-green);
 }
 
 /* Modal Windows & Drawers */
@@ -963,7 +980,7 @@ h1, h2, h3, h4, h5, h6 {
   position: fixed;
   inset: 0;
   z-index: 1000;
-  background: rgba(0, 0, 0, 0.75);
+  background: rgba(0, 0, 0, 0.8);
   backdrop-filter: blur(8px);
   display: flex;
   align-items: center;
@@ -978,7 +995,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .modal-content-box {
   background: var(--bg-card);
-  border: 1px solid var(--border-subtle);
+  border: 1px solid var(--border-gold);
   border-radius: var(--radius-lg);
   max-width: 840px;
   width: 100%;
@@ -1004,7 +1021,8 @@ h1, h2, h3, h4, h5, h6 {
   transition: var(--transition-fast);
 }
 .modal-close-btn:hover {
-  background: var(--primary-red);
+  background: var(--primary-green);
+  border-color: var(--gold-accent);
 }
 
 /* Side Cart Drawer */
@@ -1012,7 +1030,7 @@ h1, h2, h3, h4, h5, h6 {
   position: fixed;
   inset: 0;
   z-index: 1000;
-  background: rgba(0, 0, 0, 0.75);
+  background: rgba(0, 0, 0, 0.8);
   backdrop-filter: blur(8px);
   display: flex;
   justify-content: flex-end;
@@ -1025,7 +1043,7 @@ h1, h2, h3, h4, h5, h6 {
   display: flex;
   flex-direction: column;
   box-shadow: var(--shadow-lg);
-  border-left: 1px solid var(--border-subtle);
+  border-left: 1px solid var(--border-gold);
   animation: slideLeft 0.3s ease;
 }
 @keyframes slideLeft {
@@ -1043,6 +1061,7 @@ h1, h2, h3, h4, h5, h6 {
 .cart-drawer-title {
   font-size: 1.25rem;
   font-weight: 700;
+  color: var(--text-white);
 }
 .free-shipping-bar-wrap {
   background: var(--bg-card);
@@ -1065,7 +1084,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 .free-shipping-progress-fill {
   height: 100%;
-  background: linear-gradient(90deg, var(--gold-accent) 0%, var(--primary-red) 100%);
+  background: linear-gradient(90deg, var(--gold-accent) 0%, var(--primary-green) 100%);
   transition: width 0.4s ease;
 }
 
@@ -1091,6 +1110,7 @@ h1, h2, h3, h4, h5, h6 {
   height: 70px;
   border-radius: var(--radius-sm);
   object-fit: cover;
+  border: 1px solid var(--border-gold);
 }
 .cart-item-info {
   flex: 1;
@@ -1151,7 +1171,7 @@ h1, h2, h3, h4, h5, h6 {
 
 /* Footer Section */
 .site-footer {
-  background: #060709;
+  background: #030405;
   border-top: 1px solid var(--border-subtle);
   padding: 4rem 0 2rem 0;
   color: var(--text-muted);

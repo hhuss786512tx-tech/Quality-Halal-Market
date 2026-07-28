@@ -327,8 +327,6 @@ export default function App() {
   
   // User Profile & Zip Verification
   const [userPoints, setUserPoints] = useState(120);
-  const [zipCode, setZipCode] = useState('77001');
-  const [zipMessage, setZipMessage] = useState('✓ Same-Day Express Delivery Available');
 
   // Checkout Form State
   const [customerInfo, setCustomerInfo] = useState({
@@ -337,7 +335,7 @@ export default function App() {
     address: '',
     date: '2026-07-29',
     time: '12:00 PM - 2:00 PM',
-    fulfillment: 'delivery', // delivery or pickup
+    fulfillment: 'delivery',
     notes: ''
   });
 
@@ -363,9 +361,7 @@ export default function App() {
   // Filtered Products
   const filteredProducts = useMemo(() => {
     return products.filter(p => {
-      // Category filter
       if (activeCategory !== 'All' && p.category !== activeCategory) return false;
-      // Search filter
       if (searchQuery.trim() !== '') {
         const q = searchQuery.toLowerCase();
         const matchesName = p.name.toLowerCase().includes(q);
@@ -373,11 +369,8 @@ export default function App() {
         const matchesSku = p.sku.toLowerCase().includes(q);
         if (!matchesName && !matchesCat && !matchesSku) return false;
       }
-      // Price filter
       if (p.price > priceMaxFilter) return false;
-      // Prep type filter
       if (selectedPreps.length > 0 && !selectedPreps.includes(p.prepType)) return false;
-      // Halal filter
       if (onlyHalalFilter && !p.isHalal) return false;
 
       return true;
@@ -546,7 +539,7 @@ export default function App() {
         </div>
       </header>
 
-      {/* 3. HERO BANNER SECTION (Guided by themeatgrindermarket.com) */}
+      {/* 3. HERO BANNER SECTION */}
       <section className="hero-section">
         <img src={heroBanner} alt="The Meat Grinder Artisanal Counter" className="hero-bg-img" />
         <div className="container">
@@ -561,7 +554,7 @@ export default function App() {
               Sourcing the finest hand-slaughtered Zabiha goat, lamb, beef, chicken, and marinated BBQ botis. Custom cut and trimmed to order by certified master butchers.
             </p>
             <div className="hero-actions">
-              <button className="btn-primary-red" onClick={() => {
+              <button className="btn-primary-green" onClick={() => {
                 const el = document.getElementById('shop-section');
                 if (el) el.scrollIntoView({ behavior: 'smooth' });
               }}>
@@ -579,7 +572,7 @@ export default function App() {
         </div>
       </section>
 
-      {/* 4. PHOTOGRAPHIC CATEGORIES SHOWCASE GRID (Guided by themeatgrindermarket.com photo structure) */}
+      {/* 4. PHOTOGRAPHIC CATEGORIES SHOWCASE GRID */}
       <section id="categories-section" className="categories-showcase-section">
         <div className="container">
           <div className="section-header-center">
@@ -616,7 +609,7 @@ export default function App() {
         </div>
       </section>
 
-      {/* 5. SHOP CATEGORY NAVIGATION RIBBON (Guided by premiumchoicemeatshop.com/shop/) */}
+      {/* 5. SHOP CATEGORY NAVIGATION RIBBON */}
       <section id="shop-section" className="shop-cat-ribbon-section">
         <div className="container">
           <div className="shop-cat-ribbon-wrap">
@@ -703,7 +696,7 @@ export default function App() {
         </div>
       </section>
 
-      {/* 6. SHOP CONTROL TOOLBAR (Guided by premiumchoicemeatshop.com/shop/) */}
+      {/* 6. SHOP CONTROL TOOLBAR */}
       <section className="shop-toolbar-section">
         <div className="container">
           <div className="shop-toolbar-bar">
@@ -766,7 +759,7 @@ export default function App() {
         </div>
       </section>
 
-      {/* 7. SHOP MAIN LAYOUT: SIDEBAR + PRODUCT GRID */}
+      {/* 7. SHOP MAIN LAYOUT */}
       <main className="container">
         <div className={`shop-main-layout ${!isSidebarOpen ? 'no-sidebar' : ''}`}>
           {/* Left Sidebar Filter Drawer */}
@@ -855,7 +848,7 @@ export default function App() {
             </aside>
           )}
 
-          {/* Product Cards Grid (Guided by premiumchoicemeatshop.com/shop/) */}
+          {/* Product Cards Grid */}
           <section className="shop-products-column">
             {filteredProducts.length === 0 ? (
               <div style={{ textAlign: 'center', padding: '4rem 2rem', background: 'var(--bg-card)', borderRadius: 'var(--radius-md)' }}>
@@ -939,7 +932,7 @@ export default function App() {
         </div>
       </main>
 
-      {/* 8. QUICK VIEW & CUSTOM BUTCHER PREP MODAL */}
+      {/* 8. QUICK VIEW MODAL */}
       {quickViewProduct && (
         <div className="modal-overlay" onClick={() => setQuickViewProduct(null)}>
           <div className="modal-content-box" onClick={(e) => e.stopPropagation()}>
@@ -948,7 +941,6 @@ export default function App() {
             </button>
 
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2rem' }}>
-              {/* Left Column: Image */}
               <div>
                 <img 
                   src={quickViewProduct.image} 
@@ -965,7 +957,6 @@ export default function App() {
                 </div>
               </div>
 
-              {/* Right Column: Custom Butcher Options */}
               <div>
                 <span className="product-sku-tag">SKU: {quickViewProduct.sku}</span>
                 <h2 style={{ fontSize: '1.6rem', marginBottom: '0.5rem' }}>{quickViewProduct.name}</h2>
@@ -978,7 +969,6 @@ export default function App() {
                   <span style={{ color: 'var(--text-muted)' }}>/ lb</span>
                 </div>
 
-                {/* Weight Selection */}
                 <div style={{ marginBottom: '1.25rem' }}>
                   <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: '700', marginBottom: '0.4rem' }}>Select Quantity / Weight</label>
                   <select 
@@ -994,7 +984,6 @@ export default function App() {
                   </select>
                 </div>
 
-                {/* Butcher Prep Style */}
                 <div style={{ marginBottom: '1.25rem' }}>
                   <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: '700', marginBottom: '0.4rem' }}>Custom Cut Style</label>
                   <select 
@@ -1011,9 +1000,8 @@ export default function App() {
                   </select>
                 </div>
 
-                {/* Add to Cart Button */}
                 <button 
-                  className="btn-primary-red" 
+                  className="btn-primary-green" 
                   style={{ width: '100%', justifyContent: 'center', padding: '1rem' }}
                   onClick={() => handleAddToCart(quickViewProduct, customPrepOptions)}
                 >
@@ -1037,7 +1025,6 @@ export default function App() {
               </button>
             </div>
 
-            {/* Free Shipping Progress Bar */}
             <div className="free-shipping-bar-wrap">
               <div className="free-shipping-text">
                 <span>
@@ -1052,7 +1039,6 @@ export default function App() {
               </div>
             </div>
 
-            {/* Cart Items List */}
             <div className="cart-drawer-items-list">
               {cart.length === 0 ? (
                 <div style={{ textAlign: 'center', padding: '3rem 1rem', color: 'var(--text-muted)' }}>
@@ -1086,7 +1072,6 @@ export default function App() {
               )}
             </div>
 
-            {/* Cart Drawer Footer */}
             {cart.length > 0 && (
               <div className="cart-drawer-footer">
                 <div className="cart-summary-line">
@@ -1099,11 +1084,11 @@ export default function App() {
                 </div>
                 <div className="cart-summary-line total">
                   <span>Total</span>
-                  <span className="text-red">${(cartSubtotal + (cartSubtotal >= freeDeliveryThreshold ? 0 : 9.99)).toFixed(2)}</span>
+                  <span className="text-green">${(cartSubtotal + (cartSubtotal >= freeDeliveryThreshold ? 0 : 9.99)).toFixed(2)}</span>
                 </div>
 
                 <button 
-                  className="btn-primary-red" 
+                  className="btn-primary-green" 
                   style={{ width: '100%', justifyContent: 'center', marginTop: '1.25rem', padding: '1rem' }}
                   onClick={() => {
                     setIsCartOpen(false);
@@ -1119,7 +1104,7 @@ export default function App() {
         </div>
       )}
 
-      {/* 10. CHECKOUT & RECEIPT MODAL */}
+      {/* 10. CHECKOUT MODAL */}
       {checkoutModalOpen && (
         <div className="modal-overlay" onClick={() => setCheckoutModalOpen(false)}>
           <div className="modal-content-box" onClick={(e) => e.stopPropagation()}>
@@ -1170,7 +1155,7 @@ export default function App() {
 
                 <button 
                   type="submit" 
-                  className="btn-primary-red" 
+                  className="btn-primary-green" 
                   style={{ width: '100%', justifyContent: 'center', marginTop: '1.5rem', padding: '1rem' }}
                 >
                   <span>Confirm Counter Order</span>
@@ -1184,7 +1169,7 @@ export default function App() {
                 <p style={{ color: 'var(--text-muted)', marginTop: '0.5rem' }}>
                   Thank you, {customerInfo.name}! Your order has been placed and assigned to our master butcher counter.
                 </p>
-                <div style={{ background: 'var(--bg-surface)', padding: '1.5rem', borderRadius: 'var(--radius-md)', marginTop: '1.5rem', textAlign: 'left' }}>
+                <div style={{ background: 'var(--bg-surface)', border: '1px solid var(--border-gold)', padding: '1.5rem', borderRadius: 'var(--radius-md)', marginTop: '1.5rem', textAlign: 'left' }}>
                   <h4 style={{ color: '#ffffff', marginBottom: '0.5rem' }}>Receipt Summary</h4>
                   <p style={{ fontSize: '0.88rem' }}><strong>Order ID:</strong> #MG-{Math.floor(100000 + Math.random() * 900000)}</p>
                   <p style={{ fontSize: '0.88rem' }}><strong>Fulfillment:</strong> Same-Day Express Delivery ({customerInfo.address})</p>
@@ -1206,7 +1191,7 @@ export default function App() {
         </div>
       )}
 
-      {/* 11. OWNER / BUTCHER PORTAL MODAL */}
+      {/* 11. OWNER PORTAL MODAL */}
       {ownerDashboardOpen && (
         <div className="modal-overlay" onClick={() => setOwnerDashboardOpen(false)}>
           <div className="modal-content-box" onClick={(e) => e.stopPropagation()}>
@@ -1217,7 +1202,7 @@ export default function App() {
             <p style={{ color: 'var(--text-muted)', marginBottom: '1.5rem' }}>
               Manage active counter inventory, adjust cut prices per lb, and view live order queue.
             </p>
-            <div style={{ background: 'var(--bg-surface)', padding: '1rem', borderRadius: 'var(--radius-md)' }}>
+            <div style={{ background: 'var(--bg-surface)', border: '1px solid var(--border-gold)', padding: '1rem', borderRadius: 'var(--radius-md)' }}>
               <p style={{ color: 'var(--gold-accent)', fontWeight: '700' }}>✓ Live Systems Active & Synchronized with POS Counter</p>
             </div>
           </div>

@@ -703,6 +703,9 @@ export default function App() {
               className={`shop-cat-pill ${activeCategory === 'All' ? 'active' : ''}`}
               onClick={() => setActiveCategory('All')}
             >
+              <div className="shop-cat-icon-thumb" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'var(--primary-green)', border: '1.5px solid var(--gold-accent)' }}>
+                <ShoppingBag size={16} color="var(--gold-accent)" />
+              </div>
               <span>All Cuts</span>
               <span className="shop-cat-count-badge">{categoryCounts.All || 0}</span>
             </button>

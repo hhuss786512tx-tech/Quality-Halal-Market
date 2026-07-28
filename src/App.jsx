@@ -496,8 +496,8 @@ export default function App() {
                 <ShoppingBag size={24} />
               </div>
               <div className="logo-text-group">
-                <h1>The Meat Grinder</h1>
-                <span>Quality Halal Market</span>
+                <h1>Quality Halal Market</h1>
+                <span>Cedar Park, TX • Hand-Cut Zabiha</span>
               </div>
             </div>
 
@@ -561,7 +561,7 @@ export default function App() {
 
       {/* 3. HERO BANNER SECTION */}
       <section className="hero-section">
-        <img src={heroBanner} alt="The Meat Grinder Artisanal Counter" className="hero-bg-img" />
+        <img src={heroBanner} alt="Quality Halal Market Artisanal Counter" className="hero-bg-img" />
         <div className="container">
           <div className="hero-content-wrap">
             <div className="hero-badge-pill">
@@ -1296,7 +1296,7 @@ export default function App() {
                 </p>
                 <div style={{ background: 'var(--bg-surface)', border: '1px solid var(--border-gold)', padding: '1.5rem', borderRadius: 'var(--radius-md)', marginTop: '1.5rem', textAlign: 'left' }}>
                   <h4 style={{ color: '#ffffff', marginBottom: '0.5rem' }}>Receipt Summary</h4>
-                  <p style={{ fontSize: '0.88rem' }}><strong>Order ID:</strong> #MG-{Math.floor(100000 + Math.random() * 900000)}</p>
+                  <p style={{ fontSize: '0.88rem' }}><strong>Order ID:</strong> #QHM-{Math.floor(100000 + Math.random() * 900000)}</p>
                   <p style={{ fontSize: '0.88rem' }}><strong>Fulfillment:</strong> Same-Day Express Delivery ({customerInfo.address})</p>
                   <p style={{ fontSize: '0.88rem' }}><strong>Reward Points Earned:</strong> +{Math.floor(cartSubtotal)} pts</p>
                 </div>
@@ -1404,8 +1404,8 @@ export default function App() {
                   <ShoppingBag size={20} />
                 </div>
                 <div className="logo-text-group">
-                  <h1>The Meat Grinder</h1>
-                  <span>Quality Halal Market</span>
+                  <h1>Quality Halal Market</h1>
+                  <span>Premium Meats & Groceries</span>
                 </div>
               </div>
               <p>Your premier source for 100% hand-slaughtered Zabiha halal goat, lamb, beef, chicken, and artisan marinated BBQ.</p>
@@ -1439,7 +1439,7 @@ export default function App() {
           </div>
 
           <div className="footer-bottom">
-            <span>© {new Date().getFullYear()} The Meat Grinder & Quality Halal Market. All rights reserved.</span>
+            <span>© {new Date().getFullYear()} Quality Halal Market. All rights reserved.</span>
             <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
               <ShieldCheck size={18} className="text-gold" />
               <span>100% Zabiha Guarantee</span>

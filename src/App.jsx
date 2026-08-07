@@ -37,10 +37,6 @@ import marinatedSeekh from './assets/marinated_seekh.jpg';
 import seafoodSalmon from './assets/seafood_salmon.jpg';
 import seafoodShrimp from './assets/seafood_shrimp.jpg';
 
-// Business card
-import cardFront from './assets/card_front.jpg';
-import cardBack from './assets/card_back.jpg';
-
 // === MEAT COUNTER PRODUCTS ===
 const MEAT_PRODUCTS = [
   {
@@ -237,9 +233,6 @@ const GROCERY_PRODUCTS = [
     description: 'Flaky, layered Malabari-style frozen parathas. Heat on tawa for 2 minutes — ready to eat.'
   }
 ];
-
-// Combine all products
-const ALL_PRODUCTS = [...MEAT_PRODUCTS, ...GROCERY_PRODUCTS];
 
 // Category photo showcase
 const PHOTO_CATEGORIES = [

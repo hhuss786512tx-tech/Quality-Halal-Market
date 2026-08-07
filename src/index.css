@@ -1347,6 +1347,140 @@ h1, h2, h3, h4, h5, h6 {
   margin-top: 0.5rem;
 }
 
+/* Department Tab Switcher (Meat / Grocery) */
+.dept-tab-switcher {
+  display: flex;
+  gap: 0.5rem;
+  padding: 0.6rem 0 0.8rem 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  margin-top: 0.25rem;
+}
+.dept-tab {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.5rem 1.25rem;
+  border-radius: var(--radius-full);
+  background: rgba(19, 23, 34, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition-fast);
+}
+.dept-tab:hover {
+  border-color: var(--gold-accent);
+  color: #ffffff;
+  background: rgba(27, 33, 48, 0.8);
+}
+.dept-tab.active {
+  background: linear-gradient(135deg, var(--primary-green) 0%, #15803d 100%);
+  border-color: var(--gold-accent);
+  color: #ffffff;
+  box-shadow: var(--shadow-green);
+}
+
+/* Grocery Departments Grid */
+.grocery-depts-section {
+  padding: 4rem 0 3rem 0;
+  border-bottom: 1px solid var(--border-subtle);
+  background: var(--bg-surface);
+}
+.grocery-dept-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+.grocery-dept-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 2rem 1.5rem;
+  text-align: center;
+  transition: var(--transition-smooth);
+}
+.grocery-dept-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--gold-accent);
+  box-shadow: var(--shadow-md);
+}
+.grocery-dept-icon {
+  width: 56px;
+  height: 56px;
+  margin: 0 auto 1rem auto;
+  border-radius: 50%;
+  background: linear-gradient(135deg, rgba(22, 163, 74, 0.25) 0%, rgba(6, 78, 59, 0.4) 100%);
+  color: var(--gold-accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(251, 191, 36, 0.3);
+}
+.grocery-dept-card h4 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 0.5rem;
+}
+.grocery-dept-card p {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+/* Store Info Section */
+.store-info-section {
+  padding: 4rem 0;
+  background: linear-gradient(180deg, var(--bg-surface) 0%, var(--bg-dark) 100%);
+  border-top: 1px solid var(--border-subtle);
+  border-bottom: 1px solid var(--border-subtle);
+}
+.store-info-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+}
+.store-info-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 1.75rem 1.5rem;
+  text-align: center;
+  transition: var(--transition-smooth);
+}
+.store-info-card:hover {
+  border-color: var(--gold-accent);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-sm);
+}
+.store-info-icon {
+  width: 52px;
+  height: 52px;
+  margin: 0 auto 0.85rem auto;
+  border-radius: 50%;
+  background: rgba(22, 163, 74, 0.15);
+  color: var(--emerald-bright);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(22, 163, 74, 0.3);
+}
+.store-info-card h4 {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 0.5rem;
+}
+.store-info-card p {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+.store-info-card a {
+  text-decoration: none;
+}
+
 /* Footer Section */
 .site-footer {
   background: #030405;
@@ -1406,6 +1540,12 @@ h1, h2, h3, h4, h5, h6 {
   }
   .hero-title {
     font-size: 2.6rem;
+  }
+  .grocery-dept-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .store-info-grid {
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 
@@ -1514,5 +1654,20 @@ h1, h2, h3, h4, h5, h6 {
   }
   .cart-drawer-panel {
     max-width: 100%;
+  }
+  .grocery-dept-grid {
+    grid-template-columns: 1fr;
+  }
+  .store-info-grid {
+    grid-template-columns: 1fr;
+  }
+  .dept-tab-switcher {
+    justify-content: center;
+  }
+  .dept-tab {
+    flex: 1;
+    justify-content: center;
+    font-size: 0.78rem;
+    padding: 0.45rem 0.75rem;
   }
 }

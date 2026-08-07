@@ -8,8 +8,10 @@ import {
   Beef, Milk, Wheat, Package
 } from 'lucide-react';
 
-// Imported Assets — Meat Counter
+// Imported Assets — Hero
 import heroBanner from './assets/hero_banner.jpg';
+
+// Category photos
 import catBeef from './assets/cat_beef.jpg';
 import catChicken from './assets/cat_chicken.jpg';
 import catGoat from './assets/cat_goat.jpg';
@@ -18,110 +20,131 @@ import catMarinated from './assets/cat_marinated.jpg';
 import catSeafood from './assets/cat_seafood.jpg';
 import catGrocery from './assets/cat_grocery.jpg';
 
+// Individual product photos
+import beefSteak from './assets/beef_steak.jpg';
+import beefBrisket from './assets/beef_brisket.jpg';
+import beefRibeye from './assets/beef_ribeye.jpg';
+import beefGround from './assets/beef_ground.jpg';
+import chickenWhole from './assets/chicken_whole.jpg';
+import chickenBreast from './assets/chicken_breast.jpg';
+import chickenDrumstick from './assets/chicken_drumstick.jpg';
+import goatCurry from './assets/goat_curry.jpg';
+import goatLeg from './assets/goat_leg.jpg';
+import lambRack from './assets/lamb_rack.jpg';
+import lambChops from './assets/lamb_chops.jpg';
+import marinatedTikka from './assets/marinated_tikka.jpg';
+import marinatedSeekh from './assets/marinated_seekh.jpg';
+import seafoodSalmon from './assets/seafood_salmon.jpg';
+import seafoodShrimp from './assets/seafood_shrimp.jpg';
+
+// Business card
+import cardFront from './assets/card_front.jpg';
+import cardBack from './assets/card_back.jpg';
+
 // === MEAT COUNTER PRODUCTS ===
 const MEAT_PRODUCTS = [
   {
     id: 'p1', sku: 'BK100051', name: 'BEEF BREAKFAST STEAK', category: 'Beef',
     price: 10.99, originalPrice: 13.99, prepType: 'Steaks',
-    rating: 4.9, reviews: 38, image: catBeef, badge: 'FRESH CUT',
+    rating: 4.9, reviews: 38, image: beefSteak, badge: 'FRESH CUT',
     isHalal: true, inStock: true,
     description: 'Thinly sliced premium beef rib steak, ideal for quick breakfast searing or sizzling steak sandwiches.'
   },
   {
     id: 'p2', sku: 'BK100034', name: 'BEEF BRISKET BONELESS', category: 'Beef',
     price: 12.99, originalPrice: 15.99, prepType: 'Boneless',
-    rating: 4.8, reviews: 42, image: catBeef, badge: '100% ZABIHA',
+    rating: 4.8, reviews: 42, image: beefBrisket, badge: '100% ZABIHA',
     isHalal: true, inStock: true,
     description: 'Choice boneless beef brisket with rich fat cap layering. Perfect for low & slow Texas BBQ smoking.'
   },
   {
     id: 'p3', sku: 'BK100088', name: 'PRIME BEEF RIBEYE STEAK', category: 'Beef',
     price: 18.99, originalPrice: 22.99, prepType: 'Steaks',
-    rating: 5.0, reviews: 54, image: catBeef, badge: 'BEST SELLER',
+    rating: 5.0, reviews: 54, image: beefRibeye, badge: 'BEST SELLER',
     isHalal: true, inStock: true,
     description: 'Hand-selected thick ribeye with intense marbling. Cut fresh daily by our master butcher.'
   },
   {
     id: 'p4', sku: 'BK100012', name: 'HALAL GROUND BEEF LEAN (85/15)', category: 'Beef',
     price: 7.99, originalPrice: 9.99, prepType: 'Minced',
-    rating: 4.7, reviews: 29, image: catBeef, badge: 'DAILY FRESH',
+    rating: 4.7, reviews: 29, image: beefGround, badge: 'DAILY FRESH',
     isHalal: true, inStock: true,
     description: 'Freshly ground beef from prime cuts with 85% lean ratio. Ground in-house daily.'
   },
   {
     id: 'p5', sku: 'CK200010', name: 'HAND CUT CHICKEN (WHOLE)', category: 'Hand Cut Chicken',
     price: 3.99, originalPrice: 4.99, prepType: 'Whole',
-    rating: 4.9, reviews: 64, image: catChicken, badge: '100% HAND-CUT',
+    rating: 4.9, reviews: 64, image: chickenWhole, badge: '100% HAND-CUT',
     isHalal: true, inStock: true,
     description: '100% Hand-slaughtered Zabiha whole chicken. Cleaned and prepared skin-on or skinless upon request.'
   },
   {
     id: 'p6', sku: 'CK200025', name: 'BONELESS CHICKEN BREAST', category: 'Chicken',
     price: 5.99, originalPrice: 7.49, prepType: 'Boneless',
-    rating: 4.9, reviews: 81, image: catChicken, badge: 'TOP RATED',
+    rating: 4.9, reviews: 81, image: chickenBreast, badge: 'TOP RATED',
     isHalal: true, inStock: true,
     description: 'Tender, skinless, boneless chicken breasts. Triple washed and trimmed of excess fat.'
   },
   {
     id: 'p7', sku: 'CK200044', name: 'ORGANIC CHICKEN DRUMSTICKS', category: 'Chicken',
     price: 3.49, originalPrice: 4.49, prepType: 'Bone-in',
-    rating: 4.6, reviews: 33, image: catChicken, badge: 'HOT DEAL',
+    rating: 4.6, reviews: 33, image: chickenDrumstick, badge: 'HOT DEAL',
     isHalal: true, inStock: true,
     description: 'Juicy organic chicken leg drumsticks. Perfect for curries, baking, or air-fryer marinades.'
   },
   {
     id: 'p8', sku: 'GT300015', name: 'ZABIHA GOAT CURRY CUT (BONE-IN)', category: 'Goat',
     price: 13.99, originalPrice: 16.99, prepType: 'Bone-in',
-    rating: 5.0, reviews: 92, image: catGoat, badge: 'SIGNATURE CUT',
+    rating: 5.0, reviews: 92, image: goatCurry, badge: 'SIGNATURE CUT',
     isHalal: true, inStock: true,
     description: 'Young tender goat meat cut into medium curry pieces. Hand-slaughtered Zabiha guaranteed.'
   },
   {
     id: 'p9', sku: 'GT300022', name: 'GOAT LEG BONELESS', category: 'Goat',
     price: 16.99, originalPrice: 19.99, prepType: 'Boneless',
-    rating: 4.9, reviews: 47, image: catGoat, badge: 'PREMIUM',
+    rating: 4.9, reviews: 47, image: goatLeg, badge: 'PREMIUM',
     isHalal: true, inStock: true,
     description: 'Lean boneless leg of goat meat. Excellent for biryanis, roasts, or custom grinding.'
   },
   {
     id: 'p10', sku: 'LM400008', name: 'FRENCH TRIMMED LAMB RACK', category: 'Lamb',
     price: 20.99, originalPrice: 24.99, prepType: 'Chops',
-    rating: 5.0, reviews: 58, image: catLamb, badge: 'CHEF CHOICE',
+    rating: 5.0, reviews: 58, image: lambRack, badge: 'CHEF CHOICE',
     isHalal: true, inStock: true,
     description: 'Exquisitely French trimmed rack of fresh Zabiha lamb. Tender, juicy, and rich in natural flavor.'
   },
   {
     id: 'p11', sku: 'LM400019', name: 'PREMIUM LAMB CHOPS', category: 'Lamb',
     price: 15.99, originalPrice: 18.99, prepType: 'Chops',
-    rating: 4.8, reviews: 41, image: catLamb, badge: 'POPULAR',
+    rating: 4.8, reviews: 41, image: lambChops, badge: 'POPULAR',
     isHalal: true, inStock: true,
     description: 'Freshly cut loin lamb chops, perfect for stovetop searing or charcoal grilling.'
   },
   {
     id: 'p12', sku: 'MB500005', name: 'SPICY CHICKEN TIKKA BOTI', category: 'Marinated BBQ',
     price: 8.99, originalPrice: 10.99, prepType: 'Marinated',
-    rating: 4.9, reviews: 112, image: catMarinated, badge: 'READY TO GRILL',
+    rating: 4.9, reviews: 112, image: marinatedTikka, badge: 'READY TO GRILL',
     isHalal: true, inStock: true,
     description: 'Boneless chicken cubes marinated in house tandoori spices, fresh yogurt, garlic, and lemon juice.'
   },
   {
     id: 'p13', sku: 'MB500014', name: 'BEEF SEEKH KEBABS (8 PCS)', category: 'Marinated BBQ',
     price: 11.99, originalPrice: 14.99, prepType: 'Marinated',
-    rating: 5.0, reviews: 76, image: catMarinated, badge: 'BUTCHER SPECIAL',
+    rating: 5.0, reviews: 76, image: marinatedSeekh, badge: 'BUTCHER SPECIAL',
     isHalal: true, inStock: true,
     description: 'Pre-skewered seasoned beef seekh kebabs infused with papaya marinade, green chilies, and herbs.'
   },
   {
     id: 'p14', sku: 'SF600002', name: 'WILD SALMON FILLETS', category: 'Seafood & Others',
     price: 14.99, originalPrice: 17.99, prepType: 'Boneless',
-    rating: 4.8, reviews: 25, image: catSeafood, badge: 'FRESH CATCH',
+    rating: 4.8, reviews: 25, image: seafoodSalmon, badge: 'FRESH CATCH',
     isHalal: true, inStock: true,
     description: 'Freshly cut skin-on wild caught Atlantic salmon fillets packed with Omega-3s.'
   },
   {
     id: 'p15', sku: 'SF600018', name: 'JUMBO WILD CAUGHT SHRIMP', category: 'Seafood & Others',
     price: 12.99, originalPrice: 15.99, prepType: 'Whole',
-    rating: 4.9, reviews: 39, image: catSeafood, badge: 'SEAFOOD',
+    rating: 4.9, reviews: 39, image: seafoodShrimp, badge: 'SEAFOOD',
     isHalal: true, inStock: true,
     description: 'De-veined raw jumbo shrimp. Ideal for spicy garlic stir-fries or BBQ seafood skewers.'
   }

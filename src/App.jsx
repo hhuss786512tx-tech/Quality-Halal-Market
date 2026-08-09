@@ -17,18 +17,23 @@ import catChicken from './assets/cat_chicken.jpg';
 import catGoat from './assets/cat_goat.jpg';
 import catLamb from './assets/cat_lamb.jpg';
 
-// Individual product photos
-import beefSteak from './assets/beef_steak.jpg';
-import beefBrisket from './assets/beef_brisket.jpg';
+// Individual product photos — real in-store shots from Quality Halal Market.
+// Only cuts we have a verified photo of get one; everything else falls back to
+// its category image rather than showing the wrong species.
 import beefRibeye from './assets/beef_ribeye.jpg';
-import beefGround from './assets/beef_ground.jpg';
-import chickenWhole from './assets/chicken_whole.jpg';
-import chickenBreast from './assets/chicken_breast.jpg';
-import chickenDrumstick from './assets/chicken_drumstick.jpg';
+import beefNihari from './assets/beef_nihari.jpg';
+import beefLiver from './assets/beef_liver.jpg';
+import beefPaya from './assets/beef_paya.jpg';
 import goatCurry from './assets/goat_curry.jpg';
-import goatLeg from './assets/goat_leg.jpg';
-import lambRack from './assets/lamb_rack.jpg';
-import lambChops from './assets/lamb_chops.jpg';
+import goatRibs from './assets/goat_ribs.jpg';
+import goatWhole from './assets/goat_whole.jpg';
+import chickenWhole from './assets/chicken_whole.jpg';
+import chickenWholeSkinless from './assets/chicken_whole_skinless.jpg';
+import chickenPieces from './assets/chicken_pieces.jpg';
+import chickenBreast from './assets/chicken_breast.jpg';
+import chickenThighs from './assets/chicken_thighs.jpg';
+import chickenDrumstick from './assets/chicken_drumstick.jpg';
+import chickenWings from './assets/chicken_wings.jpg';
 
 // ============================================================================
 // COMPLETE PRODUCT DATA — matches the JSON spec from Haider
@@ -53,81 +58,54 @@ const createProduct = (id, name, category, price, opts = {}) => ({
 });
 
 const MEAT_PRODUCTS = [
-  // ========== FRESH BEEF (9–26) ==========
-  createProduct('fb1', 'Beef with Bone Mix', 'Fresh Beef', null, { prepType: 'Bone-in', image: beefSteak, description: 'Bone-in beef mix cut to order.' }),
-  createProduct('fb2', 'Beef Leg or Shoulder', 'Fresh Beef', null, { prepType: 'Bone-in', image: beefBrisket, description: 'Whole beef leg or shoulder roast.' }),
-  createProduct('fb3', 'Beef Rib Eye Steak', 'Fresh Beef', null, { prepType: 'Steaks', image: beefRibeye, description: 'Premium rib eye steak.' }),
-  createProduct('fb4', 'Beef T-Bone Steak', 'Fresh Beef', null, { prepType: 'Steaks', image: beefSteak, description: 'Classic T-bone cut.' }),
-  createProduct('fb5', 'Beef Ribs Only', 'Fresh Beef', null, { prepType: 'Bone-in', image: beefRibeye, description: 'Beef short ribs.' }),
-  createProduct('fb6', 'Beef Neck', 'Fresh Beef', null, { prepType: 'Bone-in', image: beefBrisket, description: 'Beef neck — great for slow cooking.' }),
-  createProduct('fb7', 'Beef Fillet Mignon', 'Fresh Beef', null, { prepType: 'Steaks', image: beefSteak, description: 'The most tender beef cut.' }),
-  createProduct('fb8', 'Beef Boneless from Leg', 'Fresh Beef', null, { prepType: 'Boneless', image: beefSteak, description: 'Boneless leg cuts.' }),
-  createProduct('fb9', 'Fresh Nihari', 'Fresh Beef', null, { prepType: 'Bone-in', image: beefSteak, description: 'Traditional bone-in shank pieces for authentic nihari.' }),
-  createProduct('fb10', 'Beef Eye Round Boneless Steak', 'Fresh Beef', null, { prepType: 'Steaks', image: beefSteak, description: 'Lean eye round steak.' }),
-  createProduct('fb11', 'Beef Boneless Cubes, Lean', 'Fresh Beef', null, { prepType: 'Cubed', image: beefBrisket, description: 'Lean boneless cubes.' }),
-  createProduct('fb12', 'Beef Boneless Cubes, X-Lean', 'Fresh Beef', null, { prepType: 'Cubed', image: beefBrisket, description: 'Extra-lean boneless beef cubes.' }),
-  createProduct('fb13', 'Beef Ground, Regular', 'Fresh Beef', null, { prepType: 'Minced', image: beefGround, description: 'Fresh regular ground beef.' }),
-  createProduct('fb14', 'Beef Ground, Lean', 'Fresh Beef', null, { prepType: 'Minced', image: beefGround, description: 'Lean ground beef.' }),
-  createProduct('fb15', 'Beef Ground, X-Lean', 'Fresh Beef', null, { prepType: 'Minced', image: beefGround, description: 'Extra-lean ground beef.' }),
-  createProduct('fb16', 'Beef Pasanda', 'Fresh Beef', null, { prepType: 'Boneless', image: beefSteak, description: 'Thin-sliced Pasanda cut.' }),
-  createProduct('fb17', 'Beef Bihari Cut', 'Fresh Beef', null, { prepType: 'Boneless', image: beefBrisket, description: 'Bihari-style thin strips.' }),
-  createProduct('fb18', 'Beef Sirloin Steak', 'Fresh Beef', null, { prepType: 'Steaks', image: beefSteak, description: 'Sirloin steak cut.' }),
+  // BEEF (12 items)
+  createProduct('b1', 'Ribeye Steak', 'Beef', null, { perLb: true, prepType: 'Steaks', image: beefRibeye, badge: 'PREMIUM CUT', description: 'Hand-selected thick ribeye with intense marbling.' }),
+  createProduct('b2', 'Beef Tenderloin', 'Beef', null, { perLb: true, prepType: 'Steaks', image: catBeef, badge: 'CHEF CHOICE', description: 'The most tender cut — perfect for medallions and filet.' }),
+  createProduct('b3', 'Beef Chuck, Cubed', 'Beef', null, { perLb: true, prepType: 'Cubed', image: catBeef, badge: 'FOR CURRY', description: 'Pre-cubed chuck ideal for slow-cooked curries.' }),
+  createProduct('b4', 'Beef Shank', 'Beef', null, { perLb: true, prepType: 'Bone-in', image: beefNihari, badge: 'BONE-IN', description: 'Rich marrow-filled shank for nihari and soups.' }),
+  createProduct('b5', 'Beef Brisket', 'Beef', null, { perLb: true, prepType: 'Boneless', image: catBeef, badge: 'TEXAS FAVORITE', description: 'Choice brisket with rich fat cap for low & slow cooking.' }),
+  createProduct('b6', 'Beef Short Ribs', 'Beef', null, { perLb: true, prepType: 'Bone-in', image: catBeef, badge: 'BONE-IN', description: 'Meaty short ribs perfect for braising.' }),
+  createProduct('b7', 'Ground Beef', 'Beef', null, { perLb: true, prepType: 'Minced', image: catBeef, badge: 'DAILY FRESH', description: 'Freshly ground from prime cuts, 85/15 lean ratio.' }),
+  createProduct('b8', 'Beef Qeema (Fine)', 'Beef', null, { perLb: true, prepType: 'Minced', image: catBeef, badge: 'DESI STYLE', description: 'Extra-fine ground beef for qeema and kebabs.' }),
+  createProduct('b9', 'Beef Nihari Cut', 'Beef', null, { perLb: true, prepType: 'Bone-in', image: beefNihari, badge: 'BONE-IN', description: 'Traditional bone-in shank pieces for authentic nihari.' }),
+  createProduct('b10', 'Beef Paya (Trotters)', 'Beef', null, { perLb: true, prepType: 'Bone-in', image: beefPaya, badge: 'SPECIALTY', description: 'Fresh beef trotters for paya curry.' }),
+  createProduct('b11', 'Beef Liver', 'Beef', null, { perLb: true, prepType: 'Organ', image: beefLiver, badge: 'ORGAN MEAT', description: 'Fresh beef liver, cleaned and trimmed.' }),
+  createProduct('b12', 'Beef Tongue', 'Beef', null, { perLb: true, prepType: 'Organ', image: catBeef, badge: 'DELICACY', description: 'Whole beef tongue — a desi delicacy.' }),
 
-  // ========== FROZEN BEEF (27–33) ==========
-  createProduct('fz1', 'Frozen Beef Paya', 'Frozen Beef', null, { prepType: 'Bone-in', image: beefBrisket, description: 'Frozen beef trotters for paya.' }),
-  createProduct('fz2', 'Frozen Ox Tail', 'Frozen Beef', null, { prepType: 'Bone-in', image: beefBrisket, description: 'Frozen ox tail pieces.' }),
-  createProduct('fz3', 'Frozen Beef Liver', 'Frozen Beef', null, { prepType: 'Organ', image: beefSteak, description: 'Frozen beef liver.' }),
-  createProduct('fz4', 'Beef Marrow Bone', 'Frozen Beef', null, { prepType: 'Bone-in', image: beefBrisket, description: 'Beef marrow bones.' }),
-  createProduct('fz5', 'Beef Knuckle / Joint Bone', 'Frozen Beef', null, { prepType: 'Bone-in', image: beefBrisket, description: 'Knuckle and joint bones.' }),
-  createProduct('fz6', 'Beef Tripe / Stomach', 'Frozen Beef', null, { prepType: 'Organ', image: beefBrisket, description: 'Beef tripe — stomach lining.' }),
-  createProduct('fz7', 'Beef Tongue', 'Frozen Beef', null, { prepType: 'Organ', image: beefRibeye, description: 'Frozen beef tongue.' }),
+  // GOAT (6 items)
+  createProduct('g1', 'Goat, Bone-In Cubed', 'Goat', null, { perLb: true, prepType: 'Bone-in', image: goatCurry, badge: 'BONE-IN', description: 'Young goat cut into medium curry pieces.' }),
+  createProduct('g2', 'Goat Shoulder', 'Goat', null, { perLb: true, prepType: 'Boneless', image: catGoat, badge: 'PREMIUM', description: 'Tender goat shoulder, boneless.' }),
+  createProduct('g3', 'Goat Leg', 'Goat', null, { perLb: true, prepType: 'Boneless', image: catGoat, badge: 'SIGNATURE CUT', description: 'Lean boneless leg of goat for biryanis and roasts.' }),
+  createProduct('g4', 'Goat Chops', 'Goat', null, { perLb: true, prepType: 'Chops', image: catGoat, badge: 'POPULAR', description: 'Freshly cut goat loin chops.' }),
+  createProduct('g5', 'Goat Ribs', 'Goat', null, { perLb: true, prepType: 'Bone-in', image: goatRibs, badge: 'SPECIALTY', description: 'Meaty goat ribs for grilling or curry.' }),
+  createProduct('g6', 'Whole Goat', 'Goat', null, { marketPrice: true, prepType: 'Whole', image: goatWhole, badge: 'ORDER AHEAD', description: 'Whole young goat — order 48 hours ahead.' }),
 
-  // ========== FRESH GOAT / LAMB (34–46) ==========
-  createProduct('fg1', 'Half Goat / Lamb', 'Fresh Goat/Lamb', null, { prepType: 'Whole', image: goatCurry, description: 'Half goat or lamb, cut to order.' }),
-  createProduct('fg2', 'Full Goat / Lamb', 'Fresh Goat/Lamb', null, { prepType: 'Whole', image: goatCurry, description: 'Whole goat or lamb, fresh cut.' }),
-  createProduct('fg3', 'Goat / Lamb Leg', 'Fresh Goat/Lamb', null, { prepType: 'Bone-in', image: goatLeg, description: 'Whole goat or lamb leg.' }),
-  createProduct('fg4', 'Goat / Lamb Mix', 'Fresh Goat/Lamb', null, { prepType: 'Bone-in', image: goatCurry, description: 'Bone-in goat or lamb curry mix.' }),
-  createProduct('fg5', 'Goat / Lamb Chops', 'Fresh Goat/Lamb', null, { prepType: 'Chops', image: lambChops, description: 'Premium goat or lamb chops.' }),
-  createProduct('fg6', 'Goat / Lamb Liver', 'Fresh Goat/Lamb', null, { prepType: 'Organ', image: goatCurry, description: 'Fresh goat or lamb liver.' }),
-  createProduct('fg7', 'Goat / Lamb Kidneys', 'Fresh Goat/Lamb', null, { prepType: 'Organ', image: goatCurry, description: 'Fresh goat or lamb kidneys.' }),
-  createProduct('fg8', 'Goat / Lamb Qeema', 'Fresh Goat/Lamb', null, { prepType: 'Minced', image: goatCurry, description: 'Fresh-ground goat or lamb qeema.' }),
-  createProduct('fg9', 'Goat / Lamb Boneless', 'Fresh Goat/Lamb', null, { prepType: 'Boneless', image: goatLeg, description: 'Boneless goat or lamb shoulder/leg.' }),
-  createProduct('fg10', 'Goat / Lamb Heart', 'Fresh Goat/Lamb', null, { prepType: 'Organ', image: goatCurry, description: 'Fresh goat or lamb heart.' }),
-  createProduct('fg11', 'Goat / Lamb Ribs', 'Fresh Goat/Lamb', null, { prepType: 'Bone-in', image: goatCurry, description: 'Goat or lamb rib cuts.' }),
-  createProduct('fg12', 'Goat / Lamb Putt & Neck', 'Fresh Goat/Lamb', null, { prepType: 'Bone-in', image: goatLeg, description: 'Putt (leg shank) and neck pieces.' }),
-  createProduct('fg13', 'Goat / Lamb Rib Rack', 'Fresh Goat/Lamb', null, { prepType: 'Bone-in', image: lambRack, description: 'Full goat or lamb rib rack.' }),
+  // LAMB (7 items)
+  createProduct('l1', 'Lamb, Bone-In Cubed', 'Lamb', null, { perLb: true, prepType: 'Bone-in', image: catLamb, badge: 'BONE-IN', description: 'Fresh lamb cut into medium curry pieces.' }),
+  createProduct('l2', 'Lamb Chops', 'Lamb', null, { perLb: true, prepType: 'Chops', image: catLamb, badge: 'TOP RATED', description: 'Premium loin lamb chops for stovetop searing.' }),
+  createProduct('l3', 'Leg of Lamb', 'Lamb', null, { perLb: true, prepType: 'Boneless', image: catLamb, badge: 'PREMIUM', description: 'Boneless leg of lamb for roasting.' }),
+  createProduct('l4', 'Lamb Shoulder', 'Lamb', null, { perLb: true, prepType: 'Boneless', image: catLamb, badge: 'VERSATILE', description: 'Flavorful lamb shoulder, boneless.' }),
+  createProduct('l5', 'Lamb Shank', 'Lamb', null, { perLb: true, prepType: 'Bone-in', image: catLamb, badge: 'BONE-IN', description: 'Rich lamb shank for slow cooking.' }),
+  createProduct('l6', 'Ground Lamb', 'Lamb', null, { perLb: true, prepType: 'Minced', image: catLamb, badge: 'FRESH GROUND', description: 'Freshly ground lamb from shoulder cuts.' }),
+  createProduct('l7', 'Whole Lamb', 'Lamb', null, { marketPrice: true, prepType: 'Whole', image: catLamb, badge: 'ORDER AHEAD', description: 'Whole lamb — order 72 hours ahead for events.' }),
 
-  // ========== FROZEN GOAT / LAMB (47–54) ==========
-  createProduct('zg1', 'Frozen Goat / Lamb Leg', 'Frozen Goat/Lamb', null, { prepType: 'Bone-in', image: goatLeg, description: 'Frozen whole goat or lamb leg.' }),
-  createProduct('zg2', 'Frozen Lamb Shanks', 'Frozen Goat/Lamb', null, { prepType: 'Bone-in', image: goatLeg, description: 'Frozen lamb shanks.' }),
-  createProduct('zg3', 'Frozen Goat Bones', 'Frozen Goat/Lamb', null, { prepType: 'Bone-in', image: goatCurry, description: 'Frozen goat bones for stock.' }),
-  createProduct('zg4', 'Frozen Goat Paya with Skin', 'Frozen Goat/Lamb', null, { prepType: 'Bone-in', image: goatCurry, description: 'Goat trotters with skin.' }),
-  createProduct('zg5', 'Frozen Goat / Lamb Tongue', 'Frozen Goat/Lamb', null, { prepType: 'Organ', image: goatCurry, description: 'Frozen goat or lamb tongue.' }),
-  createProduct('zg6', 'Frozen Goat / Lamb Stomach', 'Frozen Goat/Lamb', null, { prepType: 'Organ', image: goatCurry, description: 'Frozen goat or lamb stomach.' }),
-  createProduct('zg7', 'Frozen Goat / Lamb Head', 'Frozen Goat/Lamb', null, { prepType: 'Whole', image: goatCurry, description: 'Frozen goat or lamb head.' }),
-  createProduct('zg8', 'Frozen Goat Burnt Paya', 'Frozen Goat/Lamb', null, { prepType: 'Bone-in', image: goatCurry, description: 'Burnt goat paya / trotters.' }),
+  // CHICKEN (9 items)
+  createProduct('c1', 'Whole Chicken', 'Chicken', null, { perLb: true, prepType: 'Whole', image: chickenWhole, badge: 'ZABIHA', description: '100% hand-slaughtered whole chicken.' }),
+  createProduct('c2', 'Whole Chicken, Skinless', 'Chicken', null, { perLb: true, prepType: 'Whole', image: chickenWholeSkinless, badge: 'SKINLESS', description: 'Whole chicken, skin removed upon request.' }),
+  createProduct('c3', 'Chicken, Cut Into Pieces', 'Chicken', null, { perLb: true, prepType: 'Bone-in', image: chickenPieces, badge: 'CURRY READY', description: 'Pre-cut chicken pieces, ready for the pot.' }),
+  createProduct('c4', 'Boneless Chicken Breast', 'Chicken', null, { perLb: true, prepType: 'Boneless', image: chickenBreast, badge: 'BONELESS', description: 'Tender, skinless breasts triple washed and trimmed.' }),
+  createProduct('c5', 'Chicken Thighs', 'Chicken', null, { perLb: true, prepType: 'Bone-in', image: chickenThighs, badge: 'JUICY', description: 'Bone-in chicken thighs, perfect for curries and grilling.' }),
+  createProduct('c6', 'Chicken Drumsticks', 'Chicken', null, { perLb: true, prepType: 'Bone-in', image: chickenDrumstick, badge: 'FAMILY FAVORITE', description: 'Juicy drumsticks for baking, frying, or curries.' }),
+  createProduct('c7', 'Chicken Wings', 'Chicken', null, { perLb: true, prepType: 'Bone-in', image: chickenWings, badge: 'PARTY PACK', description: 'Plump wings for BBQ, tandoori, or frying.' }),
+  createProduct('c8', 'Ground Chicken', 'Chicken', null, { perLb: true, prepType: 'Minced', image: catChicken, badge: 'LEAN', description: 'Freshly ground lean chicken for kebabs.' }),
+  createProduct('c9', 'Chicken Liver', 'Chicken', null, { perLb: true, prepType: 'Organ', image: catChicken, badge: 'ORGAN MEAT', description: 'Fresh chicken livers, cleaned.' }),
 
-  // ========== FRESH CHICKEN (55–67) ==========
-  createProduct('fc1', 'Whole Chicken', 'Fresh Chicken', null, { prepType: 'Whole', image: chickenWhole, description: 'Fresh whole chicken.' }),
-  createProduct('fc2', 'Chicken Leg Quarters', 'Fresh Chicken', null, { prepType: 'Bone-in', image: chickenDrumstick, description: 'Chicken leg quarters.' }),
-  createProduct('fc3', 'Chicken Leg Quarters, Box', 'Fresh Chicken', null, { prepType: 'Bone-in', image: chickenDrumstick, description: 'Leg quarters by the box.' }),
-  createProduct('fc4', 'Chicken Leg Quarters, Half Box', 'Fresh Chicken', null, { prepType: 'Bone-in', image: chickenDrumstick, description: 'Half box of chicken leg quarters.' }),
-  createProduct('fc5', 'Chicken Boneless Breast', 'Fresh Chicken', null, { prepType: 'Boneless', image: chickenBreast, description: 'Boneless skinless chicken breast.' }),
-  createProduct('fc6', 'Chicken Boneless Thigh', 'Fresh Chicken', null, { prepType: 'Boneless', image: chickenBreast, description: 'Boneless skinless chicken thighs.' }),
-  createProduct('fc7', 'Chicken Drumsticks', 'Fresh Chicken', null, { prepType: 'Bone-in', image: chickenDrumstick, description: 'Fresh chicken drumsticks.' }),
-  createProduct('fc8', 'Tahir Whole Chicken', 'Fresh Chicken', null, { prepType: 'Whole', image: chickenWhole, description: 'Tahir brand whole chicken.' }),
-  createProduct('fc9', 'Tahir Leg Quarters', 'Fresh Chicken', null, { prepType: 'Bone-in', image: chickenDrumstick, description: 'Tahir brand leg quarters.' }),
-  createProduct('fc10', 'Tahir Boneless Breast', 'Fresh Chicken', null, { prepType: 'Boneless', image: chickenBreast, description: 'Tahir boneless chicken breast.' }),
-  createProduct('fc11', 'Chicken Qeema', 'Fresh Chicken', null, { prepType: 'Minced', image: chickenWhole, description: 'Fresh-ground chicken qeema.' }),
-  createProduct('fc12', 'Chicken Fajita / Strips', 'Fresh Chicken', null, { prepType: 'Boneless', image: chickenBreast, description: 'Chicken strips for fajitas.' }),
-  createProduct('fc13', 'Chicken Tenders', 'Fresh Chicken', null, { prepType: 'Boneless', image: chickenBreast, description: 'Fresh chicken tenders.' }),
-
-  // ========== FROZEN POULTRY & MORE (68–72) ==========
-  createProduct('zp1', 'Chicken Wings', 'Frozen Poultry', null, { prepType: 'Bone-in', image: chickenDrumstick, description: 'Frozen chicken wings.' }),
-  createProduct('zp2', 'Chicken Gizzard', 'Frozen Poultry', null, { prepType: 'Organ', image: chickenWhole, description: 'Chicken gizzard.' }),
-  createProduct('zp3', 'Chicken Liver', 'Frozen Poultry', null, { prepType: 'Organ', image: chickenWhole, description: 'Frozen chicken liver.' }),
-  createProduct('zp4', 'Frozen Quail', 'Frozen Poultry', null, { prepType: 'Whole', image: chickenWhole, description: 'Frozen whole quail.' }),
-  createProduct('zp5', 'Frozen Duck', 'Frozen Poultry', null, { prepType: 'Whole', image: chickenWhole, description: 'Frozen whole duck.' }),
+  // FISH (5 items)
+  createProduct('f1', 'Whole Tilapia', 'Fish', null, { perLb: true, prepType: 'Whole', image: catSeafood, badge: 'FRESH CATCH', description: 'Fresh whole tilapia, cleaned and scaled.' }),
+  createProduct('f2', 'Rohu', 'Fish', null, { marketPrice: true, prepType: 'Whole', image: catSeafood, badge: 'FROZEN', description: 'Premium rohu fish, frozen for freshness.' }),
+  createProduct('f3', 'King Fish Steaks', 'Fish', null, { marketPrice: true, prepType: 'Steaks', image: catSeafood, badge: 'PREMIUM', description: 'Thick-cut king fish steaks.' }),
+  createProduct('f4', 'Pomfret', 'Fish', null, { marketPrice: true, prepType: 'Whole', image: catSeafood, badge: 'FROZEN', description: 'Whole frozen pomfret — a South Asian classic.' }),
+  createProduct('f5', 'Shrimp', 'Fish', null, { perLb: true, prepType: 'Whole', image: catSeafood, badge: 'SEAFOOD', description: 'Deveined jumbo shrimp.' }),
 ];
 const GROCERY_RICE = [
   createProduct('gr1', 'Basmati Rice, 10 lb', 'Rice, Flour & Lentils', 18.99, { originalPrice: 22.99, badge: 'PANTRY ESSENTIAL', description: 'Aged extra-long grain aromatic Basmati.' }),

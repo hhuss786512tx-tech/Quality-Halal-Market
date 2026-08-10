@@ -4,42 +4,108 @@ import {
   Clock, ShoppingCart, Trash2,
   Sliders, Search, Star, Heart,
   Eye, RefreshCw, Grid, List, Sparkles, CheckCircle2, Award,
-  Filter, ShoppingBag, Store, Beef, Milk, Wheat, Package, Fish
+  Filter, ShoppingBag, Store, Beef, Milk, Wheat, Package, Drumstick, Ham, Camera
 } from 'lucide-react';
 import IntroOverlay from './components/IntroOverlay';
 
 // Imported Assets
 import heroBanner from './assets/hero_banner_original.jpg';
 
-// Category showcase photos (keep original stock images for category cards)
-import catBeef from './assets/cat_beef.jpg';
-import catChicken from './assets/cat_chicken.jpg';
-import catGoat from './assets/cat_goat.jpg';
-import catLamb from './assets/cat_lamb.jpg';
-import catMarinated from './assets/cat_marinated.jpg';
-import catSeafood from './assets/cat_seafood.jpg';
-import catGrocery from './assets/cat_grocery.jpg';
-
 // Individual product photos — real in-store shots from Quality Halal Market.
-// Only cuts we have a verified photo of get one; everything else falls back to
-// its category image rather than showing the wrong species.
+// This site uses ONLY photos supplied by the store. Cuts we don't have a photo
+// of render a branded "photo coming soon" panel — we never substitute a stock
+// image, an AI-generated image, or another cut's photo.
+//
+// Species discipline: raw goat and raw lamb are not reliably distinguishable in
+// a photo, and the store's own price board sells them as one line ("GOAT/LAMB").
+// A red-meat photo therefore only gets attached to a product when a printed
+// label in the shot names the species, or when the animal's size settles it.
+// beef_paya.jpg and chicken_pieces.jpg are deliberately NOT wired up — the
+// board lists both beef and goat paya, and neither photo proves which it is.
 import beefRibeye from './assets/beef_ribeye.jpg';
 import beefNihari from './assets/beef_nihari.jpg';
 import beefLiver from './assets/beef_liver.jpg';
-import beefPaya from './assets/beef_paya.jpg';
-import goatCurry from './assets/goat_curry.jpg';
-import goatRibs from './assets/goat_ribs.jpg';
+import beefTripe from './assets/beef_tripe.webp';
+import goatLambMix from './assets/goat_lamb_mix.webp';
+import goatLambLeg from './assets/goat_lamb_leg.jpg';
 import goatWhole from './assets/goat_whole.jpg';
 import chickenWhole from './assets/chicken_whole.jpg';
-import chickenWholeSkinless from './assets/chicken_whole_skinless.jpg';
-import chickenPieces from './assets/chicken_pieces.jpg';
 import chickenBreast from './assets/chicken_breast.jpg';
-import chickenThighs from './assets/chicken_thighs.jpg';
+import chickenBonelessThigh from './assets/chicken_boneless_thigh.webp';
+import chickenLegQuarters from './assets/chicken_thighs.jpg';
 import chickenDrumstick from './assets/chicken_drumstick.jpg';
 import chickenWings from './assets/chicken_wings.jpg';
+import tahirWholeChicken from './assets/tahir_whole_chicken.webp';
+
+// ----------------------------------------------------------------------------
+// Missing-photo handling
+// Every category maps to an outline icon so a card without a store photo still
+// reads as the right kind of product instead of showing an unrelated image.
+// ----------------------------------------------------------------------------
+const CATEGORY_ICON = {
+  Beef: Beef,
+  'Goat & Lamb': Ham,
+  Chicken: Drumstick,
+  Grocery: Package,
+  'Rice, Flour & Lentils': Wheat,
+  Spices: Package,
+  Dairy: Milk,
+  'Frozen & Canned': Package,
+  'Sweets & Snacks': Package,
+};
+
+// Max-price filter bounds. The number box and the slider share them so a typed
+// value can never fall outside the slider's range or desync the two controls.
+// The ceiling tracks the dearest item on the board (Goat/Lamb Boneless, $16.99)
+// so the slider's travel maps onto prices that actually exist.
+const PRICE_MIN = 3;
+const PRICE_MAX = 20;
+// An empty or unparseable box means "no ceiling yet", not "cheapest possible".
+// Snapping to PRICE_MIN here would hide most of the counter the instant someone
+// cleared the field to type a new number — a number input reports "" for any
+// character it considers invalid, so that path is hit constantly.
+const clampPrice = (raw) => {
+  if (String(raw).trim() === '') return PRICE_MAX;
+  const n = Number(raw);
+  if (!Number.isFinite(n)) return PRICE_MAX;
+  return Math.min(PRICE_MAX, Math.max(PRICE_MIN, n));
+};
+
+const PLACEHOLDER_ICON_SIZE = { thumb: 15, mini: 22, card: 34, tile: 46 };
+
+const PhotoPlaceholder = ({ label, category, variant = 'card' }) => {
+  const Icon = CATEGORY_ICON[category] ?? Camera;
+  const showCaption = variant === 'card' || variant === 'tile';
+  return (
+    <div
+      className={`photo-placeholder photo-placeholder-${variant}`}
+      role="img"
+      aria-label={`${label} — store photo coming soon`}
+    >
+      <Icon size={PLACEHOLDER_ICON_SIZE[variant] ?? 34} strokeWidth={1.5} aria-hidden="true" />
+      {showCaption && <span className="photo-placeholder-text">Photo coming soon</span>}
+    </div>
+  );
+};
 
 // ============================================================================
-// COMPLETE PRODUCT DATA — matches the JSON spec from Haider
+// PRODUCT DATA — transcribed 1:1 from the store's printed price board.
+//
+// The board has six panels: Fresh Beef, Fresh Goat/Lamb, Fresh Chicken,
+// Frozen Beef, Frozen Goat/Lamb, and Frozen Miscellaneous. Every product below
+// maps to exactly one line on that board. Nothing is invented — if it is not on
+// the board, it is not on this site. The board carries no fish or seafood of
+// any kind, so neither does the site.
+//
+// Goat and lamb are one category here because that is how the store sells and
+// prices them ("GOAT/LAMB LEG", "GOAT/LAMB MIX"). Splitting them into separate
+// per-species cuts would mean inventing products the shop does not advertise.
+//
+// Prices: the board covers many prices with a green sticker that is not legible
+// in the photographs we have. Those items carry price: null, which renders as a
+// tap-to-call "Call for price" link rather than a guessed number. Two lines on
+// the frozen goat/lamb sheet are struck out in black marker and are omitted.
+//
 // price: null = "Call for price" | perLb: true = append "/lb"
 // marketPrice: true = "Market price"
 // ============================================================================
@@ -51,7 +117,7 @@ const createProduct = (id, name, category, price, opts = {}) => ({
   perLb: opts.perLb ?? false,
   marketPrice: opts.marketPrice ?? false,
   prepType: opts.prepType ?? 'Package',
-  image: opts.image ?? catGrocery,
+  image: opts.image ?? null,
   badge: opts.badge ?? null,
   tags: opts.tags ?? [],
   description: opts.description ?? '',
@@ -61,122 +127,167 @@ const createProduct = (id, name, category, price, opts = {}) => ({
 });
 
 const MEAT_PRODUCTS = [
-  // BEEF (12 items)
-  createProduct('b1', 'Ribeye Steak', 'Beef', null, { perLb: true, prepType: 'Steaks', image: beefRibeye, badge: 'PREMIUM CUT', description: 'Hand-selected thick ribeye with intense marbling.' }),
-  createProduct('b2', 'Beef Tenderloin', 'Beef', null, { perLb: true, prepType: 'Steaks', image: catBeef, badge: 'CHEF CHOICE', description: 'The most tender cut — perfect for medallions and filet.' }),
-  createProduct('b3', 'Beef Chuck, Cubed', 'Beef', null, { perLb: true, prepType: 'Cubed', image: catBeef, badge: 'FOR CURRY', description: 'Pre-cubed chuck ideal for slow-cooked curries.' }),
-  createProduct('b4', 'Beef Shank', 'Beef', null, { perLb: true, prepType: 'Bone-in', image: beefNihari, badge: 'BONE-IN', description: 'Rich marrow-filled shank for nihari and soups.' }),
-  createProduct('b5', 'Beef Brisket', 'Beef', null, { perLb: true, prepType: 'Boneless', image: catBeef, badge: 'TEXAS FAVORITE', description: 'Choice brisket with rich fat cap for low & slow cooking.' }),
-  createProduct('b6', 'Beef Short Ribs', 'Beef', null, { perLb: true, prepType: 'Bone-in', image: catBeef, badge: 'BONE-IN', description: 'Meaty short ribs perfect for braising.' }),
-  createProduct('b7', 'Ground Beef', 'Beef', null, { perLb: true, prepType: 'Minced', image: catBeef, badge: 'DAILY FRESH', description: 'Freshly ground from prime cuts, 85/15 lean ratio.' }),
-  createProduct('b8', 'Beef Qeema (Fine)', 'Beef', null, { perLb: true, prepType: 'Minced', image: catBeef, badge: 'DESI STYLE', description: 'Extra-fine ground beef for qeema and kebabs.' }),
-  createProduct('b9', 'Beef Nihari Cut', 'Beef', null, { perLb: true, prepType: 'Bone-in', image: beefNihari, badge: 'BONE-IN', description: 'Traditional bone-in shank pieces for authentic nihari.' }),
-  createProduct('b10', 'Beef Paya (Trotters)', 'Beef', null, { perLb: true, prepType: 'Bone-in', image: beefPaya, badge: 'SPECIALTY', description: 'Fresh beef trotters for paya curry.' }),
-  createProduct('b11', 'Beef Liver', 'Beef', null, { perLb: true, prepType: 'Organ', image: beefLiver, badge: 'ORGAN MEAT', description: 'Fresh beef liver, cleaned and trimmed.' }),
-  createProduct('b12', 'Beef Tongue', 'Beef', null, { perLb: true, prepType: 'Organ', image: catBeef, badge: 'DELICACY', description: 'Whole beef tongue — a desi delicacy.' }),
+  // ---- FRESH BEEF PRICES (18 board lines) --------------------------------
+  createProduct('b1', 'Beef with Bone, Mixed Cut', 'Beef', 6.49, { perLb: true, prepType: 'Bone-in', badge: 'BONE-IN', description: 'Mixed bone-in beef, cut to order at the counter.' }),
+  createProduct('b2', 'Beef Leg or Shoulder', 'Beef', 6.99, { perLb: true, prepType: 'Boneless', description: 'Leg or shoulder, your choice — trimmed to order.' }),
+  createProduct('b3', 'Beef Ribeye Steak', 'Beef', 10.99, { perLb: true, prepType: 'Steaks', image: beefRibeye, badge: 'PREMIUM CUT', description: 'Well-marbled ribeye, cut to the thickness you ask for.' }),
+  createProduct('b4', 'Beef T-Bone Steak', 'Beef', 8.99, { perLb: true, prepType: 'Steaks', badge: 'BONE-IN', description: 'Strip and tenderloin either side of the bone.' }),
+  createProduct('b5', 'Beef Ribs', 'Beef', 5.99, { perLb: true, prepType: 'Bone-in', badge: 'BONE-IN', description: 'Bone-in beef ribs for slow cooking or the grill.' }),
+  createProduct('b6', 'Beef Neck', 'Beef', 6.99, { perLb: true, prepType: 'Bone-in', description: 'Bone-in neck — rich and full-flavoured when braised.' }),
+  createProduct('b7', 'Beef Filet Mignon', 'Beef', 13.99, { perLb: true, prepType: 'Steaks', badge: 'MOST TENDER', description: 'The tenderloin cut. The most tender steak on the counter.' }),
+  createProduct('b8', 'Beef Boneless, from Leg', 'Beef', 8.99, { perLb: true, prepType: 'Boneless', description: 'Boneless leg meat, trimmed.' }),
+  createProduct('b9', 'Fresh Nihari', 'Beef', 8.99, { perLb: true, prepType: 'Bone-in', image: beefNihari, badge: 'BONE-IN', description: 'Cross-cut shank with the marrow bone in — cut for nihari.' }),
+  createProduct('b10', 'Beef Eye of Round Steak, Boneless', 'Beef', 7.49, { perLb: true, prepType: 'Steaks', description: 'Lean boneless round steak.' }),
+  createProduct('b11', 'Beef Boneless Cubes, Lean', 'Beef', 7.49, { perLb: true, prepType: 'Cubed', badge: 'FOR CURRY', description: 'Boneless lean cubes, ready for the pot.' }),
+  createProduct('b12', 'Beef Boneless Cubes, Extra Lean', 'Beef', 7.99, { perLb: true, prepType: 'Cubed', badge: 'EXTRA LEAN', description: 'Boneless cubes trimmed extra lean.' }),
+  createProduct('b13', 'Ground Beef, Regular', 'Beef', 6.99, { perLb: true, prepType: 'Minced', badge: 'GROUND FRESH', description: 'Ground fresh at the counter.' }),
+  createProduct('b14', 'Ground Beef, Lean', 'Beef', 7.49, { perLb: true, prepType: 'Minced', description: 'Leaner grind for kebabs and keema.' }),
+  createProduct('b15', 'Ground Beef, Extra Lean', 'Beef', 7.99, { perLb: true, prepType: 'Minced', badge: 'EXTRA LEAN', description: 'The leanest grind we make.' }),
+  createProduct('b16', 'Beef Pasanda', 'Beef', 7.99, { perLb: true, prepType: 'Boneless', badge: 'DESI CUT', description: 'Thin flat slices cut for pasanda.' }),
+  createProduct('b17', 'Beef Bihari Cut', 'Beef', 7.99, { perLb: true, prepType: 'Boneless', badge: 'DESI CUT', description: 'Long thin strips cut for Bihari kebab.' }),
+  createProduct('b18', 'Beef Sirloin Steak', 'Beef', 11.99, { perLb: true, prepType: 'Steaks', description: 'Boneless sirloin, cut to order.' }),
 
-  // GOAT (6 items)
-  createProduct('g1', 'Goat, Bone-In Cubed', 'Goat', null, { perLb: true, prepType: 'Bone-in', image: goatCurry, badge: 'BONE-IN', description: 'Young goat cut into medium curry pieces.' }),
-  createProduct('g2', 'Goat Shoulder', 'Goat', null, { perLb: true, prepType: 'Boneless', image: catGoat, badge: 'PREMIUM', description: 'Tender goat shoulder, boneless.' }),
-  createProduct('g3', 'Goat Leg', 'Goat', null, { perLb: true, prepType: 'Boneless', image: catGoat, badge: 'SIGNATURE CUT', description: 'Lean boneless leg of goat for biryanis and roasts.' }),
-  createProduct('g4', 'Goat Chops', 'Goat', null, { perLb: true, prepType: 'Chops', image: catGoat, badge: 'POPULAR', description: 'Freshly cut goat loin chops.' }),
-  createProduct('g5', 'Goat Ribs', 'Goat', null, { perLb: true, prepType: 'Bone-in', image: goatRibs, badge: 'SPECIALTY', description: 'Meaty goat ribs for grilling or curry.' }),
-  createProduct('g6', 'Whole Goat', 'Goat', null, { marketPrice: true, prepType: 'Whole', image: goatWhole, badge: 'ORDER AHEAD', description: 'Whole young goat — order 48 hours ahead.' }),
+  // ---- FROZEN BEEF PRICES (7 board lines) --------------------------------
+  createProduct('b19', 'Frozen Beef Paya (Trotters)', 'Beef', null, { perLb: true, prepType: 'Bone-in', badge: 'FROZEN', description: 'Frozen beef trotters for paya.' }),
+  createProduct('b20', 'Frozen Oxtail', 'Beef', null, { perLb: true, prepType: 'Bone-in', badge: 'FROZEN', description: 'Frozen oxtail, cut into sections.' }),
+  createProduct('b21', 'Frozen Beef Liver', 'Beef', 3.99, { perLb: true, prepType: 'Organ', image: beefLiver, badge: 'FROZEN', description: 'Sliced beef liver, frozen.' }),
+  createProduct('b22', 'Beef Marrow Bone', 'Beef', null, { perLb: true, prepType: 'Bone-in', badge: 'FOR STOCK', description: 'Marrow bones for stock, soup, and nihari.' }),
+  createProduct('b23', 'Beef Knuckle / Joint Bone', 'Beef', null, { perLb: true, prepType: 'Bone-in', badge: 'FOR STOCK', description: 'Knuckle and joint bones for long-simmered stock.' }),
+  createProduct('b24', 'Beef Tripe / Stomach', 'Beef', null, { perLb: true, prepType: 'Organ', image: beefTripe, badge: 'SPECIALTY', description: 'Cleaned honeycomb tripe.' }),
+  createProduct('b25', 'Beef Tongue', 'Beef', 6.99, { perLb: true, prepType: 'Organ', badge: 'SPECIALTY', description: 'Whole beef tongue.' }),
 
-  // LAMB (7 items)
-  createProduct('l1', 'Lamb, Bone-In Cubed', 'Lamb', null, { perLb: true, prepType: 'Bone-in', image: catLamb, badge: 'BONE-IN', description: 'Fresh lamb cut into medium curry pieces.' }),
-  createProduct('l2', 'Lamb Chops', 'Lamb', null, { perLb: true, prepType: 'Chops', image: catLamb, badge: 'TOP RATED', description: 'Premium loin lamb chops for stovetop searing.' }),
-  createProduct('l3', 'Leg of Lamb', 'Lamb', null, { perLb: true, prepType: 'Boneless', image: catLamb, badge: 'PREMIUM', description: 'Boneless leg of lamb for roasting.' }),
-  createProduct('l4', 'Lamb Shoulder', 'Lamb', null, { perLb: true, prepType: 'Boneless', image: catLamb, badge: 'VERSATILE', description: 'Flavorful lamb shoulder, boneless.' }),
-  createProduct('l5', 'Lamb Shank', 'Lamb', null, { perLb: true, prepType: 'Bone-in', image: catLamb, badge: 'BONE-IN', description: 'Rich lamb shank for slow cooking.' }),
-  createProduct('l6', 'Ground Lamb', 'Lamb', null, { perLb: true, prepType: 'Minced', image: catLamb, badge: 'FRESH GROUND', description: 'Freshly ground lamb from shoulder cuts.' }),
-  createProduct('l7', 'Whole Lamb', 'Lamb', null, { marketPrice: true, prepType: 'Whole', image: catLamb, badge: 'ORDER AHEAD', description: 'Whole lamb — order 72 hours ahead for events.' }),
+  // ---- FRESH GOAT/LAMB (13 board lines) ----------------------------------
+  // The board prices goat and lamb identically on a single shared line.
+  createProduct('gl1', 'Half Goat / Lamb', 'Goat & Lamb', 13.99, { perLb: true, prepType: 'Whole', image: goatWhole, badge: 'ORDER AHEAD', description: 'Half animal, cut to your instructions. Call ahead.' }),
+  createProduct('gl2', 'Whole Goat / Lamb', 'Goat & Lamb', 13.99, { perLb: true, prepType: 'Whole', image: goatWhole, badge: 'ORDER AHEAD', description: 'Whole animal, cut to your instructions. Call ahead.' }),
+  createProduct('gl3', 'Goat / Lamb Leg', 'Goat & Lamb', 15.99, { perLb: true, prepType: 'Bone-in', image: goatLambLeg, badge: 'SIGNATURE CUT', description: 'Whole bone-in leg, shank attached.' }),
+  createProduct('gl4', 'Goat / Lamb Mixed Cut', 'Goat & Lamb', 13.99, { perLb: true, prepType: 'Bone-in', image: goatLambMix, badge: 'FOR CURRY', description: 'Bone-in curry cut — the everyday mix.' }),
+  createProduct('gl5', 'Goat / Lamb Chops', 'Goat & Lamb', 14.99, { perLb: true, prepType: 'Chops', badge: 'POPULAR', description: 'Loin chops, cut to order.' }),
+  createProduct('gl6', 'Goat / Lamb Liver', 'Goat & Lamb', 5.99, { perLb: true, prepType: 'Organ', description: 'Fresh liver, cleaned.' }),
+  createProduct('gl7', 'Goat / Lamb Kidneys', 'Goat & Lamb', 10.99, { perLb: true, prepType: 'Organ', description: 'Fresh kidneys, cleaned.' }),
+  createProduct('gl8', 'Goat / Lamb Qeema (Ground)', 'Goat & Lamb', 15.99, { perLb: true, prepType: 'Minced', badge: 'GROUND FRESH', description: 'Ground fresh at the counter for keema and kebabs.' }),
+  createProduct('gl9', 'Goat / Lamb Boneless', 'Goat & Lamb', 16.99, { perLb: true, prepType: 'Boneless', badge: 'PREMIUM', description: 'Fully boned-out meat, trimmed.' }),
+  createProduct('gl10', 'Goat / Lamb Heart', 'Goat & Lamb', 5.99, { perLb: true, prepType: 'Organ', description: 'Fresh heart, cleaned and trimmed.' }),
+  createProduct('gl11', 'Goat / Lamb Ribs', 'Goat & Lamb', 12.99, { perLb: true, prepType: 'Bone-in', badge: 'BONE-IN', description: 'Bone-in ribs for the grill or the pot.' }),
+  createProduct('gl12', 'Goat / Lamb Putt & Neck', 'Goat & Lamb', 14.99, { perLb: true, prepType: 'Bone-in', description: 'Putt and neck pieces, bone-in.' }),
+  createProduct('gl13', 'Goat / Lamb Rib Rack', 'Goat & Lamb', 14.99, { perLb: true, prepType: 'Bone-in', badge: 'BONE-IN', description: 'Full rack of ribs, French-trimmed on request.' }),
 
-  // CHICKEN (9 items)
-  createProduct('c1', 'Whole Chicken', 'Chicken', null, { perLb: true, prepType: 'Whole', image: chickenWhole, badge: 'ZABIHA', description: '100% hand-slaughtered whole chicken.' }),
-  createProduct('c2', 'Whole Chicken, Skinless', 'Chicken', null, { perLb: true, prepType: 'Whole', image: chickenWholeSkinless, badge: 'SKINLESS', description: 'Whole chicken, skin removed upon request.' }),
-  createProduct('c3', 'Chicken, Cut Into Pieces', 'Chicken', null, { perLb: true, prepType: 'Bone-in', image: chickenPieces, badge: 'CURRY READY', description: 'Pre-cut chicken pieces, ready for the pot.' }),
-  createProduct('c4', 'Boneless Chicken Breast', 'Chicken', null, { perLb: true, prepType: 'Boneless', image: chickenBreast, badge: 'BONELESS', description: 'Tender, skinless breasts triple washed and trimmed.' }),
-  createProduct('c5', 'Chicken Thighs', 'Chicken', null, { perLb: true, prepType: 'Bone-in', image: chickenThighs, badge: 'JUICY', description: 'Bone-in chicken thighs, perfect for curries and grilling.' }),
-  createProduct('c6', 'Chicken Drumsticks', 'Chicken', null, { perLb: true, prepType: 'Bone-in', image: chickenDrumstick, badge: 'FAMILY FAVORITE', description: 'Juicy drumsticks for baking, frying, or curries.' }),
-  createProduct('c7', 'Chicken Wings', 'Chicken', null, { perLb: true, prepType: 'Bone-in', image: chickenWings, badge: 'PARTY PACK', description: 'Plump wings for BBQ, tandoori, or frying.' }),
-  createProduct('c8', 'Ground Chicken', 'Chicken', null, { perLb: true, prepType: 'Minced', image: catChicken, badge: 'LEAN', description: 'Freshly ground lean chicken for kebabs.' }),
-  createProduct('c9', 'Chicken Liver', 'Chicken', null, { perLb: true, prepType: 'Organ', image: catChicken, badge: 'ORGAN MEAT', description: 'Fresh chicken livers, cleaned.' }),
+  // ---- FROZEN GOAT/LAMB (8 live board lines; 2 struck out, omitted) ------
+  createProduct('gl14', 'Frozen Goat / Lamb Leg', 'Goat & Lamb', null, { perLb: true, prepType: 'Bone-in', badge: 'FROZEN', description: 'Bone-in leg, frozen.' }),
+  createProduct('gl15', 'Frozen Lamb Shanks', 'Goat & Lamb', null, { perLb: true, prepType: 'Bone-in', badge: 'FROZEN', description: 'Frozen lamb shanks for slow braising.' }),
+  createProduct('gl16', 'Frozen Goat Bones', 'Goat & Lamb', 4.99, { perLb: true, prepType: 'Bone-in', badge: 'FOR STOCK', description: 'Goat bones for stock and soup.' }),
+  createProduct('gl17', 'Frozen Goat Paya with Skin', 'Goat & Lamb', 5.99, { perLb: true, prepType: 'Bone-in', badge: 'FROZEN', description: 'Goat trotters with the skin on, for paya.' }),
+  createProduct('gl18', 'Frozen Goat / Lamb Tongue', 'Goat & Lamb', null, { perLb: true, prepType: 'Organ', badge: 'FROZEN', description: 'Frozen tongue.' }),
+  createProduct('gl19', 'Frozen Goat / Lamb Stomach', 'Goat & Lamb', 5.99, { perLb: true, prepType: 'Organ', badge: 'FROZEN', description: 'Cleaned stomach, frozen.' }),
+  createProduct('gl20', 'Frozen Goat / Lamb Head', 'Goat & Lamb', 10.00, { prepType: 'Whole', badge: 'EACH', description: 'Whole head, frozen. Priced each, not per pound.' }),
+  createProduct('gl21', 'Frozen Goat Burnt Paya', 'Goat & Lamb', null, { perLb: true, prepType: 'Bone-in', badge: 'FROZEN', description: 'Singed goat trotters, ready to clean and cook.' }),
 
-  // FISH (5 items)
-  createProduct('f1', 'Whole Tilapia', 'Fish', null, { perLb: true, prepType: 'Whole', image: catSeafood, badge: 'FRESH CATCH', description: 'Fresh whole tilapia, cleaned and scaled.' }),
-  createProduct('f2', 'Rohu', 'Fish', null, { marketPrice: true, prepType: 'Whole', image: catSeafood, badge: 'FROZEN', description: 'Premium rohu fish, frozen for freshness.' }),
-  createProduct('f3', 'King Fish Steaks', 'Fish', null, { marketPrice: true, prepType: 'Steaks', image: catSeafood, badge: 'PREMIUM', description: 'Thick-cut king fish steaks.' }),
-  createProduct('f4', 'Pomfret', 'Fish', null, { marketPrice: true, prepType: 'Whole', image: catSeafood, badge: 'FROZEN', description: 'Whole frozen pomfret — a South Asian classic.' }),
-  createProduct('f5', 'Shrimp', 'Fish', null, { perLb: true, prepType: 'Whole', image: catSeafood, badge: 'SEAFOOD', description: 'Deveined jumbo shrimp.' }),
+  // ---- FRESH CHICKEN (13 board lines) ------------------------------------
+  // Every price on this panel is covered by a sticker we cannot read, so all
+  // of them route to a phone call rather than showing an invented figure.
+  createProduct('c1', 'Whole Chicken', 'Chicken', null, { perLb: true, prepType: 'Whole', image: chickenWhole, badge: 'ZABIHA', description: 'Hand-slaughtered whole chicken. Cut up on request at no charge.' }),
+  createProduct('c2', 'Chicken Leg Quarters, Box', 'Chicken', null, { prepType: 'Bone-in', badge: 'BULK BOX', description: 'Full box of leg quarters — the bulk buy.' }),
+  createProduct('c3', 'Chicken Leg Quarters, Half Box', 'Chicken', null, { prepType: 'Bone-in', badge: 'BULK BOX', description: 'Half box of leg quarters.' }),
+  createProduct('c4', 'Chicken Boneless Breast', 'Chicken', null, { perLb: true, prepType: 'Boneless', image: chickenBreast, badge: 'BONELESS', description: 'Skinless boneless breast fillets, trimmed.' }),
+  createProduct('c5', 'Chicken Boneless Thigh', 'Chicken', null, { perLb: true, prepType: 'Boneless', image: chickenBonelessThigh, badge: 'BONELESS', description: 'Skinless boneless thigh meat.' }),
+  createProduct('c6', 'Chicken Drumsticks', 'Chicken', null, { perLb: true, prepType: 'Bone-in', image: chickenDrumstick, badge: 'FAMILY FAVORITE', description: 'Skinless drumsticks.' }),
+  createProduct('c7', 'Tahir Whole Chicken', 'Chicken', null, { perLb: true, prepType: 'Whole', image: tahirWholeChicken, badge: 'HFSAA CERTIFIED', description: 'Tahir brand — zabihah individual hand slaughter, cage free, no antibiotics ever.' }),
+  createProduct('c8', 'Tahir Leg Quarters', 'Chicken', null, { perLb: true, prepType: 'Bone-in', badge: 'HFSAA CERTIFIED', description: 'Tahir brand leg quarters.' }),
+  createProduct('c9', 'Tahir Boneless Breast', 'Chicken', null, { perLb: true, prepType: 'Boneless', badge: 'HFSAA CERTIFIED', description: 'Tahir brand boneless breast.' }),
+  createProduct('c10', 'Chicken Qeema (Ground)', 'Chicken', null, { perLb: true, prepType: 'Minced', badge: 'GROUND FRESH', description: 'Ground chicken for kebabs and keema.' }),
+  createProduct('c11', 'Chicken Fajita Strips', 'Chicken', null, { perLb: true, prepType: 'Boneless', description: 'Boneless strips, cut for fajitas and stir-fry.' }),
+  createProduct('c12', 'Chicken Tenders', 'Chicken', null, { perLb: true, prepType: 'Boneless', description: 'Breast tenderloins.' }),
+  createProduct('c13', 'Chicken Leg Quarters', 'Chicken', null, { perLb: true, prepType: 'Bone-in', image: chickenLegQuarters, badge: 'BONE-IN', description: 'Thigh and drumstick attached, sold by the pound.' }),
+
+  // ---- FROZEN MISCELLANEOUS (5 board lines) ------------------------------
+  createProduct('c14', 'Chicken Wings', 'Chicken', 4.99, { perLb: true, prepType: 'Bone-in', image: chickenWings, badge: 'PARTY PACK', description: 'Whole wings for BBQ, tandoori, or frying.' }),
+  createProduct('c15', 'Chicken Gizzard', 'Chicken', null, { perLb: true, prepType: 'Organ', badge: 'FROZEN', description: 'Cleaned chicken gizzards.' }),
+  createProduct('c16', 'Chicken Liver', 'Chicken', null, { perLb: true, prepType: 'Organ', badge: 'FROZEN', description: 'Fresh chicken livers, cleaned.' }),
+  createProduct('c17', 'Frozen Quail', 'Chicken', null, { prepType: 'Whole', badge: 'PER TRAY', description: 'Whole quail, sold by the tray.' }),
+  createProduct('c18', 'Frozen Duck', 'Chicken', null, { perLb: true, prepType: 'Whole', badge: 'FROZEN', description: 'Whole frozen duck.' }),
 ];
 
-// GROCERY organized by category
+// ---------------------------------------------------------------------------
+// GROCERY
+// The store's own business card lists its grocery lines: "Fresh Vegetables /
+// Spices, Snacks / Frozen & Canned Foods / Dairy Products / Sweets and more".
+// The product names below reflect those lines, but the meat board is the only
+// price list we have been given, and it covers the butcher counter only. Every
+// grocery item therefore shows "Call for price" — no shelf price is asserted
+// here that we cannot source.
+// ---------------------------------------------------------------------------
 const GROCERY_RICE = [
-  createProduct('gr1', 'Basmati Rice, 10 lb', 'Rice, Flour & Lentils', 18.99, { originalPrice: 22.99, badge: 'PANTRY ESSENTIAL', description: 'Aged extra-long grain aromatic Basmati.' }),
-  createProduct('gr2', 'Basmati Rice, 20 lb', 'Rice, Flour & Lentils', 24.99, { originalPrice: 29.99, badge: 'FAMILY SIZE', description: 'Premium Pakistani Basmati.' }),
-  createProduct('gr3', 'Sella Rice', 'Rice, Flour & Lentils', 14.99, { originalPrice: 17.99, badge: 'PARBOILED', description: 'Parboiled Sella rice — never sticky.' }),
-  createProduct('gr4', 'Atta / Chapati Flour', 'Rice, Flour & Lentils', 14.99, { originalPrice: 17.99, badge: 'FRESH STOCK', description: 'Stone-ground whole wheat flour.' }),
-  createProduct('gr5', 'Besan (Gram Flour)', 'Rice, Flour & Lentils', 5.99, { description: 'Fine chickpea flour for pakoras.' }),
-  createProduct('gr6', 'Toor Dal', 'Rice, Flour & Lentils', 6.49, { description: 'Split pigeon peas.' }),
-  createProduct('gr7', 'Masoor Dal', 'Rice, Flour & Lentils', 4.99, { description: 'Red lentils — quick cooking.' }),
-  createProduct('gr8', 'Chana Dal', 'Rice, Flour & Lentils', 5.49, { description: 'Split chickpea lentils.' }),
-  createProduct('gr9', 'Chickpeas', 'Rice, Flour & Lentils', 4.49, { description: 'Whole dried chickpeas.' }),
+  createProduct('gr1', 'Basmati Rice, 10 lb', 'Rice, Flour & Lentils', null, { badge: 'PANTRY ESSENTIAL', description: 'Aged extra-long grain aromatic Basmati.' }),
+  createProduct('gr2', 'Basmati Rice, 20 lb', 'Rice, Flour & Lentils', null, { badge: 'FAMILY SIZE', description: 'Premium Pakistani Basmati.' }),
+  createProduct('gr3', 'Sella Rice', 'Rice, Flour & Lentils', null, { badge: 'PARBOILED', description: 'Parboiled Sella rice — never sticky.' }),
+  createProduct('gr4', 'Atta / Chapati Flour', 'Rice, Flour & Lentils', null, { description: 'Stone-ground whole wheat flour.' }),
+  createProduct('gr5', 'Besan (Gram Flour)', 'Rice, Flour & Lentils', null, { description: 'Fine chickpea flour for pakoras.' }),
+  createProduct('gr6', 'Toor Dal', 'Rice, Flour & Lentils', null, { description: 'Split pigeon peas.' }),
+  createProduct('gr7', 'Masoor Dal', 'Rice, Flour & Lentils', null, { description: 'Red lentils — quick cooking.' }),
+  createProduct('gr8', 'Chana Dal', 'Rice, Flour & Lentils', null, { description: 'Split chickpea lentils.' }),
+  createProduct('gr9', 'Chickpeas', 'Rice, Flour & Lentils', null, { description: 'Whole dried chickpeas.' }),
 ];
 
 const GROCERY_SPICES = [
-  createProduct('gs1', 'Garam Masala', 'Spices', 4.99, { description: 'House-blended aromatic masala.' }),
-  createProduct('gs2', 'Turmeric Powder', 'Spices', 3.49, { description: 'Pure ground turmeric.' }),
-  createProduct('gs3', 'Red Chili Powder', 'Spices', 3.99, { description: 'Hot red chili powder.' }),
-  createProduct('gs4', 'Coriander Powder', 'Spices', 3.49, { description: 'Ground coriander seed.' }),
-  createProduct('gs5', 'Cumin Seed', 'Spices', 4.49, { description: 'Whole cumin seeds.' }),
-  createProduct('gs6', 'Biryani Masala', 'Spices', 5.99, { description: 'Shan Biryani spice mix.' }),
-  createProduct('gs7', 'Curry Paste', 'Spices', 4.99, { description: 'Ginger-garlic curry paste.' }),
-  createProduct('gs8', 'Saffron', 'Spices', 12.99, { originalPrice: 15.99, badge: 'PREMIUM', description: 'Premium saffron threads.' }),
+  createProduct('gs1', 'Garam Masala', 'Spices', null, { description: 'House-blended aromatic masala.' }),
+  createProduct('gs2', 'Turmeric Powder', 'Spices', null, { description: 'Pure ground turmeric.' }),
+  createProduct('gs3', 'Red Chili Powder', 'Spices', null, { description: 'Hot red chili powder.' }),
+  createProduct('gs4', 'Coriander Powder', 'Spices', null, { description: 'Ground coriander seed.' }),
+  createProduct('gs5', 'Cumin Seed', 'Spices', null, { description: 'Whole cumin seeds.' }),
+  createProduct('gs6', 'Biryani Masala', 'Spices', null, { description: 'Biryani spice mix.' }),
+  createProduct('gs7', 'Curry Paste', 'Spices', null, { description: 'Ginger-garlic curry paste.' }),
+  createProduct('gs8', 'Saffron', 'Spices', null, { badge: 'PREMIUM', description: 'Saffron threads.' }),
 ];
 
 const GROCERY_DAIRY = [
-  createProduct('gd1', 'Paneer', 'Dairy', 7.99, { originalPrice: 9.49, badge: 'FRESH', description: 'Fresh Indian-style cheese block.' }),
-  createProduct('gd2', 'Yogurt / Dahi', 'Dairy', 3.99, { description: 'Plain whole-milk yogurt.' }),
-  createProduct('gd3', 'Ghee', 'Dairy', 16.99, { originalPrice: 19.99, badge: 'PREMIUM', description: 'Pure clarified butter ghee.' }),
-  createProduct('gd4', 'Lassi', 'Dairy', 3.49, { description: 'Refreshing yogurt drink.' }),
-  createProduct('gd5', 'Halal Cheese', 'Dairy', 5.99, { description: 'Imported halal-certified cheese.' }),
+  createProduct('gd1', 'Paneer', 'Dairy', null, { badge: 'FRESH', description: 'Fresh Indian-style cheese block.' }),
+  createProduct('gd2', 'Yogurt / Dahi', 'Dairy', null, { description: 'Plain whole-milk yogurt.' }),
+  createProduct('gd3', 'Ghee', 'Dairy', null, { badge: 'PREMIUM', description: 'Pure clarified butter ghee.' }),
+  createProduct('gd4', 'Lassi', 'Dairy', null, { description: 'Refreshing yogurt drink.' }),
+  createProduct('gd5', 'Halal Cheese', 'Dairy', null, { description: 'Imported halal-certified cheese.' }),
 ];
 
 const GROCERY_FROZEN = [
-  createProduct('gf1', 'Frozen Paratha', 'Frozen & Canned', 8.49, { originalPrice: 10.49, badge: 'FROZEN', description: 'Flaky Malabari-style frozen parathas.' }),
-  createProduct('gf2', 'Frozen Samosa', 'Frozen & Canned', 7.99, { description: 'Ready-to-fry vegetable samosas.' }),
-  createProduct('gf3', 'Frozen Seekh Kebab', 'Frozen & Canned', 11.99, { originalPrice: 14.99, badge: 'HOT DEAL', description: 'Pre-skewered frozen seekh kebabs.' }),
-  createProduct('gf4', 'Frozen Naan', 'Frozen & Canned', 5.99, { description: 'Tandoori-style frozen naan.' }),
-  createProduct('gf5', 'Canned Tomatoes', 'Frozen & Canned', 2.99, { description: 'Imported plum tomatoes.' }),
-  createProduct('gf6', 'Coconut Milk', 'Frozen & Canned', 3.49, { description: 'Creamy canned coconut milk.' }),
-  createProduct('gf7', 'Pickle / Achar', 'Frozen & Canned', 6.99, { description: 'Mixed mango & lime pickle.' }),
+  createProduct('gf1', 'Frozen Paratha', 'Frozen & Canned', null, { badge: 'FROZEN', description: 'Flaky Malabari-style frozen parathas.' }),
+  createProduct('gf2', 'Frozen Samosa', 'Frozen & Canned', null, { description: 'Ready-to-fry vegetable samosas.' }),
+  createProduct('gf3', 'Frozen Seekh Kebab', 'Frozen & Canned', null, { badge: 'FROZEN', description: 'Pre-skewered frozen seekh kebabs.' }),
+  createProduct('gf4', 'Frozen Naan', 'Frozen & Canned', null, { description: 'Tandoori-style frozen naan.' }),
+  createProduct('gf5', 'Canned Tomatoes', 'Frozen & Canned', null, { description: 'Imported plum tomatoes.' }),
+  createProduct('gf6', 'Coconut Milk', 'Frozen & Canned', null, { description: 'Creamy canned coconut milk.' }),
+  createProduct('gf7', 'Pickle / Achar', 'Frozen & Canned', null, { description: 'Mixed mango & lime pickle.' }),
 ];
 
 const GROCERY_SNACKS = [
-  createProduct('gk1', 'Gulab Jamun', 'Sweets & Snacks', 6.49, { originalPrice: 7.99, badge: 'SWEETS', description: 'Ready-to-make gulab jamun mix.' }),
-  createProduct('gk2', 'Barfi', 'Sweets & Snacks', 9.99, { description: 'Traditional milk fudge squares.' }),
-  createProduct('gk3', 'Jalebi', 'Sweets & Snacks', 7.99, { description: 'Crispy syrup-soaked spirals.' }),
-  createProduct('gk4', 'Rasmalai', 'Sweets & Snacks', 8.99, { description: 'Creamy paneer dumplings in sweet milk.' }),
-  createProduct('gk5', 'Namkeen Mix', 'Sweets & Snacks', 4.99, { description: 'Spiced savory snack mix.' }),
-  createProduct('gk6', 'Dates', 'Sweets & Snacks', 12.99, { originalPrice: 15.99, badge: 'TOP SELLER', description: 'Premium Medjool dates.' }),
-  createProduct('gk7', 'Baklava', 'Sweets & Snacks', 14.99, { description: 'Layered filo pastry with nuts and honey.' }),
+  createProduct('gk1', 'Gulab Jamun', 'Sweets & Snacks', null, { badge: 'SWEETS', description: 'Ready-to-make gulab jamun mix.' }),
+  createProduct('gk2', 'Barfi', 'Sweets & Snacks', null, { description: 'Traditional milk fudge squares.' }),
+  createProduct('gk3', 'Jalebi', 'Sweets & Snacks', null, { description: 'Crispy syrup-soaked spirals.' }),
+  createProduct('gk4', 'Rasmalai', 'Sweets & Snacks', null, { description: 'Creamy paneer dumplings in sweet milk.' }),
+  createProduct('gk5', 'Namkeen Mix', 'Sweets & Snacks', null, { description: 'Spiced savory snack mix.' }),
+  createProduct('gk6', 'Dates', 'Sweets & Snacks', null, { badge: 'TOP SELLER', description: 'Medjool dates.' }),
+  createProduct('gk7', 'Baklava', 'Sweets & Snacks', null, { description: 'Layered filo pastry with nuts and honey.' }),
 ];
 
 const ALL_GROCERY = [...GROCERY_RICE, ...GROCERY_SPICES, ...GROCERY_DAIRY, ...GROCERY_FROZEN, ...GROCERY_SNACKS];
 
-// Meat categories for ribbon nav
-const MEAT_CATEGORIES = ['All', 'Beef', 'Goat', 'Lamb', 'Chicken', 'Fish'];
+// Meat categories for ribbon nav. Goat and lamb share a category because the
+// store's price board sells them on one shared line.
+const MEAT_CATEGORIES = ['All', 'Beef', 'Goat & Lamb', 'Chicken'];
 
-// Category showcase cards
+// Category showcase cards. Counts are derived rather than hand-written so they
+// can never drift out of step with the catalog above.
+const countIn = (cat) => MEAT_PRODUCTS.filter(p => p.category === cat).length;
+
 const PHOTO_CATEGORIES = [
-  { name: 'Beef', title: 'BEEF', count: '12 Cuts', img: catBeef, badge: 'Prime Beef' },
-  { name: 'Goat', title: 'GOAT', count: '6 Cuts', img: catGoat, badge: 'Young & Tender' },
-  { name: 'Lamb', title: 'LAMB', count: '7 Cuts', img: catLamb, badge: 'Premium Cuts' },
-  { name: 'Chicken', title: 'CHICKEN', count: '9 Cuts', img: catChicken, badge: 'Organic Farm' },
-  { name: 'Fish', title: 'FISH', count: '5 Items', img: catSeafood, badge: 'Fresh Catch' },
-  { name: 'Grocery', title: 'GROCERY', count: '36 Items', img: catGrocery, badge: 'Pantry & More' },
+  { name: 'Beef', title: 'BEEF', count: `${countIn('Beef')} Cuts`, img: beefRibeye, badge: 'Fresh & Frozen' },
+  { name: 'Goat & Lamb', title: 'GOAT & LAMB', count: `${countIn('Goat & Lamb')} Cuts`, img: goatWhole, badge: 'Whole & Half Available' },
+  // "Organic Farm" was an unverified USDA-regulated claim. The store's own
+  // verified claim is hand-slaughtered zabiha, which the site already makes.
+  { name: 'Chicken', title: 'CHICKEN', count: `${countIn('Chicken')} Cuts`, img: chickenWhole, badge: 'Hand-Slaughtered' },
+  { name: 'Grocery', title: 'GROCERY', count: `${ALL_GROCERY.length} Items`, img: null, badge: 'Pantry & More' },
 ];
+
+// Ribbon thumbnails — only categories with a real store photo get one.
+const RIBBON_THUMB = { Beef: beefRibeye, 'Goat & Lamb': goatWhole, Chicken: chickenWhole };
 
 export default function App() {
   const [activeCategory, setActiveCategory] = useState('All');
@@ -184,7 +295,7 @@ export default function App() {
   const [searchQuery, setSearchQuery] = useState('');
   const [viewMode, setViewMode] = useState('cols-3');
   const [sortOption, setSortOption] = useState('default');
-  const [priceMaxFilter, setPriceMaxFilter] = useState(35);
+  const [priceMaxFilter, setPriceMaxFilter] = useState(PRICE_MAX);
   const [selectedPreps, setSelectedPreps] = useState([]);
   const [onlyBoneIn, setOnlyBoneIn] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
@@ -221,7 +332,9 @@ export default function App() {
 
     return source.filter(p => {
       if (searchQuery.trim() !== '') {
-        const q = searchQuery.toLowerCase();
+        // Trim before matching — a pasted term with surrounding whitespace
+        // otherwise matches nothing and shows a false "No items found".
+        const q = searchQuery.trim().toLowerCase();
         if (!p.name.toLowerCase().includes(q) && !p.category.toLowerCase().includes(q)) return false;
       }
       if (p.price !== null && p.price > priceMaxFilter) return false;
@@ -238,6 +351,13 @@ export default function App() {
   const cartSubtotal = useMemo(() => {
     return cart.reduce((acc, item) => acc + ((item.price ?? 0) * item.quantity), 0);
   }, [cart]);
+
+  // Items the board doesn't publish a price for still belong on the list; they
+  // just can't be totalled, so the drawer says so explicitly.
+  const unpricedCount = useMemo(
+    () => cart.reduce((n, item) => n + (item.price === null ? item.quantity : 0), 0),
+    [cart]
+  );
 
   const handleAddToCart = (product) => {
     const existingIndex = cart.findIndex(ci => ci.id === product.id);
@@ -311,7 +431,7 @@ export default function App() {
               </span>
               <span className="announcement-item">
                 <Clock size={14} />
-                <span>Daily: 9:00 AM - 9:00 PM</span>
+                <span>Daily: 10:00 AM - 9:00 PM</span>
               </span>
               <a href="tel:+15122607677" className="announcement-phone-pill">
                 <Phone size={13} /> (512) 260-7677
@@ -383,7 +503,7 @@ export default function App() {
             </h2>
             <p className="hero-subtitle">
               {activeTab === 'meat' 
-                ? 'Sourcing the finest hand-slaughtered Zabiha beef, goat, lamb, chicken, and fish. Custom cut and trimmed to order.'
+                ? 'Hand-slaughtered Zabiha beef, goat, lamb, and chicken — fresh and frozen. Custom cut and trimmed to order at the counter.'
                 : 'Fresh spices, basmati rice, frozen foods, dairy, sweets, and specialty groceries from South Asia and the Middle East — right here in Cedar Park.'}
             </p>
             <div className="hero-actions">
@@ -417,7 +537,9 @@ export default function App() {
                 else { handleSwitchTab('meat'); setActiveMeatCat(cat.name); }
                 document.getElementById('shop-section')?.scrollIntoView({ behavior: 'smooth' });
               }}>
-                <img src={cat.img} alt={cat.title} className="photo-category-img" />
+                {cat.img
+                  ? <img src={cat.img} alt={cat.title} className="photo-category-img" />
+                  : <PhotoPlaceholder label={cat.title} category={cat.name} variant="tile" />}
                 <div className="photo-category-overlay">
                   <span className="photo-category-badge">{cat.badge}</span>
                   <h4 className="photo-category-title">{cat.title}</h4>
@@ -444,7 +566,9 @@ export default function App() {
                       <ShoppingBag size={16} color="var(--gold-accent)" />
                     </div>
                   ) : (
-                    <img src={cat === 'Beef' ? catBeef : cat === 'Goat' ? catGoat : cat === 'Lamb' ? catLamb : cat === 'Chicken' ? catChicken : catSeafood} alt={cat} className="shop-cat-icon-thumb" />
+                    RIBBON_THUMB[cat]
+                      ? <img src={RIBBON_THUMB[cat]} alt={cat} className="shop-cat-icon-thumb" />
+                      : <PhotoPlaceholder label={cat} category={cat} variant="thumb" />
                   )}
                   <span>{cat === 'All' ? 'All Meat' : cat}</span>
                   <span className="shop-cat-count-badge">
@@ -510,10 +634,14 @@ export default function App() {
                 <div className="price-range-inputs">
                   <div className="price-input-wrap">
                     <span>$</span>
-                    <input type="number" className="price-num-input" value={priceMaxFilter} onChange={(e) => setPriceMaxFilter(Number(e.target.value))} />
+                    <input type="number" className="price-num-input" min={PRICE_MIN} max={PRICE_MAX}
+                      value={priceMaxFilter}
+                      onChange={(e) => setPriceMaxFilter(clampPrice(e.target.value))} />
                   </div>
                 </div>
-                <input type="range" className="price-slider-bar" min="3" max="35" value={priceMaxFilter} onChange={(e) => setPriceMaxFilter(Number(e.target.value))} />
+                <input type="range" className="price-slider-bar" min={PRICE_MIN} max={PRICE_MAX}
+                  value={priceMaxFilter}
+                  onChange={(e) => setPriceMaxFilter(clampPrice(e.target.value))} />
                 <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>Up to ${priceMaxFilter}.00</span>
               </div>
               {activeTab === 'meat' && (
@@ -535,7 +663,7 @@ export default function App() {
                 </label>
               </div>
               <button className="btn-outline-gold" style={{ width: '100%', justifyContent: 'center', padding: '0.6rem' }}
-                onClick={() => { setActiveMeatCat('All'); setSearchQuery(''); setPriceMaxFilter(35); setSelectedPreps([]); setOnlyBoneIn(false); }}>
+                onClick={() => { setActiveMeatCat('All'); setSearchQuery(''); setPriceMaxFilter(PRICE_MAX); setSelectedPreps([]); setOnlyBoneIn(false); }}>
                 <RefreshCw size={14} /><span>Clear All</span>
               </button>
             </aside>
@@ -553,7 +681,9 @@ export default function App() {
                 {filteredProducts.map(p => (
                   <div key={p.id} className="product-card">
                     <div className="product-img-wrapper">
-                      <img src={p.image} alt={p.name} className="product-card-img" />
+                      {p.image
+                        ? <img src={p.image} alt={p.name} className="product-card-img" />
+                        : <PhotoPlaceholder label={p.name} category={p.category} variant="card" />}
                       <div className="card-badges-stack">
                         <span className="badge-halal">ZABIHA HALAL</span>
                         {p.badge && <span className="badge-sale">{p.badge}</span>}
@@ -593,7 +723,11 @@ export default function App() {
             <button className="modal-close-btn" onClick={() => setQuickViewProduct(null)}><X size={20} /></button>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2rem' }}>
               <div>
-                <img src={quickViewProduct.image} alt={quickViewProduct.name} style={{ width: '100%', height: '340px', objectFit: 'cover', borderRadius: 'var(--radius-md)' }} />
+                {quickViewProduct.image
+                  ? <img src={quickViewProduct.image} alt={quickViewProduct.name} style={{ width: '100%', height: '340px', objectFit: 'cover', borderRadius: 'var(--radius-md)' }} />
+                  : <div style={{ height: '340px', borderRadius: 'var(--radius-md)', overflow: 'hidden' }}>
+                      <PhotoPlaceholder label={quickViewProduct.name} category={quickViewProduct.category} variant="tile" />
+                    </div>}
                 <div style={{ marginTop: '1rem', padding: '1rem', background: 'var(--bg-surface)', borderRadius: 'var(--radius-md)' }}>
                   <span style={{ color: 'var(--gold-accent)', fontSize: '0.85rem', fontWeight: 700, display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
                     <ShieldCheck size={16} /> 100% Hand-Slaughtered Zabiha
@@ -634,12 +768,17 @@ export default function App() {
               ) : (
                 cart.map(item => (
                   <div key={item.id} className="cart-item-row">
-                    <img src={item.image} alt={item.name} className="cart-item-thumb" />
+                    {item.image
+                      ? <img src={item.image} alt={item.name} className="cart-item-thumb" />
+                      : <div className="cart-item-thumb"><PhotoPlaceholder label={item.name} category={item.category} variant="mini" /></div>}
                     <div className="cart-item-info">
                       <h4 className="cart-item-name">{item.name}</h4>
                       <p className="cart-item-prep-text">{formatPrice(item)}</p>
                       <div className="cart-item-price-qty">
-                        <span className="current-price" style={{ fontSize: '1rem' }}>${((item.price ?? 0) * item.quantity).toFixed(2)}</span>
+                        {/* An unpriced item must not read as "$0.00" — that looks free. */}
+                        <span className="current-price" style={{ fontSize: item.price === null ? '0.8rem' : '1rem' }}>
+                          {item.price === null ? 'Priced at counter' : `$${(item.price * item.quantity).toFixed(2)}`}
+                        </span>
                         <div className="cart-qty-counter">
                           <button className="qty-btn" onClick={() => handleUpdateCartQty(item.id, -1)}>-</button>
                           <span className="qty-num">{item.quantity}</span>
@@ -655,12 +794,19 @@ export default function App() {
             {cart.length > 0 && (
               <div className="cart-drawer-footer">
                 <div className="cart-summary-line"><span>Estimated Total</span><span>${cartSubtotal.toFixed(2)}</span></div>
+                {/* Without this, a list made entirely of call-for-price cuts reads
+                    "Estimated Total $0.00", which looks like the order is free. */}
+                {unpricedCount > 0 && (
+                  <p style={{ fontSize: '0.78rem', color: 'var(--text-muted)', marginTop: '0.4rem', lineHeight: 1.5 }}>
+                    Excludes {unpricedCount} item{unpricedCount > 1 ? 's' : ''} priced at the counter — call and we'll quote you today's price.
+                  </p>
+                )}
                 <div style={{ background: 'rgba(22,163,74,0.1)', border: '1px solid var(--primary-green)', borderRadius: 'var(--radius-md)', padding: '1rem', marginTop: '1rem', textAlign: 'center' }}>
                   <p style={{ color: 'var(--text-light)', fontSize: '0.9rem', marginBottom: '0.75rem' }}>Ready to order? Call us!</p>
                   <a href="tel:+15122607677" className="btn-primary-green" style={{ width: '100%', justifyContent: 'center', padding: '0.85rem', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                     <Phone size={18} /><span>Call (512) 260-7677</span>
                   </a>
-                  <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: '0.5rem' }}>Open Daily 9 AM – 9 PM</p>
+                  <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: '0.5rem' }}>Open Daily 10 AM – 9 PM</p>
                 </div>
               </div>
             )}
@@ -683,7 +829,7 @@ export default function App() {
             <div className="store-info-card">
               <div className="store-info-icon"><Clock size={28} /></div>
               <h4>Store Hours</h4>
-              <p><strong>Mon – Sat:</strong> 9 AM – 9 PM<br /><strong>Sun:</strong> 10 AM – 8 PM</p>
+              <p><strong>Open Daily:</strong> 10 AM – 9 PM</p>
             </div>
             <div className="store-info-card">
               <div className="store-info-icon"><Phone size={28} /></div>

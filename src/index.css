@@ -1559,6 +1559,22 @@ h1, h2, h3, h4, h5, h6 {
     gap: 0.25rem;
     text-align: center;
   }
+  /* The flex row lives on .announcement-flex-wrap, not .container — without
+     these it stays a single nowrap row and pushes the page ~800px wide. */
+  .announcement-flex-wrap {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.35rem 1rem;
+  }
+  .announcement-group-left,
+  .announcement-group-right {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.35rem 1rem;
+  }
+  .announcement-group-right {
+    margin-left: 0;
+  }
   .header-main {
     flex-direction: column;
     align-items: stretch;
@@ -1670,4 +1686,72 @@ h1, h2, h3, h4, h5, h6 {
     font-size: 0.78rem;
     padding: 0.45rem 0.75rem;
   }
+}
+
+/* ============================================================================
+   MISSING-PHOTO PLACEHOLDER
+   This site ships only photography supplied by the store. Anything we don't
+   have a real photo of renders this branded panel instead of a stock or
+   AI-generated stand-in. Drop a real photo in and the placeholder disappears.
+   ============================================================================ */
+.photo-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem;
+  color: var(--gold-accent);
+  background:
+    radial-gradient(115% 90% at 50% 8%, rgba(22, 163, 74, 0.18) 0%, rgba(5, 6, 8, 0) 60%),
+    repeating-linear-gradient(135deg, rgba(255, 255, 255, 0.022) 0 2px, rgba(255, 255, 255, 0) 2px 9px),
+    linear-gradient(165deg, #141924 0%, #080a10 100%);
+}
+
+.photo-placeholder-text {
+  font-family: var(--font-sans);
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  text-align: center;
+  line-height: 1.3;
+}
+
+/* Product card image slot (220px tall) */
+.photo-placeholder-card {
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+/* Category showcase tile — lifted so it clears the title/count overlay */
+.photo-placeholder-tile {
+  padding-bottom: 5.5rem;
+}
+.photo-placeholder-tile .photo-placeholder-text {
+  font-size: 0.66rem;
+}
+
+/* 32px circular thumbnail inside the category ribbon pills */
+.photo-placeholder-thumb {
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  border: 1.5px solid var(--gold-accent);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+  transition: transform 0.3s ease;
+}
+.shop-cat-pill:hover .photo-placeholder-thumb {
+  transform: scale(1.1);
+}
+
+/* 70px cart-drawer thumbnail (wrapper carries the frame) */
+.cart-item-thumb {
+  flex-shrink: 0;
+  overflow: hidden;
+}
+.photo-placeholder-mini {
+  gap: 0;
 }

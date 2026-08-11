@@ -2,11 +2,10 @@ import React, { useState, useMemo } from 'react';
 import { 
   Phone, X, ShieldCheck, ArrowRight, MapPin, 
   Clock, ShoppingCart, Trash2,
-  Sliders, Search, Star, Heart,
-  Eye, RefreshCw, Grid, List, Sparkles, CheckCircle2, Award,
+  Sliders, Search, 
+  Eye, RefreshCw, Sparkles,
   Filter, ShoppingBag, Store, Beef, Milk, Wheat, Package, Drumstick, Ham, Camera
 } from 'lucide-react';
-import IntroOverlay from './components/IntroOverlay';
 
 // Imported Assets
 import heroBanner from './assets/hero_banner_original.jpg';
@@ -38,7 +37,6 @@ import chickenBonelessThigh from './assets/chicken_boneless_thigh.webp';
 import chickenLegQuarters from './assets/chicken_leg_quarters.webp';
 import chickenDrumstick from './assets/chicken_drumstick.webp';
 import chickenWings from './assets/chicken_wings.webp';
-import chickenMarinated from './assets/chicken_marinated.webp';
 
 // ----------------------------------------------------------------------------
 // Missing-photo handling
@@ -59,10 +57,12 @@ const CATEGORY_ICON = {
 
 // Max-price filter bounds. The number box and the slider share them so a typed
 // value can never fall outside the slider's range or desync the two controls.
-// The ceiling tracks the dearest item on the board (Goat/Lamb Boneless, $16.99)
-// so the slider's travel maps onto prices that actually exist.
+// The ceiling tracks the dearest item on the board (Chicken Leg Quarters Box,
+// $44.99) so the slider's travel maps onto prices that actually exist. It must
+// stay at or above that figure: the filter drops anything priced over the
+// slider value, so a ceiling below the dearest line would hide it permanently.
 const PRICE_MIN = 3;
-const PRICE_MAX = 20;
+const PRICE_MAX = 45;
 // An empty or unparseable box means "no ceiling yet", not "cheapest possible".
 // Snapping to PRICE_MIN here would hide most of the counter the instant someone
 // cleared the field to type a new number — a number input reports "" for any
@@ -104,10 +104,12 @@ const PhotoPlaceholder = ({ label, category, variant = 'card' }) => {
 // prices them ("GOAT/LAMB LEG", "GOAT/LAMB MIX"). Splitting them into separate
 // per-species cuts would mean inventing products the shop does not advertise.
 //
-// Prices: the board covers many prices with a green sticker that is not legible
-// in the photographs we have. Those items carry price: null, which renders as a
-// tap-to-call "Call for price" link rather than a guessed number. Two lines on
-// the frozen goat/lamb sheet are struck out in black marker and are omitted.
+// Prices come off the green stickers on the board. Two lines still carry
+// price: null because their sticker is genuinely ambiguous rather than
+// unreadable — Whole Chicken has a second figure pencilled beside the sticker,
+// and Frozen Goat Burnt Paya has one sticker written over another. Those render
+// as a tap-to-call "Call for price" link rather than a guessed number. Two
+// lines on the frozen goat/lamb sheet are struck out in marker and are omitted.
 //
 // price: null = "Call for price" | perLb: true = append "/lb"
 // marketPrice: true = "Market price"
@@ -151,12 +153,12 @@ const MEAT_PRODUCTS = [
   createProduct('b18', 'Beef Sirloin Steak', 'Beef', 11.99, { perLb: true, prepType: 'Steaks', description: 'Boneless sirloin, cut to order.' }),
 
   // ---- FROZEN BEEF PRICES (7 board lines) --------------------------------
-  createProduct('b19', 'Frozen Beef Paya (Trotters)', 'Beef', null, { perLb: true, prepType: 'Bone-in', image: beefPaya, badge: 'FROZEN', description: 'Frozen beef trotters for paya.' }),
-  createProduct('b20', 'Frozen Oxtail', 'Beef', null, { perLb: true, prepType: 'Bone-in', badge: 'FROZEN', description: 'Frozen oxtail, cut into sections.' }),
+  createProduct('b19', 'Frozen Beef Paya (Trotters)', 'Beef', 4.99, { perLb: true, prepType: 'Bone-in', image: beefPaya, badge: 'FROZEN', description: 'Frozen beef trotters for paya.' }),
+  createProduct('b20', 'Frozen Oxtail', 'Beef', 9.99, { perLb: true, prepType: 'Bone-in', badge: 'FROZEN', description: 'Frozen oxtail, cut into sections.' }),
   createProduct('b21', 'Frozen Beef Liver', 'Beef', 3.99, { perLb: true, prepType: 'Organ', image: beefLiver, badge: 'FROZEN', description: 'Sliced beef liver, frozen.' }),
-  createProduct('b22', 'Beef Marrow Bone', 'Beef', null, { perLb: true, prepType: 'Bone-in', badge: 'FOR STOCK', description: 'Marrow bones for stock, soup, and nihari.' }),
-  createProduct('b23', 'Beef Knuckle / Joint Bone', 'Beef', null, { perLb: true, prepType: 'Bone-in', badge: 'FOR STOCK', description: 'Knuckle and joint bones for long-simmered stock.' }),
-  createProduct('b24', 'Beef Tripe / Stomach', 'Beef', null, { perLb: true, prepType: 'Organ', image: beefTripe, badge: 'SPECIALTY', description: 'Cleaned honeycomb tripe.' }),
+  createProduct('b22', 'Beef Marrow Bone', 'Beef', 3.99, { perLb: true, prepType: 'Bone-in', badge: 'FOR STOCK', description: 'Marrow bones for stock, soup, and nihari.' }),
+  createProduct('b23', 'Beef Knuckle / Joint Bone', 'Beef', 2.99, { perLb: true, prepType: 'Bone-in', badge: 'FOR STOCK', description: 'Knuckle and joint bones for long-simmered stock.' }),
+  createProduct('b24', 'Beef Tripe / Stomach', 'Beef', 8.99, { perLb: true, prepType: 'Organ', image: beefTripe, badge: 'SPECIALTY', description: 'Cleaned honeycomb tripe.' }),
   createProduct('b25', 'Beef Tongue', 'Beef', 6.99, { perLb: true, prepType: 'Organ', badge: 'SPECIALTY', description: 'Whole beef tongue.' }),
 
   // ---- FRESH GOAT/LAMB (13 board lines) ----------------------------------
@@ -176,41 +178,39 @@ const MEAT_PRODUCTS = [
   createProduct('gl13', 'Goat / Lamb Rib Rack', 'Goat & Lamb', 14.99, { perLb: true, prepType: 'Bone-in', image: goatLambRibRack, badge: 'BONE-IN', description: 'Full rack of ribs, French-trimmed on request.' }),
 
   // ---- FROZEN GOAT/LAMB (8 live board lines; 2 struck out, omitted) ------
-  createProduct('gl14', 'Frozen Goat / Lamb Leg', 'Goat & Lamb', null, { perLb: true, prepType: 'Bone-in', image: goatLambLegPair, badge: 'FROZEN', description: 'Bone-in leg, frozen.' }),
-  createProduct('gl15', 'Frozen Lamb Shanks', 'Goat & Lamb', null, { perLb: true, prepType: 'Bone-in', badge: 'FROZEN', description: 'Frozen lamb shanks for slow braising.' }),
+  createProduct('gl14', 'Frozen Goat / Lamb Leg', 'Goat & Lamb', 7.99, { perLb: true, prepType: 'Bone-in', image: goatLambLegPair, badge: 'FROZEN', description: 'Bone-in leg, frozen.' }),
+  createProduct('gl15', 'Frozen Lamb Shanks', 'Goat & Lamb', 6.99, { perLb: true, prepType: 'Bone-in', badge: 'FROZEN', description: 'Frozen lamb shanks for slow braising.' }),
   createProduct('gl16', 'Frozen Goat Bones', 'Goat & Lamb', 4.99, { perLb: true, prepType: 'Bone-in', badge: 'FOR STOCK', description: 'Goat bones for stock and soup.' }),
   createProduct('gl17', 'Frozen Goat Paya with Skin', 'Goat & Lamb', 5.99, { perLb: true, prepType: 'Bone-in', badge: 'FROZEN', description: 'Goat trotters with the skin on, for paya.' }),
-  createProduct('gl18', 'Frozen Goat / Lamb Tongue', 'Goat & Lamb', null, { perLb: true, prepType: 'Organ', badge: 'FROZEN', description: 'Frozen tongue.' }),
+  createProduct('gl18', 'Frozen Goat / Lamb Tongue', 'Goat & Lamb', 6.99, { perLb: true, prepType: 'Organ', badge: 'FROZEN', description: 'Frozen tongue.' }),
   createProduct('gl19', 'Frozen Goat / Lamb Stomach', 'Goat & Lamb', 5.99, { perLb: true, prepType: 'Organ', badge: 'FROZEN', description: 'Cleaned stomach, frozen.' }),
   createProduct('gl20', 'Frozen Goat / Lamb Head', 'Goat & Lamb', 10.00, { prepType: 'Whole', badge: 'EACH', description: 'Whole head, frozen. Priced each, not per pound.' }),
   createProduct('gl21', 'Frozen Goat Burnt Paya', 'Goat & Lamb', null, { perLb: true, prepType: 'Bone-in', badge: 'FROZEN', description: 'Singed goat trotters, ready to clean and cook.' }),
 
   // ---- FRESH CHICKEN (13 board lines) ------------------------------------
-  // Every price on this panel is covered by a sticker we cannot read, so all
-  // of them route to a phone call rather than showing an invented figure.
+  // Prices on this panel are read off the board's green stickers. Whole Chicken
+  // is the exception: its sticker reads 3.99 but a second figure is pencilled
+  // beside it, so that line stays on "Call for price" until the store confirms.
   createProduct('c1', 'Whole Chicken', 'Chicken', null, { perLb: true, prepType: 'Whole', image: chickenPieces, badge: 'ZABIHA', description: 'Hand-slaughtered whole chicken. Cut up on request at no charge.' }),
-  createProduct('c2', 'Chicken Leg Quarters, Box', 'Chicken', null, { prepType: 'Bone-in', badge: 'BULK BOX', description: 'Full box of leg quarters — the bulk buy.' }),
-  createProduct('c3', 'Chicken Leg Quarters, Half Box', 'Chicken', null, { prepType: 'Bone-in', badge: 'BULK BOX', description: 'Half box of leg quarters.' }),
-  createProduct('c4', 'Chicken Boneless Breast', 'Chicken', null, { perLb: true, prepType: 'Boneless', image: chickenBreast, badge: 'BONELESS', description: 'Skinless boneless breast fillets, trimmed.' }),
-  createProduct('c5', 'Chicken Boneless Thigh', 'Chicken', null, { perLb: true, prepType: 'Boneless', image: chickenBonelessThigh, badge: 'BONELESS', description: 'Skinless boneless thigh meat.' }),
-  createProduct('c6', 'Chicken Drumsticks', 'Chicken', null, { perLb: true, prepType: 'Bone-in', image: chickenDrumstick, badge: 'FAMILY FAVORITE', description: 'Fresh chicken drumsticks.' }),
-  createProduct('c7', 'Tahir Whole Chicken', 'Chicken', null, { perLb: true, prepType: 'Whole', image: chickenWhole, badge: 'HFSAA CERTIFIED', description: 'Tahir brand — zabihah individual hand slaughter, cage free, no antibiotics ever.' }),
-  createProduct('c8', 'Tahir Leg Quarters', 'Chicken', null, { perLb: true, prepType: 'Bone-in', badge: 'HFSAA CERTIFIED', description: 'Tahir brand leg quarters.' }),
-  createProduct('c9', 'Tahir Boneless Breast', 'Chicken', null, { perLb: true, prepType: 'Boneless', badge: 'HFSAA CERTIFIED', description: 'Tahir brand boneless breast.' }),
-  createProduct('c10', 'Chicken Qeema (Ground)', 'Chicken', null, { perLb: true, prepType: 'Minced', badge: 'GROUND FRESH', description: 'Ground chicken for kebabs and keema.' }),
-  createProduct('c11', 'Chicken Fajita Strips', 'Chicken', null, { perLb: true, prepType: 'Boneless', description: 'Boneless strips, cut for fajitas and stir-fry.' }),
-  createProduct('c12', 'Chicken Tenders', 'Chicken', null, { perLb: true, prepType: 'Boneless', description: 'Breast tenderloins.' }),
-  createProduct('c13', 'Chicken Leg Quarters', 'Chicken', null, { perLb: true, prepType: 'Bone-in', image: chickenLegQuarters, badge: 'BONE-IN', description: 'Thigh and drumstick attached, sold by the pound.' }),
+  createProduct('c2', 'Chicken Leg Quarters, Box', 'Chicken', 44.99, { prepType: 'Bone-in', badge: 'BULK BOX', description: 'Full box of leg quarters — the bulk buy.' }),
+  createProduct('c3', 'Chicken Leg Quarters, Half Box', 'Chicken', 24.99, { prepType: 'Bone-in', badge: 'BULK BOX', description: 'Half box of leg quarters.' }),
+  createProduct('c4', 'Chicken Boneless Breast', 'Chicken', 5.99, { perLb: true, prepType: 'Boneless', image: chickenBreast, badge: 'BONELESS', description: 'Skinless boneless breast fillets, trimmed.' }),
+  createProduct('c5', 'Chicken Boneless Thigh', 'Chicken', 4.99, { perLb: true, prepType: 'Boneless', image: chickenBonelessThigh, badge: 'BONELESS', description: 'Skinless boneless thigh meat.' }),
+  createProduct('c6', 'Chicken Drumsticks', 'Chicken', 2.69, { perLb: true, prepType: 'Bone-in', image: chickenDrumstick, badge: 'FAMILY FAVORITE', description: 'Fresh chicken drumsticks.' }),
+  createProduct('c7', 'Tahir Whole Chicken', 'Chicken', 3.99, { perLb: true, prepType: 'Whole', image: chickenWhole, badge: 'HFSAA CERTIFIED', description: 'Tahir brand — zabihah individual hand slaughter, cage free, no antibiotics ever.' }),
+  createProduct('c8', 'Tahir Leg Quarters', 'Chicken', 2.99, { perLb: true, prepType: 'Bone-in', badge: 'HFSAA CERTIFIED', description: 'Tahir brand leg quarters.' }),
+  createProduct('c9', 'Tahir Boneless Breast', 'Chicken', 5.99, { perLb: true, prepType: 'Boneless', badge: 'HFSAA CERTIFIED', description: 'Tahir brand boneless breast.' }),
+  createProduct('c10', 'Chicken Qeema (Ground)', 'Chicken', 5.99, { perLb: true, prepType: 'Minced', badge: 'GROUND FRESH', description: 'Ground chicken for kebabs and keema.' }),
+  createProduct('c11', 'Chicken Fajita Strips', 'Chicken', 5.99, { perLb: true, prepType: 'Boneless', description: 'Boneless strips, cut for fajitas and stir-fry.' }),
+  createProduct('c12', 'Chicken Tenders', 'Chicken', 5.99, { perLb: true, prepType: 'Boneless', description: 'Breast tenderloins.' }),
+  createProduct('c13', 'Chicken Leg Quarters', 'Chicken', 2.49, { perLb: true, prepType: 'Bone-in', image: chickenLegQuarters, badge: 'BONE-IN', description: 'Thigh and drumstick attached, sold by the pound.' }),
 
   // ---- FROZEN MISCELLANEOUS (5 board lines) ------------------------------
   createProduct('c14', 'Chicken Wings', 'Chicken', 4.99, { perLb: true, prepType: 'Bone-in', image: chickenWings, badge: 'PARTY PACK', description: 'Whole wings for BBQ, tandoori, or frying.' }),
-  createProduct('c15', 'Chicken Gizzard', 'Chicken', null, { perLb: true, prepType: 'Organ', badge: 'FROZEN', description: 'Cleaned chicken gizzards.' }),
-  createProduct('c16', 'Chicken Liver', 'Chicken', null, { perLb: true, prepType: 'Organ', badge: 'FROZEN', description: 'Fresh chicken livers, cleaned.' }),
-  createProduct('c17', 'Frozen Quail', 'Chicken', null, { prepType: 'Whole', badge: 'PER TRAY', description: 'Whole quail, sold by the tray.' }),
-  createProduct('c18', 'Frozen Duck', 'Chicken', null, { perLb: true, prepType: 'Whole', badge: 'FROZEN', description: 'Whole frozen duck.' }),
-
-  // ---- COUNTER-PREPARED (not on the price board) -------------------------
-  createProduct('c19', 'Marinated Tandoori Chicken', 'Chicken', null, { perLb: true, prepType: 'Marinated', image: chickenMarinated, badge: 'READY TO COOK', description: 'Bone-in chicken marinated in house tandoori masala — ready for the oven or grill.' }),
+  createProduct('c15', 'Chicken Gizzard', 'Chicken', 2.49, { perLb: true, prepType: 'Organ', badge: 'FROZEN', description: 'Cleaned chicken gizzards.' }),
+  createProduct('c16', 'Chicken Liver', 'Chicken', 2.49, { perLb: true, prepType: 'Organ', badge: 'FROZEN', description: 'Fresh chicken livers, cleaned.' }),
+  createProduct('c17', 'Frozen Quail', 'Chicken', 14.99, { prepType: 'Whole', badge: 'PER TRAY', description: 'Whole quail, sold by the tray.' }),
+  createProduct('c18', 'Frozen Duck', 'Chicken', 6.99, { perLb: true, prepType: 'Whole', badge: 'FROZEN', description: 'Whole frozen duck.' }),
 ];
 
 // ---------------------------------------------------------------------------
@@ -275,6 +275,16 @@ const GROCERY_SNACKS = [
 
 const ALL_GROCERY = [...GROCERY_RICE, ...GROCERY_SPICES, ...GROCERY_DAIRY, ...GROCERY_FROZEN, ...GROCERY_SNACKS];
 
+// Grocery sub-tabs. Defined at module scope — it's a static catalog grouping,
+// so it never needs to be recreated per render.
+const GROCERY_SUB_CATEGORIES = [
+  { key: 'rice', label: 'Rice, Flour & Lentils', data: GROCERY_RICE },
+  { key: 'spices', label: 'Spices', data: GROCERY_SPICES },
+  { key: 'dairy', label: 'Dairy', data: GROCERY_DAIRY },
+  { key: 'frozen', label: 'Frozen & Canned', data: GROCERY_FROZEN },
+  { key: 'snacks', label: 'Sweets & Snacks', data: GROCERY_SNACKS },
+];
+
 // Meat categories for ribbon nav. Goat and lamb share a category because the
 // store's price board sells them on one shared line.
 const MEAT_CATEGORIES = ['All', 'Beef', 'Goat & Lamb', 'Chicken'];
@@ -296,10 +306,8 @@ const PHOTO_CATEGORIES = [
 const RIBBON_THUMB = { Beef: beefRibeye, 'Goat & Lamb': goatWhole, Chicken: chickenPieces };
 
 export default function App() {
-  const [activeCategory, setActiveCategory] = useState('All');
   const [activeMeatCat, setActiveMeatCat] = useState('All');
   const [searchQuery, setSearchQuery] = useState('');
-  const [viewMode, setViewMode] = useState('cols-3');
   const [sortOption, setSortOption] = useState('default');
   const [priceMaxFilter, setPriceMaxFilter] = useState(PRICE_MAX);
   const [selectedPreps, setSelectedPreps] = useState([]);
@@ -310,18 +318,9 @@ export default function App() {
   const [cart, setCart] = useState([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [quickViewProduct, setQuickViewProduct] = useState(null);
-  const [userPoints] = useState(120);
 
   // Determine groceries sub-tab
   const [grocerySubTab, setGrocerySubTab] = useState('rice');
-
-  const grocerySubCategories = [
-    { key: 'rice', label: 'Rice, Flour & Lentils', data: GROCERY_RICE },
-    { key: 'spices', label: 'Spices', data: GROCERY_SPICES },
-    { key: 'dairy', label: 'Dairy', data: GROCERY_DAIRY },
-    { key: 'frozen', label: 'Frozen & Canned', data: GROCERY_FROZEN },
-    { key: 'snacks', label: 'Sweets & Snacks', data: GROCERY_SNACKS },
-  ];
 
   // Filter products
   const filteredProducts = useMemo(() => {
@@ -332,7 +331,7 @@ export default function App() {
         source = source.filter(p => p.category === activeMeatCat);
       }
     } else {
-      const sub = grocerySubCategories.find(s => s.key === grocerySubTab);
+      const sub = GROCERY_SUB_CATEGORIES.find(s => s.key === grocerySubTab);
       if (sub) source = sub.data;
     }
 
@@ -405,8 +404,8 @@ export default function App() {
   const formatPrice = (product) => {
     if (product.marketPrice) return 'Market price';
     if (product.price === null) return (
-      <a href="tel:+15122607677" style={{ color: 'var(--emerald-bright)', fontWeight: 700, fontSize: '0.9rem' }}>
-        Call for price
+      <a href="tel:+15122607677" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.35rem', color: 'var(--gold-accent)', border: '1px solid var(--border-gold)', borderRadius: '9999px', padding: '0.15rem 0.65rem', fontSize: '0.82rem', fontWeight: 700, backgroundColor: 'rgba(251,191,36,0.08)' }}>
+        <Phone size={13} /> Call for price
       </a>
     );
     return `$${product.price.toFixed(2)}${product.perLb ? ' / lb' : ''}`;
@@ -414,7 +413,6 @@ export default function App() {
 
   return (
     <div className="site-wrapper">
-      <IntroOverlay />
 
       {/* ANNOUNCEMENT BAR */}
       <div className="announcement-bar">
@@ -470,11 +468,7 @@ export default function App() {
               )}
             </div>
             <div className="header-actions">
-              <div className="reward-badge-btn">
-                <Award size={16} />
-                <span>{userPoints} Pts</span>
-              </div>
-              <a href="tel:+15122607677" className="cart-header-btn" style={{ background: 'linear-gradient(135deg, var(--gold-accent) 0%, var(--gold-dark) 100%)', color: '#000' }}>
+              <a href="tel:+15122607677" className="cart-header-btn" style={{ background: 'var(--gold-accent)', color: '#0b0a09' }}>
                 <Phone size={20} />
                 <span>Call to Order</span>
               </a>
@@ -503,7 +497,7 @@ export default function App() {
         <img src={heroBanner} alt="Quality Halal Market" className="hero-bg-img" />
         <div className="container">
           <div className="hero-content-wrap">
-            <div className="hero-badge-pill"><Sparkles size={14} /> Savor Every. Last. Bite.</div>
+            <div className="hero-badge-pill"><Sparkles size={14} /> Hand-Cut Daily • Zabiha Halal</div>
             <h2 className="hero-title">
               {activeTab === 'meat' ? 'Your Premium Halal Meat Butcher Counter' : 'Indian • Pakistani • Mediterranean Groceries'}
             </h2>
@@ -592,7 +586,7 @@ export default function App() {
         <section id="shop-section" className="shop-cat-ribbon-section">
           <div className="container">
             <div className="shop-cat-ribbon-wrap">
-              {grocerySubCategories.map(sub => (
+              {GROCERY_SUB_CATEGORIES.map(sub => (
                 <button key={sub.key} className={`shop-cat-pill ${grocerySubTab === sub.key ? 'active' : ''}`} onClick={() => setGrocerySubTab(sub.key)}>
                   <span style={{ paddingLeft: '0.3rem' }}>{sub.label}</span>
                   <span className="shop-cat-count-badge">{sub.data.length}</span>
@@ -614,12 +608,6 @@ export default function App() {
               <span className="results-count-text">Showing {filteredProducts.length} items</span>
             </div>
             <div className="shop-toolbar-right">
-              <div className="view-switcher-group">
-                {['cols-4', 'cols-3', 'cols-2'].map(m => (
-                  <button key={m} className={`view-btn ${viewMode === m ? 'active' : ''}`} onClick={() => setViewMode(m)}><Grid size={18} /></button>
-                ))}
-                <button className={`view-btn ${viewMode === 'list-view' ? 'active' : ''}`} onClick={() => setViewMode('list-view')}><List size={18} /></button>
-              </div>
               <select className="shop-select-box" value={sortOption} onChange={(e) => setSortOption(e.target.value)}>
                 <option value="default">Default</option>
                 <option value="price-low">Price: Low to High</option>
@@ -654,7 +642,7 @@ export default function App() {
                 <div className="filter-widget">
                   <h4 className="widget-title">Prep Style</h4>
                   <div className="filter-checkbox-list">
-                    {['Steaks', 'Boneless', 'Bone-in', 'Minced', 'Cubed', 'Chops', 'Whole', 'Organ', 'Marinated'].map(prep => (
+                    {['Steaks', 'Boneless', 'Bone-in', 'Minced', 'Cubed', 'Chops', 'Whole', 'Organ'].map(prep => (
                       <label key={prep} className="filter-checkbox-label">
                         <span><input type="checkbox" checked={selectedPreps.includes(prep)} onChange={() => togglePrepFilter(prep)} />{prep}</span>
                       </label>
@@ -683,7 +671,7 @@ export default function App() {
                 <p style={{ color: 'var(--text-muted)' }}>Try adjusting your filters.</p>
               </div>
             ) : (
-              <div className={`products-grid-container ${viewMode}`}>
+              <div className="products-grid-container cols-3">
                 {filteredProducts.map(p => (
                   <div key={p.id} className="product-card">
                     <div className="product-img-wrapper">
@@ -696,7 +684,6 @@ export default function App() {
                       </div>
                       <div className="quick-actions-bar">
                         <button className="action-icon-btn" title="Quick View" onClick={() => setQuickViewProduct(p)}><Eye size={16} /></button>
-                        <button className="action-icon-btn" title="Wishlist"><Heart size={16} /></button>
                       </div>
                     </div>
                     <div className="product-card-body">
@@ -886,8 +873,8 @@ export default function App() {
             <div className="footer-col">
               <h4>Contact</h4>
               <ul>
-                <li><a href="tel:+15122607677" style={{ color: 'var(--gold-accent)', fontWeight: 700 }}>📞 (512) 260-7677</a></li>
-                <li><span>📍 12920 W Parmer Ln #106</span></li>
+                <li><a href="tel:+15122607677" style={{ color: 'var(--gold-accent)', fontWeight: 700 }}><Phone size={14} style={{ display: 'inline-flex', marginRight: '0.35rem', verticalAlign: 'middle' }} />(512) 260-7677</a></li>
+                <li><span><MapPin size={14} style={{ display: 'inline-flex', marginRight: '0.35rem', verticalAlign: 'middle' }} />12920 W Parmer Ln #106</span></li>
                 <li><span>Cedar Park, TX 78613</span></li>
                 <li><a href="https://www.facebook.com/QualityHalalMarket" target="_blank" rel="noopener noreferrer">Facebook</a></li>
               </ul>

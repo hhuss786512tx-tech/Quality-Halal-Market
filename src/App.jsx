@@ -66,6 +66,13 @@ import chickenThighs from './assets/chicken_thighs.webp';
 import chickenBreastTahir from './assets/chicken_breast_tahir.webp';
 import chickenFajitaStrips from './assets/chicken_fajita_strips.webp';
 import chickenTenders from './assets/chicken_tenders.webp';
+import beefFiletMignon from './assets/beef_filet_mignon.webp';
+import beefOxtail from './assets/beef_oxtail.webp';
+import goatLambLiver from './assets/goat_lamb_liver.webp';
+import goatLambHeart from './assets/goat_lamb_heart.webp';
+import lambShanks from './assets/lamb_shanks.webp';
+import chickenLegQuarterHalfBox from './assets/chicken_leg_quarter_half_box.webp';
+import frozenQuail from './assets/frozen_quail.webp';
 
 // ----------------------------------------------------------------------------
 // Missing-photo handling
@@ -168,7 +175,7 @@ const MEAT_PRODUCTS = [
   createProduct('b4', 'Beef T-Bone Steak', 'Beef', 8.99, { image: beefTbone, perLb: true, prepType: 'Steaks', badge: 'BONE-IN', description: 'Strip and tenderloin either side of the bone.' }),
   createProduct('b5', 'Beef Ribs', 'Beef', 5.99, { image: beefRibs, perLb: true, prepType: 'Bone-in', badge: 'BONE-IN', description: 'Bone-in beef ribs for slow cooking or the grill.' }),
   createProduct('b6', 'Beef Neck', 'Beef', 6.99, { image: beefNeck, perLb: true, prepType: 'Bone-in', description: 'Bone-in neck — rich and full-flavoured when braised.' }),
-  createProduct('b7', 'Beef Filet Mignon', 'Beef', 13.99, { perLb: true, prepType: 'Steaks', badge: 'MOST TENDER', description: 'The tenderloin cut. The most tender steak on the counter.' }),
+  createProduct('b7', 'Beef Filet Mignon', 'Beef', 13.99, { image: beefFiletMignon, perLb: true, prepType: 'Steaks', badge: 'MOST TENDER', description: 'The tenderloin cut. The most tender steak on the counter.' }),
   createProduct('b8', 'Beef Boneless, from Leg', 'Beef', 8.99, { image: beefBonelessLeg, perLb: true, prepType: 'Boneless', description: 'Boneless leg meat, trimmed.' }),
   createProduct('b9', 'Fresh Nihari', 'Beef', 8.99, { perLb: true, prepType: 'Bone-in', image: beefNihari, badge: 'BONE-IN', description: 'Cross-cut shank with the marrow bone in — cut for nihari.' }),
   createProduct('b10', 'Beef Eye of Round Steak, Boneless', 'Beef', 7.49, { image: beefEyeRound, perLb: true, prepType: 'Steaks', description: 'Lean boneless round steak.' }),
@@ -183,7 +190,7 @@ const MEAT_PRODUCTS = [
 
   // ---- FROZEN BEEF PRICES (7 board lines) --------------------------------
   createProduct('b19', 'Frozen Beef Paya (Trotters)', 'Beef', 4.99, { perLb: true, prepType: 'Bone-in', image: beefPaya, badge: 'FROZEN', description: 'Frozen beef trotters for paya.' }),
-  createProduct('b20', 'Frozen Oxtail', 'Beef', 9.99, { perLb: true, prepType: 'Bone-in', badge: 'FROZEN', description: 'Frozen oxtail, cut into sections.' }),
+  createProduct('b20', 'Frozen Oxtail', 'Beef', 9.99, { image: beefOxtail, perLb: true, prepType: 'Bone-in', badge: 'FROZEN', description: 'Frozen oxtail, cut into sections.' }),
   createProduct('b21', 'Frozen Beef Liver', 'Beef', 3.99, { perLb: true, prepType: 'Organ', image: beefLiver, badge: 'FROZEN', description: 'Sliced beef liver, frozen.' }),
   createProduct('b22', 'Beef Marrow Bone', 'Beef', 3.99, { image: beefMarrowBone, perLb: true, prepType: 'Bone-in', badge: 'FOR STOCK', description: 'Marrow bones for stock, soup, and nihari.' }),
   createProduct('b23', 'Beef Knuckle / Joint Bone', 'Beef', 2.99, { perLb: true, prepType: 'Bone-in', badge: 'FOR STOCK', description: 'Knuckle and joint bones for long-simmered stock.' }),
@@ -197,18 +204,18 @@ const MEAT_PRODUCTS = [
   createProduct('gl3', 'Goat / Lamb Leg', 'Goat & Lamb', 15.99, { perLb: true, prepType: 'Bone-in', image: goatLambLeg, badge: 'SIGNATURE CUT', description: 'Whole bone-in leg, shank attached.' }),
   createProduct('gl4', 'Goat / Lamb Mixed Cut', 'Goat & Lamb', 13.99, { perLb: true, prepType: 'Bone-in', image: goatLambMix, badge: 'FOR CURRY', description: 'Bone-in curry cut — the everyday mix.' }),
   createProduct('gl5', 'Goat / Lamb Chops', 'Goat & Lamb', 14.99, { image: goatLambChops, perLb: true, prepType: 'Chops', badge: 'POPULAR', description: 'Loin chops, cut to order.' }),
-  createProduct('gl6', 'Goat / Lamb Liver', 'Goat & Lamb', 5.99, { perLb: true, prepType: 'Organ', description: 'Fresh liver, cleaned.' }),
+  createProduct('gl6', 'Goat / Lamb Liver', 'Goat & Lamb', 5.99, { image: goatLambLiver, perLb: true, prepType: 'Organ', description: 'Fresh liver, cleaned.' }),
   createProduct('gl7', 'Goat / Lamb Kidneys', 'Goat & Lamb', 10.99, { perLb: true, prepType: 'Organ', description: 'Fresh kidneys, cleaned.' }),
   createProduct('gl8', 'Goat / Lamb Qeema (Ground)', 'Goat & Lamb', 15.99, { image: goatLambQeema, perLb: true, prepType: 'Minced', badge: 'GROUND FRESH', description: 'Ground fresh at the counter for keema and kebabs.' }),
   createProduct('gl9', 'Goat / Lamb Boneless', 'Goat & Lamb', 16.99, { perLb: true, prepType: 'Boneless', image: goatLambBoneless, badge: 'PREMIUM', description: 'Fully boned-out meat, trimmed.' }),
-  createProduct('gl10', 'Goat / Lamb Heart', 'Goat & Lamb', 5.99, { perLb: true, prepType: 'Organ', description: 'Fresh heart, cleaned and trimmed.' }),
+  createProduct('gl10', 'Goat / Lamb Heart', 'Goat & Lamb', 5.99, { image: goatLambHeart, perLb: true, prepType: 'Organ', description: 'Fresh heart, cleaned and trimmed.' }),
   createProduct('gl11', 'Goat / Lamb Ribs', 'Goat & Lamb', 12.99, { image: goatLambRibs, perLb: true, prepType: 'Bone-in', badge: 'BONE-IN', description: 'Bone-in ribs for the grill or the pot.' }),
   createProduct('gl12', 'Goat / Lamb Putt & Neck', 'Goat & Lamb', 14.99, { image: goatLambPuttNeck, perLb: true, prepType: 'Bone-in', description: 'Putt and neck pieces, bone-in.' }),
   createProduct('gl13', 'Goat / Lamb Rib Rack', 'Goat & Lamb', 14.99, { perLb: true, prepType: 'Bone-in', image: goatLambRibRack, badge: 'BONE-IN', description: 'Full rack of ribs, French-trimmed on request.' }),
 
   // ---- FROZEN GOAT/LAMB (8 live board lines; 2 struck out, omitted) ------
   createProduct('gl14', 'Frozen Goat / Lamb Leg', 'Goat & Lamb', 7.99, { perLb: true, prepType: 'Bone-in', image: goatLambLegPair, badge: 'FROZEN', description: 'Bone-in leg, frozen.' }),
-  createProduct('gl15', 'Frozen Lamb Shanks', 'Goat & Lamb', 6.99, { perLb: true, prepType: 'Bone-in', badge: 'FROZEN', description: 'Frozen lamb shanks for slow braising.' }),
+  createProduct('gl15', 'Frozen Lamb Shanks', 'Goat & Lamb', 6.99, { image: lambShanks, perLb: true, prepType: 'Bone-in', badge: 'FROZEN', description: 'Frozen lamb shanks for slow braising.' }),
   createProduct('gl16', 'Frozen Goat Bones', 'Goat & Lamb', 4.99, { perLb: true, prepType: 'Bone-in', badge: 'FOR STOCK', description: 'Goat bones for stock and soup.' }),
   createProduct('gl17', 'Frozen Goat Paya with Skin', 'Goat & Lamb', 5.99, { perLb: true, prepType: 'Bone-in', badge: 'FROZEN', description: 'Goat trotters with the skin on, for paya.' }),
   createProduct('gl18', 'Frozen Goat / Lamb Tongue', 'Goat & Lamb', 6.99, { perLb: true, prepType: 'Organ', badge: 'FROZEN', description: 'Frozen tongue.' }),
@@ -222,7 +229,7 @@ const MEAT_PRODUCTS = [
   // beside it, so that line stays on "Call for price" until the store confirms.
   createProduct('c1', 'Whole Chicken', 'Chicken', null, { perLb: true, prepType: 'Whole', image: chickenPieces, badge: 'ZABIHA', description: 'Hand-slaughtered whole chicken. Cut up on request at no charge.' }),
   createProduct('c2', 'Chicken Leg Quarters, Box', 'Chicken', 44.99, { image: chickenLegQuarterBox, prepType: 'Bone-in', badge: 'BULK BOX', description: 'Full box of leg quarters — the bulk buy.' }),
-  createProduct('c3', 'Chicken Leg Quarters, Half Box', 'Chicken', 24.99, { prepType: 'Bone-in', badge: 'BULK BOX', description: 'Half box of leg quarters.' }),
+  createProduct('c3', 'Chicken Leg Quarters, Half Box', 'Chicken', 24.99, { image: chickenLegQuarterHalfBox, prepType: 'Bone-in', badge: 'BULK BOX', description: 'Half box of leg quarters.' }),
   createProduct('c4', 'Chicken Boneless Breast', 'Chicken', 5.99, { perLb: true, prepType: 'Boneless', image: chickenBreast, badge: 'BONELESS', description: 'Skinless boneless breast fillets, trimmed.' }),
   createProduct('c5', 'Chicken Boneless Thigh', 'Chicken', 4.99, { perLb: true, prepType: 'Boneless', image: chickenBonelessThigh, badge: 'BONELESS', description: 'Skinless boneless thigh meat.' }),
   createProduct('c6', 'Chicken Drumsticks', 'Chicken', 2.69, { perLb: true, prepType: 'Bone-in', image: chickenDrumstick, badge: 'FAMILY FAVORITE', description: 'Fresh chicken drumsticks.' }),
@@ -238,7 +245,7 @@ const MEAT_PRODUCTS = [
   createProduct('c14', 'Chicken Wings', 'Chicken', 4.99, { perLb: true, prepType: 'Bone-in', image: chickenWings, badge: 'PARTY PACK', description: 'Whole wings for BBQ, tandoori, or frying.' }),
   createProduct('c15', 'Chicken Gizzard', 'Chicken', 2.49, { perLb: true, prepType: 'Organ', badge: 'FROZEN', description: 'Cleaned chicken gizzards.' }),
   createProduct('c16', 'Chicken Liver', 'Chicken', 2.49, { perLb: true, prepType: 'Organ', badge: 'FROZEN', description: 'Fresh chicken livers, cleaned.' }),
-  createProduct('c17', 'Frozen Quail', 'Chicken', 14.99, { prepType: 'Whole', badge: 'PER TRAY', description: 'Whole quail, sold by the tray.' }),
+  createProduct('c17', 'Frozen Quail', 'Chicken', 14.99, { image: frozenQuail, prepType: 'Whole', badge: 'PER TRAY', description: 'Whole quail, sold by the tray.' }),
   createProduct('c18', 'Frozen Duck', 'Chicken', 6.99, { perLb: true, prepType: 'Whole', badge: 'FROZEN', description: 'Whole frozen duck.' }),
 ];
 

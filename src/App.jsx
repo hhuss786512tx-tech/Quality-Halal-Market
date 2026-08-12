@@ -26,7 +26,6 @@ import beefTripe from './assets/beef_tripe.webp';
 import beefPaya from './assets/beef_paya.webp';
 import goatLambMix from './assets/goat_lamb_mix.webp';
 import goatLambLeg from './assets/goat_lamb_leg.webp';
-import goatLambLegPair from './assets/goat_lamb_leg_pair.webp';
 import goatLambHalf from './assets/goat_lamb_half.webp';
 import goatLambRibRack from './assets/goat_lamb_rib_rack.webp';
 import goatLambBoneless from './assets/goat_lamb_boneless.webp';
@@ -61,9 +60,7 @@ import goatLambChops from './assets/goat_lamb_chops.webp';
 import goatLambQeema from './assets/goat_lamb_qeema.webp';
 import goatLambRibs from './assets/goat_lamb_ribs.webp';
 import goatLambPuttNeck from './assets/goat_lamb_putt_neck.webp';
-import chickenLegQuarterBox from './assets/chicken_leg_quarter_box.webp';
 import chickenThighs from './assets/chicken_thighs.webp';
-import chickenBreastTahir from './assets/chicken_breast_tahir.webp';
 import chickenFajitaStrips from './assets/chicken_fajita_strips.webp';
 import chickenTenders from './assets/chicken_tenders.webp';
 import beefFiletMignon from './assets/beef_filet_mignon.webp';
@@ -71,7 +68,6 @@ import beefOxtail from './assets/beef_oxtail.webp';
 import goatLambLiver from './assets/goat_lamb_liver.webp';
 import goatLambHeart from './assets/goat_lamb_heart.webp';
 import lambShanks from './assets/lamb_shanks.webp';
-import chickenLegQuarterHalfBox from './assets/chicken_leg_quarter_half_box.webp';
 import frozenQuail from './assets/frozen_quail.webp';
 
 // Placeholder photography — store to replace with real product shots.
@@ -231,7 +227,6 @@ const MEAT_PRODUCTS = [
   createProduct('gl13', 'Goat / Lamb Rib Rack', 'Goat & Lamb', 14.99, { perLb: true, prepType: 'Bone-in', image: goatLambRibRack, badge: 'BONE-IN', description: 'Full rack of ribs, French-trimmed on request.' }),
 
   // ---- FROZEN GOAT/LAMB (8 live board lines; 2 struck out, omitted) ------
-  createProduct('gl14', 'Frozen Goat / Lamb Leg', 'Goat & Lamb', 7.99, { perLb: true, prepType: 'Bone-in', image: goatLambLegPair, badge: 'FROZEN', description: 'Bone-in leg, frozen.' }),
   createProduct('gl15', 'Frozen Lamb Shanks', 'Goat & Lamb', 6.99, { image: lambShanks, perLb: true, prepType: 'Bone-in', badge: 'FROZEN', description: 'Frozen lamb shanks for slow braising.' }),
   createProduct('gl16', 'Frozen Goat Bones', 'Goat & Lamb', 4.99, { perLb: true, prepType: 'Bone-in', image: goatBonesPng, badge: 'FOR STOCK', description: 'Goat bones for stock and soup.' }),
   createProduct('gl17', 'Frozen Goat Paya with Skin', 'Goat & Lamb', 5.99, { perLb: true, prepType: 'Bone-in', image: goatPayaSkinPng, badge: 'FROZEN', description: 'Goat trotters with the skin on, for paya.' }),
@@ -245,14 +240,9 @@ const MEAT_PRODUCTS = [
   // is the exception: its sticker reads 3.99 but a second figure is pencilled
   // beside it, so that line stays on "Call for price" until the store confirms.
   createProduct('c1', 'Whole Chicken', 'Chicken', null, { perLb: true, prepType: 'Whole', image: chickenWhole, badge: 'ZABIHA', description: 'Hand-slaughtered whole chicken. Cut up on request at no charge.' }),
-  createProduct('c2', 'Chicken Leg Quarters, Box', 'Chicken', 44.99, { image: chickenLegQuarterBox, prepType: 'Bone-in', badge: 'BULK BOX', description: 'Full box of leg quarters — the bulk buy.' }),
-  createProduct('c3', 'Chicken Leg Quarters, Half Box', 'Chicken', 24.99, { image: chickenLegQuarterHalfBox, prepType: 'Bone-in', badge: 'BULK BOX', description: 'Half box of leg quarters.' }),
   createProduct('c4', 'Chicken Boneless Breast', 'Chicken', 5.99, { perLb: true, prepType: 'Boneless', image: chickenBreast, badge: 'BONELESS', description: 'Skinless boneless breast fillets, trimmed.' }),
   createProduct('c5', 'Chicken Boneless Thigh', 'Chicken', 4.99, { perLb: true, prepType: 'Boneless', image: chickenBonelessThigh, badge: 'BONELESS', description: 'Skinless boneless thigh meat.' }),
   createProduct('c6', 'Chicken Drumsticks', 'Chicken', 2.69, { perLb: true, prepType: 'Bone-in', image: chickenDrumstick, badge: 'FAMILY FAVORITE', description: 'Fresh chicken drumsticks.' }),
-  createProduct('c7', 'Tahir Whole Chicken', 'Chicken', 3.99, { perLb: true, prepType: 'Whole', image: chickenWhole, badge: 'HFSAA CERTIFIED', description: 'Tahir brand — zabihah individual hand slaughter, cage free, no antibiotics ever.' }),
-  createProduct('c8', 'Tahir Leg Quarters', 'Chicken', 2.99, { image: chickenLegQuarters, perLb: true, prepType: 'Bone-in', badge: 'HFSAA CERTIFIED', description: 'Tahir brand leg quarters.' }),
-  createProduct('c9', 'Tahir Boneless Breast', 'Chicken', 5.99, { image: chickenBreastTahir, perLb: true, prepType: 'Boneless', badge: 'HFSAA CERTIFIED', description: 'Tahir brand boneless breast.' }),
   createProduct('c10', 'Chicken Qeema (Ground)', 'Chicken', 5.99, { perLb: true, prepType: 'Minced', image: chickenQeemaPng, badge: 'GROUND FRESH', description: 'Ground chicken for kebabs and keema.' }),
   createProduct('c11', 'Chicken Fajita Strips', 'Chicken', 5.99, { image: chickenFajitaStrips, perLb: true, prepType: 'Boneless', description: 'Boneless strips, cut for fajitas and stir-fry.' }),
   createProduct('c12', 'Chicken Tenders', 'Chicken', 5.99, { image: chickenTenders, perLb: true, prepType: 'Boneless', description: 'Breast tenderloins.' }),

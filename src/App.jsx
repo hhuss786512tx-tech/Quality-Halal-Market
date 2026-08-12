@@ -244,14 +244,14 @@ const MEAT_PRODUCTS = [
   // Prices on this panel are read off the board's green stickers. Whole Chicken
   // is the exception: its sticker reads 3.99 but a second figure is pencilled
   // beside it, so that line stays on "Call for price" until the store confirms.
-  createProduct('c1', 'Whole Chicken', 'Chicken', null, { perLb: true, prepType: 'Whole', image: chickenPieces, badge: 'ZABIHA', description: 'Hand-slaughtered whole chicken. Cut up on request at no charge.' }),
+  createProduct('c1', 'Whole Chicken', 'Chicken', null, { perLb: true, prepType: 'Whole', image: chickenWhole, badge: 'ZABIHA', description: 'Hand-slaughtered whole chicken. Cut up on request at no charge.' }),
   createProduct('c2', 'Chicken Leg Quarters, Box', 'Chicken', 44.99, { image: chickenLegQuarterBox, prepType: 'Bone-in', badge: 'BULK BOX', description: 'Full box of leg quarters — the bulk buy.' }),
   createProduct('c3', 'Chicken Leg Quarters, Half Box', 'Chicken', 24.99, { image: chickenLegQuarterHalfBox, prepType: 'Bone-in', badge: 'BULK BOX', description: 'Half box of leg quarters.' }),
   createProduct('c4', 'Chicken Boneless Breast', 'Chicken', 5.99, { perLb: true, prepType: 'Boneless', image: chickenBreast, badge: 'BONELESS', description: 'Skinless boneless breast fillets, trimmed.' }),
   createProduct('c5', 'Chicken Boneless Thigh', 'Chicken', 4.99, { perLb: true, prepType: 'Boneless', image: chickenBonelessThigh, badge: 'BONELESS', description: 'Skinless boneless thigh meat.' }),
   createProduct('c6', 'Chicken Drumsticks', 'Chicken', 2.69, { perLb: true, prepType: 'Bone-in', image: chickenDrumstick, badge: 'FAMILY FAVORITE', description: 'Fresh chicken drumsticks.' }),
   createProduct('c7', 'Tahir Whole Chicken', 'Chicken', 3.99, { perLb: true, prepType: 'Whole', image: chickenWhole, badge: 'HFSAA CERTIFIED', description: 'Tahir brand — zabihah individual hand slaughter, cage free, no antibiotics ever.' }),
-  createProduct('c8', 'Tahir Leg Quarters', 'Chicken', 2.99, { image: chickenThighs, perLb: true, prepType: 'Bone-in', badge: 'HFSAA CERTIFIED', description: 'Tahir brand leg quarters.' }),
+  createProduct('c8', 'Tahir Leg Quarters', 'Chicken', 2.99, { image: chickenLegQuarters, perLb: true, prepType: 'Bone-in', badge: 'HFSAA CERTIFIED', description: 'Tahir brand leg quarters.' }),
   createProduct('c9', 'Tahir Boneless Breast', 'Chicken', 5.99, { image: chickenBreastTahir, perLb: true, prepType: 'Boneless', badge: 'HFSAA CERTIFIED', description: 'Tahir brand boneless breast.' }),
   createProduct('c10', 'Chicken Qeema (Ground)', 'Chicken', 5.99, { perLb: true, prepType: 'Minced', image: chickenQeemaPng, badge: 'GROUND FRESH', description: 'Ground chicken for kebabs and keema.' }),
   createProduct('c11', 'Chicken Fajita Strips', 'Chicken', 5.99, { image: chickenFajitaStrips, perLb: true, prepType: 'Boneless', description: 'Boneless strips, cut for fajitas and stir-fry.' }),
@@ -349,10 +349,7 @@ const countIn = (cat) => MEAT_PRODUCTS.filter(p => p.category === cat).length;
 const PHOTO_CATEGORIES = [
   { name: 'Beef', title: 'BEEF', count: `${countIn('Beef')} Cuts`, img: beefRibeye, badge: 'Fresh & Frozen' },
   { name: 'Goat & Lamb', title: 'GOAT & LAMB', count: `${countIn('Goat & Lamb')} Cuts`, img: goatWhole, badge: 'Whole & Half Available' },
-  // "Organic Farm" was an unverified USDA-regulated claim. The store's own
-  // verified claim is hand-slaughtered zabiha, which the site already makes.
   { name: 'Chicken', title: 'CHICKEN', count: `${countIn('Chicken')} Cuts`, img: chickenPieces, badge: 'Hand-Slaughtered' },
-  { name: 'Grocery', title: 'GROCERY', count: `${ALL_GROCERY.length} Items`, img: null, badge: 'Pantry & More' },
 ];
 
 // Ribbon thumbnails — only categories with a real store photo get one.
@@ -366,32 +363,21 @@ export default function App() {
   const [selectedPreps, setSelectedPreps] = useState([]);
   const [onlyBoneIn, setOnlyBoneIn] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
-  const [activeTab, setActiveTab] = useState('meat');
 
   const [cart, setCart] = useState([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [quickViewProduct, setQuickViewProduct] = useState(null);
 
-  // Determine groceries sub-tab
-  const [grocerySubTab, setGrocerySubTab] = useState('rice');
-
   // Filter products
   const filteredProducts = useMemo(() => {
-    let source = activeTab === 'meat' ? MEAT_PRODUCTS : ALL_GROCERY;
+    let source = MEAT_PRODUCTS;
 
-    if (activeTab === 'meat') {
-      if (activeMeatCat !== 'All') {
-        source = source.filter(p => p.category === activeMeatCat);
-      }
-    } else {
-      const sub = GROCERY_SUB_CATEGORIES.find(s => s.key === grocerySubTab);
-      if (sub) source = sub.data;
+    if (activeMeatCat !== 'All') {
+      source = source.filter(p => p.category === activeMeatCat);
     }
 
     return source.filter(p => {
       if (searchQuery.trim() !== '') {
-        // Trim before matching — a pasted term with surrounding whitespace
-        // otherwise matches nothing and shows a false "No items found".
         const q = searchQuery.trim().toLowerCase();
         if (!p.name.toLowerCase().includes(q) && !p.category.toLowerCase().includes(q)) return false;
       }
@@ -404,7 +390,7 @@ export default function App() {
       if (sortOption === 'price-high') return (b.price ?? 0) - (a.price ?? 0);
       return 0;
     });
-  }, [activeMeatCat, grocerySubTab, searchQuery, priceMaxFilter, selectedPreps, onlyBoneIn, sortOption, activeTab]);
+  }, [activeMeatCat, searchQuery, priceMaxFilter, selectedPreps, onlyBoneIn, sortOption]);
 
   const cartSubtotal = useMemo(() => {
     return cart.reduce((acc, item) => acc + ((item.price ?? 0) * item.quantity), 0);
@@ -446,13 +432,6 @@ export default function App() {
     setSelectedPreps(prev => prev.includes(prep) ? prev.filter(p => p !== prep) : [...prev, prep]);
   };
 
-  const handleSwitchTab = (tab) => {
-    setActiveTab(tab);
-    setActiveMeatCat('All');
-    setGrocerySubTab('rice');
-    setSearchQuery('');
-    setSelectedPreps([]);
-  };
 
   const formatPrice = (product) => {
     if (product.marketPrice) return 'Market price';
@@ -502,7 +481,7 @@ export default function App() {
       <header className="site-header">
         <div className="container">
           <div className="header-main">
-            <div className="brand-logo" style={{ cursor: 'pointer' }} onClick={() => { handleSwitchTab('meat'); }}>
+            <div className="brand-logo" style={{ cursor: 'pointer' }} onClick={() => { setActiveMeatCat('All'); }}>
               <div className="logo-icon-wrap">
                 <ShoppingBag size={24} />
               </div>
@@ -535,11 +514,8 @@ export default function App() {
 
           {/* Department Tabs */}
           <div className="dept-tab-switcher">
-            <button className={`dept-tab ${activeTab === 'meat' ? 'active' : ''}`} onClick={() => handleSwitchTab('meat')}>
+            <button className={`dept-tab active`}>
               <Beef size={18} /><span>Fresh Meat Counter</span>
-            </button>
-            <button className={`dept-tab ${activeTab === 'grocery' ? 'active' : ''}`} onClick={() => handleSwitchTab('grocery')}>
-              <Store size={18} /><span>Grocery & Pantry</span>
             </button>
           </div>
         </div>
@@ -551,17 +527,11 @@ export default function App() {
         <div className="container">
           <div className="hero-content-wrap">
             <div className="hero-badge-pill"><Sparkles size={14} /> Hand-Cut Daily • Zabiha Halal</div>
-            <h2 className="hero-title">
-              {activeTab === 'meat' ? 'Your Premium Halal Meat Butcher Counter' : 'Indian • Pakistani • Mediterranean Groceries'}
-            </h2>
-            <p className="hero-subtitle">
-              {activeTab === 'meat' 
-                ? 'Hand-slaughtered Zabiha beef, goat, lamb, and chicken — fresh and frozen. Custom cut and trimmed to order at the counter.'
-                : 'Fresh spices, basmati rice, frozen foods, dairy, sweets, and specialty groceries from South Asia and the Middle East — right here in Cedar Park.'}
-            </p>
+            <h2 className="hero-title">Your Premium Halal Meat Butcher Counter</h2>
+            <p className="hero-subtitle">Hand-slaughtered Zabiha beef, goat, lamb, and chicken — fresh and frozen. Custom cut and trimmed to order at the counter.</p>
             <div className="hero-actions">
               <button className="btn-primary-green" onClick={() => document.getElementById('shop-section')?.scrollIntoView({ behavior: 'smooth' })}>
-                <span>{activeTab === 'meat' ? 'Shop Meat Counter' : 'Browse Groceries'}</span>
+                <span>Shop Meat Counter</span>
                 <ArrowRight size={18} />
               </button>
               <button className="btn-outline-gold" onClick={() => document.getElementById('categories-section')?.scrollIntoView({ behavior: 'smooth' })}>
@@ -580,14 +550,13 @@ export default function App() {
         <div className="container">
           <div className="section-header-center">
             <span className="section-tag">Explore By Category</span>
-            <h3 className="section-title-lg">{activeTab === 'meat' ? 'Fresh Cut Meat Market' : 'Grocery & Pantry'}</h3>
+            <h3 className="section-title-lg">Fresh Cut Meat Market</h3>
             <p className="section-desc">Select a category to filter our inventory.</p>
           </div>
           <div className="photo-categories-grid">
             {PHOTO_CATEGORIES.map((cat, idx) => (
               <div key={idx} className="photo-category-card" onClick={() => {
-                if (cat.name === 'Grocery') { handleSwitchTab('grocery'); }
-                else { handleSwitchTab('meat'); setActiveMeatCat(cat.name); }
+                setActiveMeatCat(cat.name);
                 document.getElementById('shop-section')?.scrollIntoView({ behavior: 'smooth' });
               }}>
                 {cat.img
@@ -608,7 +577,7 @@ export default function App() {
       </section>
 
       {/* MEAT CATEGORY RIBBON */}
-      {activeTab === 'meat' && (
+      {(
         <section id="shop-section" className="shop-cat-ribbon-section">
           <div className="container">
             <div className="shop-cat-ribbon-wrap">
@@ -627,22 +596,6 @@ export default function App() {
                   <span className="shop-cat-count-badge">
                     {cat === 'All' ? MEAT_PRODUCTS.length : MEAT_PRODUCTS.filter(p => p.category === cat).length}
                   </span>
-                </button>
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
-
-      {/* GROCERY SUB-TABS */}
-      {activeTab === 'grocery' && (
-        <section id="shop-section" className="shop-cat-ribbon-section">
-          <div className="container">
-            <div className="shop-cat-ribbon-wrap">
-              {GROCERY_SUB_CATEGORIES.map(sub => (
-                <button key={sub.key} className={`shop-cat-pill ${grocerySubTab === sub.key ? 'active' : ''}`} onClick={() => setGrocerySubTab(sub.key)}>
-                  <span style={{ paddingLeft: '0.3rem' }}>{sub.label}</span>
-                  <span className="shop-cat-count-badge">{sub.data.length}</span>
                 </button>
               ))}
             </div>
@@ -691,7 +644,7 @@ export default function App() {
                   onChange={(e) => setPriceMaxFilter(clampPrice(e.target.value))} />
                 <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>Up to ${priceMaxFilter}.00</span>
               </div>
-              {activeTab === 'meat' && (
+              {(
                 <div className="filter-widget">
                   <h4 className="widget-title">Prep Style</h4>
                   <div className="filter-checkbox-list">
@@ -741,7 +694,7 @@ export default function App() {
                     </div>
                     <div className="product-card-body">
                       <span className="product-sku-tag" style={{ color: p.marketPrice ? 'var(--gold-accent)' : 'var(--text-muted)' }}>
-                        {p.marketPrice ? 'MARKET PRICE' : (activeTab === 'meat' ? p.category.toUpperCase() : 'GROCERY')}
+                        {p.marketPrice ? 'MARKET PRICE' : p.category.toUpperCase()}
                       </span>
                       <h3 className="product-title">{p.name}</h3>
                       <div className="product-pricing-wrap">
@@ -908,19 +861,9 @@ export default function App() {
             <div className="footer-col">
               <h4>Meat</h4>
               <ul>
-                <li><a href="#shop-section" onClick={() => { handleSwitchTab('meat'); setActiveMeatCat('Beef'); }}>Beef</a></li>
-                <li><a href="#shop-section" onClick={() => { handleSwitchTab('meat'); setActiveMeatCat('Goat'); }}>Goat</a></li>
-                <li><a href="#shop-section" onClick={() => { handleSwitchTab('meat'); setActiveMeatCat('Lamb'); }}>Lamb</a></li>
-                <li><a href="#shop-section" onClick={() => { handleSwitchTab('meat'); setActiveMeatCat('Chicken'); }}>Chicken</a></li>
-              </ul>
-            </div>
-            <div className="footer-col">
-              <h4>Grocery</h4>
-              <ul>
-                <li><a href="#shop-section" onClick={() => { handleSwitchTab('grocery'); setGrocerySubTab('rice'); }}>Rice & Lentils</a></li>
-                <li><a href="#shop-section" onClick={() => { handleSwitchTab('grocery'); setGrocerySubTab('spices'); }}>Spices</a></li>
-                <li><a href="#shop-section" onClick={() => { handleSwitchTab('grocery'); setGrocerySubTab('frozen'); }}>Frozen</a></li>
-                <li><a href="#shop-section" onClick={() => { handleSwitchTab('grocery'); setGrocerySubTab('snacks'); }}>Sweets & Snacks</a></li>
+                <li><a href="#shop-section" onClick={() => setActiveMeatCat('Beef')}>Beef</a></li>
+                <li><a href="#shop-section" onClick={() => setActiveMeatCat('Goat & Lamb')}>Goat & Lamb</a></li>
+                <li><a href="#shop-section" onClick={() => setActiveMeatCat('Chicken')}>Chicken</a></li>
               </ul>
             </div>
             <div className="footer-col">

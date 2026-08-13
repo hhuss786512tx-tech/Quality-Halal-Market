@@ -209,6 +209,14 @@ h1, h2, h3, h4, h5, h6 {
   justify-content: center;
   color: #ffffff;
 }
+.logo-mark-img {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+  box-shadow: 0 0 0 1px var(--border-gold);
+}
 .logo-text-group h1 {
   font-size: 1.3rem;
   font-weight: 800;

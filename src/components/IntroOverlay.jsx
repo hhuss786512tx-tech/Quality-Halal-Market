@@ -55,8 +55,14 @@ export default function IntroOverlay() {
       window.removeEventListener('touchstart', skip);
       window.removeEventListener('pointerdown', skip);
     };
+    // Re-runs specifically when `phase` flips to/from 'done' (not on every
+    // 'enter'->'lift' tick) so the cleanup above — which restores
+    // body.style.overflow — actually fires the moment the animation finishes.
+    // A `[]` dependency array would only run that cleanup on unmount, which
+    // never happens on a page you don't navigate away from, permanently
+    // locking scroll after the very first intro plays.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [phase === 'done']);
 
   if (phase === 'done') return null;
 

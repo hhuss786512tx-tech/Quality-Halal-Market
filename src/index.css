@@ -210,12 +210,14 @@ h1, h2, h3, h4, h5, h6 {
   color: #ffffff;
 }
 .logo-mark-img {
+  /* The source asset is already a circular medallion on a transparent
+     background — no CSS clipping/masking needed, and none of that circle
+     framing (border-radius, ring shadow) that would show a seam if the
+     crop weren't pixel-perfect. */
   width: 46px;
   height: 46px;
-  border-radius: 50%;
-  object-fit: cover;
+  object-fit: contain;
   flex-shrink: 0;
-  box-shadow: 0 0 0 1px var(--border-gold);
 }
 .logo-text-group h1 {
   font-size: 1.3rem;

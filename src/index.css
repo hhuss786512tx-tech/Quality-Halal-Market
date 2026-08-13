@@ -818,6 +818,33 @@ h1, h2, h3, h4, h5, h6 {
   transform: scale(1.05);
 }
 
+/* A handful of stock photos are shot on a plain white studio background,
+   which reads as a jarring, unstyled stock-photo card next to every other
+   product's dark-slate rosemary-and-garlic photography. These are shot with
+   the product filling most of the frame, so a slight zoom crops out most of
+   the white margin, and a radial vignette fades whatever white sliver
+   remains at the edges into the card's own dark surface — without darkening
+   or discoloring the product itself in the center. */
+.product-img-wrapper--blend {
+  background: var(--bg-surface);
+}
+.product-img-wrapper--blend .product-card-img {
+  transform: scale(1.34);
+}
+.product-card:hover .product-img-wrapper--blend .product-card-img {
+  transform: scale(1.4);
+}
+.product-img-wrapper--blend::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at center, rgba(21, 19, 16, 0) 40%, var(--bg-surface) 92%);
+  pointer-events: none;
+}
+.cart-item-thumb--blend {
+  transform: scale(1.3);
+}
+
 /* Card Badges Overlay */
 .card-badges-stack {
   position: absolute;
@@ -1202,6 +1229,46 @@ h1, h2, h3, h4, h5, h6 {
   text-decoration: none;
 }
 
+/* About Us Section */
+.about-us-section {
+  padding: 5rem 0;
+}
+.about-us-grid {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 3rem;
+  align-items: center;
+}
+.about-us-copy p {
+  color: var(--text-muted);
+  font-size: 0.98rem;
+  line-height: 1.75;
+  margin-top: 1.1rem;
+}
+.about-us-badge-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: 2.25rem 2rem;
+  text-align: center;
+  transition: var(--transition-smooth);
+}
+.about-us-badge-card:hover {
+  border-color: var(--border-gold);
+  box-shadow: var(--shadow-md);
+}
+.about-us-badge-card h4 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text-white);
+  margin: 0.25rem 0 0.6rem 0;
+}
+.about-us-badge-card p {
+  font-size: 0.88rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
 /* Footer Section */
 .site-footer {
   background: var(--bg-footer);
@@ -1263,6 +1330,18 @@ h1, h2, h3, h4, h5, h6 {
   }
   .store-info-grid {
     grid-template-columns: repeat(2, 1fr);
+  }
+  .about-us-grid {
+    grid-template-columns: 1fr;
+  }
+  .about-us-copy .section-title-lg {
+    text-align: center !important;
+  }
+  .about-us-copy {
+    text-align: center;
+  }
+  .about-us-copy .btn-outline-gold {
+    justify-content: center;
   }
 }
 

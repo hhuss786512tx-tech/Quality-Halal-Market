@@ -6,7 +6,7 @@ import {
   Clock, ShoppingCart, Trash2,
   Sliders, Search, 
   Eye, RefreshCw, Sparkles,
-  Filter, ShoppingBag, Store, Beef, Milk, Wheat, Package, Drumstick, Ham, Camera
+  Filter, ShoppingBag, Store, Beef, Milk, Wheat, Package, Drumstick, Ham, Camera, Users
 } from 'lucide-react';
 
 // Imported Assets
@@ -180,6 +180,11 @@ const createProduct = (id, name, category, price, opts = {}) => ({
   inStock: opts.inStock ?? true,
   rating: opts.rating ?? null,
   reviews: opts.reviews ?? null,
+  // True for the handful of stock photos shot on a plain white background,
+  // which otherwise clash against every other product's dark slate/rosemary
+  // styling. The card blends these in with a multiply overlay — see
+  // .product-img-wrapper--blend in index.css.
+  whiteBg: opts.whiteBg ?? false,
 });
 
 const MEAT_PRODUCTS = [
@@ -252,10 +257,10 @@ const MEAT_PRODUCTS = [
 
   // ---- FROZEN MISCELLANEOUS (5 board lines) ------------------------------
   createProduct('c14', 'Chicken Wings', 'Chicken', 4.99, { perLb: true, prepType: 'Bone-in', image: chickenWings, badge: 'PARTY PACK', description: 'Whole wings for BBQ, tandoori, or frying.' }),
-  createProduct('c15', 'Chicken Gizzard', 'Chicken', 2.49, { perLb: true, prepType: 'Organ', image: chickenGizzardPng, badge: 'FROZEN', description: 'Cleaned chicken gizzards.' }),
-  createProduct('c16', 'Chicken Liver', 'Chicken', 2.49, { perLb: true, prepType: 'Organ', image: chickenLiverPng, badge: 'FROZEN', description: 'Fresh chicken livers, cleaned.' }),
+  createProduct('c15', 'Chicken Gizzard', 'Chicken', 2.49, { perLb: true, prepType: 'Organ', image: chickenGizzardPng, badge: 'FROZEN', description: 'Cleaned chicken gizzards.', whiteBg: true }),
+  createProduct('c16', 'Chicken Liver', 'Chicken', 2.49, { perLb: true, prepType: 'Organ', image: chickenLiverPng, badge: 'FROZEN', description: 'Fresh chicken livers, cleaned.', whiteBg: true }),
   createProduct('c17', 'Frozen Quail', 'Chicken', 14.99, { image: frozenQuail, prepType: 'Whole', badge: 'PER TRAY', description: 'Whole quail, sold by the tray.' }),
-  createProduct('c18', 'Frozen Duck', 'Chicken', 6.99, { perLb: true, prepType: 'Whole', image: frozenDuckPng, badge: 'FROZEN', description: 'Whole frozen duck.' }),
+  createProduct('c18', 'Frozen Duck', 'Chicken', 6.99, { perLb: true, prepType: 'Whole', image: frozenDuckPng, badge: 'FROZEN', description: 'Whole frozen duck.', whiteBg: true }),
 ];
 
 // ---------------------------------------------------------------------------
@@ -348,13 +353,21 @@ const PHOTO_CATEGORIES = [
 const RIBBON_THUMB = { Beef: beefRibeye, 'Goat & Lamb': goatWhole, Chicken: chickenPieces };
 
 export default function App() {
+  // Which counter the shop grid is showing. The announcement bar, hero, and
+  // footer all advertise groceries, so this has to be a real, browsable
+  // department — not just meat with grocery copy bolted on.
+  const [activeDept, setActiveDept] = useState('meat');
   const [activeMeatCat, setActiveMeatCat] = useState('All');
+  const [activeGroceryCat, setActiveGroceryCat] = useState('All');
   const [searchQuery, setSearchQuery] = useState('');
   const [sortOption, setSortOption] = useState('default');
   const [priceMaxFilter, setPriceMaxFilter] = useState(PRICE_MAX);
   const [selectedPreps, setSelectedPreps] = useState([]);
   const [onlyBoneIn, setOnlyBoneIn] = useState(false);
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  // Filters default open on desktop but start collapsed on phones — otherwise the
+  // price/prep-style filter panel pushes the first product ~3000px down the page
+  // before a mobile visitor sees any meat.
+  const [isSidebarOpen, setIsSidebarOpen] = useState(() => typeof window === 'undefined' || window.innerWidth > 768);
 
   const [cart, setCart] = useState([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
@@ -362,10 +375,13 @@ export default function App() {
 
   // Filter products
   const filteredProducts = useMemo(() => {
-    let source = MEAT_PRODUCTS;
+    let source = activeDept === 'grocery' ? ALL_GROCERY : MEAT_PRODUCTS;
 
-    if (activeMeatCat !== 'All') {
+    if (activeDept === 'meat' && activeMeatCat !== 'All') {
       source = source.filter(p => p.category === activeMeatCat);
+    }
+    if (activeDept === 'grocery' && activeGroceryCat !== 'All') {
+      source = source.filter(p => p.category === activeGroceryCat);
     }
 
     return source.filter(p => {
@@ -373,16 +389,27 @@ export default function App() {
         const q = searchQuery.trim().toLowerCase();
         if (!p.name.toLowerCase().includes(q) && !p.category.toLowerCase().includes(q)) return false;
       }
-      if (p.price !== null && p.price > priceMaxFilter) return false;
-      if (selectedPreps.length > 0 && !selectedPreps.includes(p.prepType)) return false;
-      if (onlyBoneIn && !p.name.toLowerCase().includes('bone-in')) return false;
+      // Price/prep/bone-in filters only apply to the meat counter — every
+      // grocery line is "Call for price" with no shelf price to filter on,
+      // and prep style (steaks, chops, etc.) is meaningless for groceries.
+      if (activeDept === 'meat') {
+        if (p.price !== null && p.price > priceMaxFilter) return false;
+        if (selectedPreps.length > 0 && !selectedPreps.includes(p.prepType)) return false;
+        if (onlyBoneIn && !p.name.toLowerCase().includes('bone-in')) return false;
+      }
       return true;
     }).sort((a, b) => {
       if (sortOption === 'price-low') return (a.price ?? 999) - (b.price ?? 999);
       if (sortOption === 'price-high') return (b.price ?? 0) - (a.price ?? 0);
       return 0;
     });
-  }, [activeMeatCat, searchQuery, priceMaxFilter, selectedPreps, onlyBoneIn, sortOption]);
+  }, [activeDept, activeMeatCat, activeGroceryCat, searchQuery, priceMaxFilter, selectedPreps, onlyBoneIn, sortOption]);
+
+  const switchDept = (dept) => {
+    setActiveDept(dept);
+    setSearchQuery('');
+    document.getElementById('shop-section')?.scrollIntoView({ behavior: 'smooth' });
+  };
 
   const cartSubtotal = useMemo(() => {
     return cart.reduce((acc, item) => acc + ((item.price ?? 0) * item.quantity), 0);
@@ -506,8 +533,11 @@ export default function App() {
 
           {/* Department Tabs */}
           <div className="dept-tab-switcher">
-            <button className={`dept-tab active`}>
+            <button className={`dept-tab ${activeDept === 'meat' ? 'active' : ''}`} onClick={() => switchDept('meat')}>
               <Beef size={18} /><span>Fresh Meat Counter</span>
+            </button>
+            <button className={`dept-tab ${activeDept === 'grocery' ? 'active' : ''}`} onClick={() => switchDept('grocery')}>
+              <Package size={18} /><span>Groceries</span>
             </button>
           </div>
         </div>
@@ -522,12 +552,15 @@ export default function App() {
             <h2 className="hero-title">Your Premium Halal Meat Butcher Counter</h2>
             <p className="hero-subtitle">Hand-slaughtered Zabiha beef, goat, lamb, and chicken — fresh and frozen. Custom cut and trimmed to order at the counter.</p>
             <div className="hero-actions">
-              <button className="btn-primary-green" onClick={() => document.getElementById('shop-section')?.scrollIntoView({ behavior: 'smooth' })}>
+              <button className="btn-primary-green" onClick={() => switchDept('meat')}>
                 <span>Shop Meat Counter</span>
                 <ArrowRight size={18} />
               </button>
               <button className="btn-outline-gold" onClick={() => document.getElementById('categories-section')?.scrollIntoView({ behavior: 'smooth' })}>
                 <span>Explore Collections</span>
+              </button>
+              <button className="btn-outline-gold" onClick={() => switchDept('grocery')}>
+                <Package size={18} /><span>Shop Groceries</span>
               </button>
               <a href="tel:+15122607677" className="btn-outline-gold" style={{ borderColor: 'var(--primary-green)', color: 'var(--emerald-bright)' }}>
                 <Phone size={18} /><span>Call (512) 260-7677</span>
@@ -537,41 +570,43 @@ export default function App() {
         </div>
       </section>
 
-      {/* CATEGORIES SHOWCASE */}
-      <section id="categories-section" className="categories-showcase-section">
-        <div className="container">
-          <div className="section-header-center">
-            <span className="section-tag">Explore By Category</span>
-            <h3 className="section-title-lg">Fresh Cut Meat Market</h3>
-            <p className="section-desc">Select a category to filter our inventory.</p>
-          </div>
-          <div className="photo-categories-grid">
-            {PHOTO_CATEGORIES.map((cat, idx) => (
-              <div key={idx} className="photo-category-card" onClick={() => {
-                setActiveMeatCat(cat.name);
-                document.getElementById('shop-section')?.scrollIntoView({ behavior: 'smooth' });
-              }}>
-                {cat.img
-                  ? <img src={cat.img} alt={cat.title} className="photo-category-img" />
-                  : <PhotoPlaceholder label={cat.title} category={cat.name} variant="tile" />}
-                <div className="photo-category-overlay">
-                  <span className="photo-category-badge">{cat.badge}</span>
-                  <h4 className="photo-category-title">{cat.title}</h4>
-                  <div className="photo-category-count">
-                    <span>{cat.count}</span>
-                    <div className="photo-category-arrow"><ArrowRight size={16} /></div>
+      {/* CATEGORIES SHOWCASE — meat counter only; groceries have no store photos yet */}
+      {activeDept === 'meat' && (
+        <section id="categories-section" className="categories-showcase-section">
+          <div className="container">
+            <div className="section-header-center">
+              <span className="section-tag">Explore By Category</span>
+              <h3 className="section-title-lg">Fresh Cut Meat Market</h3>
+              <p className="section-desc">Select a category to filter our inventory.</p>
+            </div>
+            <div className="photo-categories-grid">
+              {PHOTO_CATEGORIES.map((cat, idx) => (
+                <div key={idx} className="photo-category-card" onClick={() => {
+                  setActiveMeatCat(cat.name);
+                  document.getElementById('shop-section')?.scrollIntoView({ behavior: 'smooth' });
+                }}>
+                  {cat.img
+                    ? <img src={cat.img} alt={cat.title} className="photo-category-img" />
+                    : <PhotoPlaceholder label={cat.title} category={cat.name} variant="tile" />}
+                  <div className="photo-category-overlay">
+                    <span className="photo-category-badge">{cat.badge}</span>
+                    <h4 className="photo-category-title">{cat.title}</h4>
+                    <div className="photo-category-count">
+                      <span>{cat.count}</span>
+                      <div className="photo-category-arrow"><ArrowRight size={16} /></div>
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
 
-      {/* MEAT CATEGORY RIBBON */}
-      {(
-        <section id="shop-section" className="shop-cat-ribbon-section">
-          <div className="container">
+      {/* CATEGORY RIBBON — meat cuts or grocery aisles, depending on department */}
+      <section id="shop-section" className="shop-cat-ribbon-section">
+        <div className="container">
+          {activeDept === 'meat' ? (
             <div className="shop-cat-ribbon-wrap">
               {MEAT_CATEGORIES.map(cat => (
                 <button key={cat} className={`shop-cat-pill ${activeMeatCat === cat ? 'active' : ''}`} onClick={() => setActiveMeatCat(cat)}>
@@ -591,18 +626,37 @@ export default function App() {
                 </button>
               ))}
             </div>
-          </div>
-        </section>
-      )}
+          ) : (
+            <div className="shop-cat-ribbon-wrap">
+              <button className={`shop-cat-pill ${activeGroceryCat === 'All' ? 'active' : ''}`} onClick={() => setActiveGroceryCat('All')}>
+                <div className="shop-cat-icon-thumb" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'var(--primary-green)', border: '1.5px solid var(--gold-accent)' }}>
+                  <ShoppingBag size={16} color="var(--gold-accent)" />
+                </div>
+                <span>All Groceries</span>
+                <span className="shop-cat-count-badge">{ALL_GROCERY.length}</span>
+              </button>
+              {GROCERY_SUB_CATEGORIES.map(sub => (
+                <button key={sub.key} className={`shop-cat-pill ${activeGroceryCat === sub.label ? 'active' : ''}`} onClick={() => setActiveGroceryCat(sub.label)}>
+                  <PhotoPlaceholder label={sub.label} category={sub.label} variant="thumb" />
+                  <span>{sub.label}</span>
+                  <span className="shop-cat-count-badge">{sub.data.length}</span>
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
+      </section>
 
       {/* TOOLBAR */}
       <section className="shop-toolbar-section">
         <div className="container">
           <div className="shop-toolbar-bar">
             <div className="shop-toolbar-left">
-              <button className="btn-filter-drawer" onClick={() => setIsSidebarOpen(!isSidebarOpen)}>
-                <Sliders size={16} /><span>{isSidebarOpen ? 'Hide Filters' : 'Filter'}</span>
-              </button>
+              {activeDept === 'meat' && (
+                <button className="btn-filter-drawer" onClick={() => setIsSidebarOpen(!isSidebarOpen)}>
+                  <Sliders size={16} /><span>{isSidebarOpen ? 'Hide Filters' : 'Filter'}</span>
+                </button>
+              )}
               <span className="results-count-text">Showing {filteredProducts.length} items</span>
             </div>
             <div className="shop-toolbar-right">
@@ -618,8 +672,8 @@ export default function App() {
 
       {/* MAIN SHOP */}
       <main className="container">
-        <div className={`shop-main-layout ${!isSidebarOpen ? 'no-sidebar' : ''}`}>
-          {isSidebarOpen && (
+        <div className={`shop-main-layout ${(!isSidebarOpen || activeDept === 'grocery') ? 'no-sidebar' : ''}`}>
+          {activeDept === 'meat' && isSidebarOpen && (
             <aside className="shop-sidebar">
               <div className="filter-widget">
                 <h4 className="widget-title"><span>Max Price</span><Filter size={16} /></h4>
@@ -672,12 +726,14 @@ export default function App() {
               <div className="products-grid-container cols-3">
                 {filteredProducts.map(p => (
                   <div key={p.id} className="product-card">
-                    <div className="product-img-wrapper">
+                    <div className={`product-img-wrapper ${p.whiteBg ? 'product-img-wrapper--blend' : ''}`}>
                       {p.image
                         ? <img src={p.image} alt={p.name} className="product-card-img" />
                         : <PhotoPlaceholder label={p.name} category={p.category} variant="card" />}
                       <div className="card-badges-stack">
-                        <span className="badge-halal">ZABIHA HALAL</span>
+                        {/* Zabiha refers to the Islamic slaughter method — it only
+                            applies to meat, never to groceries like rice or dal. */}
+                        {activeDept === 'meat' && <span className="badge-halal">ZABIHA HALAL</span>}
                         {p.badge && <span className="badge-sale">{p.badge}</span>}
                       </div>
                       <div className="quick-actions-bar">
@@ -715,15 +771,19 @@ export default function App() {
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2rem' }}>
               <div>
                 {quickViewProduct.image
-                  ? <img src={quickViewProduct.image} alt={quickViewProduct.name} style={{ width: '100%', height: '340px', objectFit: 'cover', borderRadius: 'var(--radius-md)' }} />
+                  ? <div className={`product-img-wrapper ${quickViewProduct.whiteBg ? 'product-img-wrapper--blend' : ''}`} style={{ height: '340px', borderRadius: 'var(--radius-md)' }}>
+                      <img src={quickViewProduct.image} alt={quickViewProduct.name} className="product-card-img" />
+                    </div>
                   : <div style={{ height: '340px', borderRadius: 'var(--radius-md)', overflow: 'hidden' }}>
                       <PhotoPlaceholder label={quickViewProduct.name} category={quickViewProduct.category} variant="tile" />
                     </div>}
                 <div style={{ marginTop: '1rem', padding: '1rem', background: 'var(--bg-surface)', borderRadius: 'var(--radius-md)' }}>
-                  <span style={{ color: 'var(--gold-accent)', fontSize: '0.85rem', fontWeight: 700, display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
-                    <ShieldCheck size={16} /> 100% Hand-Slaughtered Zabiha
-                  </span>
-                  <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)', marginTop: '0.4rem' }}>{quickViewProduct.description || 'Fresh from our butcher counter.'}</p>
+                  {activeDept === 'meat' && (
+                    <span style={{ color: 'var(--gold-accent)', fontSize: '0.85rem', fontWeight: 700, display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+                      <ShieldCheck size={16} /> 100% Hand-Slaughtered Zabiha
+                    </span>
+                  )}
+                  <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)', marginTop: activeDept === 'meat' ? '0.4rem' : 0 }}>{quickViewProduct.description || (activeDept === 'meat' ? 'Fresh from our butcher counter.' : 'Ask us in-store for details.')}</p>
                 </div>
               </div>
               <div>
@@ -760,7 +820,7 @@ export default function App() {
                 cart.map(item => (
                   <div key={item.id} className="cart-item-row">
                     {item.image
-                      ? <img src={item.image} alt={item.name} className="cart-item-thumb" />
+                      ? <img src={item.image} alt={item.name} className={`cart-item-thumb ${item.whiteBg ? 'cart-item-thumb--blend' : ''}`} />
                       : <div className="cart-item-thumb"><PhotoPlaceholder label={item.name} category={item.category} variant="mini" /></div>}
                     <div className="cart-item-info">
                       <h4 className="cart-item-name">{item.name}</h4>
@@ -839,6 +899,44 @@ export default function App() {
         </div>
       </section>
 
+      {/* ABOUT US */}
+      {/* Owner bio is intentionally generic — no name, photo, or personal story has
+          been provided yet. Replace the copy below with the real thing (and add a
+          photo of the owner or the counter) before this goes live. Nothing here is
+          invented; it only states what's already established elsewhere on the site. */}
+      <section className="about-us-section">
+        <div className="container">
+          <div className="about-us-grid">
+            <div className="about-us-copy">
+              <span className="section-tag">About Us</span>
+              <h3 className="section-title-lg" style={{ textAlign: 'left' }}>Family-Owned, Cedar Park Since Day One</h3>
+              <p>
+                Quality Halal Market is a family-owned butcher shop and grocer serving Cedar Park
+                and the surrounding community. Every cut on our counter is 100% hand-slaughtered
+                Zabiha halal, trimmed and prepared fresh to order — nothing pre-packaged, nothing
+                guessed at.
+              </p>
+              <p>
+                We started this shop to give our neighbors a butcher counter they can trust: honest
+                cuts, honest prices, and a real person behind the counter who knows the difference
+                between a paya and a shank. Stop in and say hello — we're happy to walk you through
+                any cut on the board.
+              </p>
+              <a href="tel:+15122607677" className="btn-outline-gold" style={{ marginTop: '0.5rem' }}>
+                <Phone size={16} /><span>Talk to Us: (512) 260-7677</span>
+              </a>
+            </div>
+            <div className="about-us-badge-card">
+              <div className="store-info-icon" style={{ width: '64px', height: '64px' }}>
+                <Users size={30} />
+              </div>
+              <h4>Run By The Community, For The Community</h4>
+              <p>No corporate supply chain — just a local shop that hand-cuts every order and stands behind it.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* FOOTER */}
       <footer className="site-footer">
         <div className="container">
@@ -853,9 +951,19 @@ export default function App() {
             <div className="footer-col">
               <h4>Meat</h4>
               <ul>
-                <li><a href="#shop-section" onClick={() => setActiveMeatCat('Beef')}>Beef</a></li>
-                <li><a href="#shop-section" onClick={() => setActiveMeatCat('Goat & Lamb')}>Goat & Lamb</a></li>
-                <li><a href="#shop-section" onClick={() => setActiveMeatCat('Chicken')}>Chicken</a></li>
+                <li><a href="#shop-section" onClick={() => { setActiveDept('meat'); setActiveMeatCat('Beef'); }}>Beef</a></li>
+                <li><a href="#shop-section" onClick={() => { setActiveDept('meat'); setActiveMeatCat('Goat & Lamb'); }}>Goat & Lamb</a></li>
+                <li><a href="#shop-section" onClick={() => { setActiveDept('meat'); setActiveMeatCat('Chicken'); }}>Chicken</a></li>
+              </ul>
+            </div>
+            <div className="footer-col">
+              <h4>Groceries</h4>
+              <ul>
+                {GROCERY_SUB_CATEGORIES.map(sub => (
+                  <li key={sub.key}>
+                    <a href="#shop-section" onClick={() => { setActiveDept('grocery'); setActiveGroceryCat(sub.label); }}>{sub.label}</a>
+                  </li>
+                ))}
               </ul>
             </div>
             <div className="footer-col">

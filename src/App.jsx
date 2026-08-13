@@ -1,3 +1,5 @@
+// Build timestamp: 1786581001Z — forced rebuild v2
+const CACHE_BUST = '20260812-1933';
 import React, { useState, useMemo } from 'react';
 import { 
   Phone, X, ShieldCheck, ArrowRight, MapPin, 
@@ -876,4 +878,4 @@ export default function App() {
       </footer>
     </div>
   );
-}
+} 

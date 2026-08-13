@@ -1550,3 +1550,109 @@ h1, h2, h3, h4, h5, h6 {
 .photo-placeholder-mini {
   gap: 0;
 }
+
+/* ============================================================================
+   ANIMATED SHIMMER SYSTEM — ported from the Solid State Construction site's
+   button and section-title effects, recolored from SSC's brown/black/copper
+   palette to this shop's green/gold identity. Two effects:
+
+   1. Section titles get an animated gradient border that slowly travels
+      around the pill, plus a soft pulsing glow behind it (continuous,
+      always running). Scoped to real section-level headings only
+      (.section-title-lg) — not every product card title — since 58
+      simultaneous glow/blur animations in the shop grid would be noisy
+      and expensive to paint.
+   2. Buttons get a dark-to-bright diagonal gradient that shifts position on
+      hover, like light catching brushed metal, instead of a flat color
+      swap.
+   ============================================================================ */
+
+.section-title-lg {
+  position: relative;
+  display: inline-block;
+  padding: 0.65rem 2rem;
+  border-radius: 18px;
+  background: linear-gradient(135deg, #1b1916 0%, #232019 100%);
+  isolation: isolate;
+  z-index: 1;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+.section-title-lg::before {
+  content: '';
+  position: absolute;
+  inset: -2.5px;
+  border-radius: 20.5px;
+  padding: 2.5px;
+  background: linear-gradient(90deg, #169c4a 0%, #d8a34b 25%, #ffffff 50%, #d8a34b 75%, #169c4a 100%);
+  background-size: 300% 100%;
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  z-index: -1;
+  animation: titleBorderShift 4s linear infinite;
+}
+.section-title-lg::after {
+  content: '';
+  position: absolute;
+  inset: -5px;
+  border-radius: 23px;
+  background: linear-gradient(90deg, rgba(22, 163, 74, 0.35), rgba(216, 163, 75, 0.6), rgba(22, 163, 74, 0.35));
+  background-size: 200% 100%;
+  filter: blur(8px);
+  z-index: -2;
+  opacity: 0.75;
+  animation: titleGlowPulse 3s ease-in-out infinite alternate;
+}
+@keyframes titleBorderShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+@keyframes titleGlowPulse {
+  0% { opacity: 0.4; filter: blur(6px); }
+  100% { opacity: 0.85; filter: blur(10px); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .section-title-lg::before,
+  .section-title-lg::after {
+    animation: none;
+  }
+}
+
+.btn-primary-green,
+.btn-outline-gold,
+.btn-add-cart-card,
+.btn-filter-drawer,
+.cart-header-btn {
+  background: linear-gradient(90deg, #0a2712 0%, #146b34 25%, #2ba861 50%, #146b34 75%, #0a2712 100%) !important;
+  background-size: 250% 100% !important;
+  background-position: 0% 0% !important;
+  color: #ffffff !important;
+  border: 1.5px solid #d8a34b !important;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.35), inset 0 1px 1px rgba(255, 255, 255, 0.18) !important;
+  transition: background-position 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.3s ease,
+              border-color 0.3s ease !important;
+}
+.btn-primary-green:hover,
+.btn-outline-gold:hover,
+.btn-add-cart-card:hover,
+.btn-filter-drawer:hover,
+.cart-header-btn:hover {
+  background-position: 100% 0% !important;
+  transform: translateY(-2px) !important;
+  border-color: #f0c37a !important;
+  box-shadow: 0 10px 25px rgba(216, 163, 75, 0.4), inset 0 1px 2px rgba(255, 255, 255, 0.3) !important;
+  color: #ffffff !important;
+}
+.btn-primary-green:active,
+.btn-outline-gold:active,
+.btn-add-cart-card:active,
+.btn-filter-drawer:active,
+.cart-header-btn:active {
+  transform: translateY(0) !important;
+  transition-duration: 0.06s !important;
+}

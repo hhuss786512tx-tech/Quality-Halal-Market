@@ -6,7 +6,8 @@ import {
   Clock, ShoppingCart, Trash2,
   Sliders, Search,
   Eye, RefreshCw, Sparkles,
-  Filter, ShoppingBag, Store, Beef, Milk, Wheat, Package, Drumstick, Ham, Camera, Users
+  Filter, ShoppingBag, Store, Beef, Milk, Wheat, Package, Drumstick, Ham, Camera, Users,
+  Sun, Moon
 } from 'lucide-react';
 import IntroOverlay from './components/IntroOverlay';
 
@@ -351,6 +352,15 @@ const PHOTO_CATEGORIES = [
   { name: 'Chicken', title: 'CHICKEN', count: `${countIn('Chicken')} Cuts`, img: chickenPieces, badge: 'Hand-Slaughtered' },
 ];
 
+// Home hero rotation — reuses the same store photography as the category
+// tiles below it (no new assets) so the slideshow stays on-brand.
+const HOME_HERO_IMAGES = [
+  { src: heroBanner, alt: 'Quality Halal Market butcher counter' },
+  { src: beefRibeye, alt: 'Hand-cut beef ribeye' },
+  { src: goatWhole, alt: 'Whole goat, hand-slaughtered Zabiha' },
+  { src: chickenPieces, alt: 'Fresh cut chicken pieces' },
+];
+
 // Hero copy for each category's own page.
 const CATEGORY_PAGE_COPY = {
   Beef: { title: 'Fresh & Frozen Beef', subtitle: 'Hand-slaughtered Zabiha beef, cut to order — from everyday curry cuts to ribeye and filet mignon.' },
@@ -393,6 +403,26 @@ export default function App() {
   const [cart, setCart] = useState([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [quickViewProduct, setQuickViewProduct] = useState(null);
+
+  // Light/dark theme — persisted so a returning visitor keeps their choice.
+  const [theme, setTheme] = useState(() => {
+    if (typeof window === 'undefined') return 'dark';
+    return localStorage.getItem('qhm-theme') || 'dark';
+  });
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem('qhm-theme', theme);
+  }, [theme]);
+
+  // Home hero slideshow — advances on a timer, crossfades in CSS.
+  const [heroSlide, setHeroSlide] = useState(0);
+  useEffect(() => {
+    if (route !== 'home') return;
+    const id = setInterval(() => {
+      setHeroSlide(i => (i + 1) % HOME_HERO_IMAGES.length);
+    }, 6000);
+    return () => clearInterval(id);
+  }, [route]);
 
   // Keep `route` in sync with the URL (back/forward buttons, a pasted link).
   useEffect(() => {
@@ -550,6 +580,14 @@ export default function App() {
               )}
             </div>
             <div className="header-actions">
+              <button
+                className="theme-toggle-btn"
+                onClick={() => setTheme(t => t === 'dark' ? 'light' : 'dark')}
+                aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+                title={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+              >
+                {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
+              </button>
               <a href="tel:+15122607677" className="cart-header-btn" style={{ background: 'var(--gold-accent)', color: '#0b0a09' }}>
                 <Phone size={20} />
                 <span>Call to Order</span>
@@ -567,11 +605,34 @@ export default function App() {
       {/* HERO — home shows the counter overview; a category page gets its own
           banner (own photo, own headline) so it reads as a real separate page. */}
       <section className="hero-section">
-        <img
-          src={route === 'home' ? heroBanner : (PHOTO_CATEGORIES.find(c => c.name === activeMeatCat)?.img ?? heroBanner)}
-          alt={route === 'home' ? 'Quality Halal Market' : activeMeatCat}
-          className="hero-bg-img"
-        />
+        {route === 'home' ? (
+          HOME_HERO_IMAGES.map((slide, idx) => (
+            <img
+              key={slide.src}
+              src={slide.src}
+              alt={slide.alt}
+              className={`hero-bg-img ${idx === heroSlide ? 'active' : ''}`}
+            />
+          ))
+        ) : (
+          <img
+            src={PHOTO_CATEGORIES.find(c => c.name === activeMeatCat)?.img ?? heroBanner}
+            alt={activeMeatCat}
+            className="hero-bg-img active"
+          />
+        )}
+        {route === 'home' && (
+          <div className="hero-dots">
+            {HOME_HERO_IMAGES.map((slide, idx) => (
+              <button
+                key={slide.src}
+                className={`hero-dot ${idx === heroSlide ? 'active' : ''}`}
+                onClick={() => setHeroSlide(idx)}
+                aria-label={`Show slide ${idx + 1}`}
+              />
+            ))}
+          </div>
+        )}
         <div className="container">
           <div className="hero-content-wrap">
             {route === 'home' ? (

@@ -58,6 +58,58 @@
   --transition-smooth: all 0.3s ease;
 }
 
+/* Light mode — the header, announcement bar, and footer stay on the dark
+   brand palette in both themes (they're hardcoded, not tokenized) so the
+   site keeps a consistent branded bookend; only the page canvas, cards,
+   and body copy swap here. Accent colors are darkened versions of the
+   green/gold pair so they still pass contrast on a light background. */
+:root[data-theme='light'] {
+  --bg-dark: #f8f4ec;
+  --bg-surface: #f1ebe0;
+  --bg-card: #ffffff;
+  --bg-card-hover: #faf6ee;
+  --bg-input: #ffffff;
+
+  --border-subtle: rgba(20, 16, 10, 0.1);
+  --border-gold: rgba(150, 112, 31, 0.35);
+  --border-active: rgba(15, 122, 58, 0.5);
+
+  --text-white: #17140f;
+  --text-light: #3a332a;
+  --text-muted: #7c7264;
+
+  --gold-accent: #96701f;
+  --gold-dark: #7c5c1a;
+  --gold-light: #6b5019;
+  --gold-glow: rgba(150, 112, 31, 0.16);
+  --emerald-bright: #127d3c;
+  --primary-green-glow: rgba(15, 122, 58, 0.12);
+
+  --shadow-sm: 0 1px 3px rgba(20, 16, 10, 0.1);
+  --shadow-md: 0 6px 18px rgba(20, 16, 10, 0.1);
+  --shadow-lg: 0 14px 36px rgba(20, 16, 10, 0.14);
+}
+/* The header/announcement-bar/footer are meant to stay on the dark brand
+   palette in both themes, but several of their children (search input,
+   the "My List" pill, gold icon accents) read the same shared tokens the
+   light override just changed. Re-pin those tokens back to their original
+   dark-mode values inside this subtree so the header doesn't go muddy. */
+:root[data-theme='light'] .announcement-bar,
+:root[data-theme='light'] .site-header,
+:root[data-theme='light'] .site-footer {
+  --bg-card: #1b1916;
+  --bg-card-hover: #232019;
+  --bg-input: #0f0e0c;
+  --border-subtle: rgba(255, 255, 255, 0.07);
+  --text-white: #ffffff;
+  --text-light: #e2e8f0;
+  --text-muted: #9aa3b0;
+  --gold-accent: #d8a34b;
+  --gold-dark: #a97b2f;
+  --gold-light: #ecd9a8;
+  --emerald-bright: #2ba861;
+}
+
 /* CSS Reset */
 *, *::before, *::after {
   box-sizing: border-box;
@@ -76,6 +128,7 @@ body {
   color: var(--text-light);
   line-height: 1.5;
   overflow-x: hidden;
+  transition: background-color 0.35s ease, color 0.35s ease;
 }
 
 a {
@@ -296,6 +349,31 @@ h1, h2, h3, h4, h5, h6 {
   background: var(--bg-card);
   color: var(--text-light);
 }
+.theme-toggle-btn {
+  width: 40px;
+  height: 40px;
+  min-width: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  color: var(--gold-accent);
+  transition: var(--transition-smooth);
+}
+.theme-toggle-btn:hover {
+  border-color: var(--gold-accent);
+  background: var(--bg-card-hover);
+  transform: translateY(-1px) rotate(-12deg);
+}
+.theme-toggle-btn:focus-visible {
+  outline: 2px solid var(--primary-green);
+  outline-offset: 2px;
+}
+.theme-toggle-btn:active {
+  transform: translateY(0) rotate(0);
+}
 .cart-header-btn:last-child:hover {
   border-color: var(--primary-green);
   color: var(--text-white);
@@ -315,7 +393,9 @@ h1, h2, h3, h4, h5, h6 {
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 2px solid var(--bg-dark);
+  /* Matches the header's own fixed dark background (not the themeable
+     page canvas) since the badge always sits on the header, in both themes. */
+  border: 2px solid #0b0a09;
 }
 
 /* Hero Section */
@@ -358,14 +438,47 @@ h1, h2, h3, h4, h5, h6 {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  opacity: 1;
   filter: saturate(1.12) contrast(1.06) brightness(0.94);
+  /* Stacked crossfade: every slide sits in the same spot, only the active
+     one is opaque, so swapping slides fades rather than cuts/jumps. */
+  opacity: 0;
   transform: scale(1.05);
-  animation: heroKenBurns 22s ease-in-out infinite alternate;
+  transition: opacity 1.8s ease;
+}
+.hero-bg-img.active {
+  opacity: 1;
+  animation: heroKenBurns 8s ease-in-out infinite alternate;
 }
 @keyframes heroKenBurns {
   0% { transform: scale(1.05) translate(0, 0); }
-  100% { transform: scale(1.15) translate(-1%, -1%); }
+  100% { transform: scale(1.13) translate(-1%, -1%); }
+}
+.hero-dots {
+  position: absolute;
+  z-index: 10;
+  right: 2rem;
+  bottom: 1.75rem;
+  display: flex;
+  gap: 0.55rem;
+}
+.hero-dot {
+  width: 8px;
+  height: 8px;
+  padding: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  transition: var(--transition-smooth);
+  cursor: pointer;
+}
+.hero-dot:hover {
+  background: rgba(255, 255, 255, 0.6);
+}
+.hero-dot.active {
+  width: 26px;
+  border-radius: 4px;
+  background: var(--gold-accent);
+  border-color: var(--gold-accent);
 }
 .hero-content-wrap {
   position: relative;
@@ -432,7 +545,7 @@ h1, h2, h3, h4, h5, h6 {
   to { opacity: 1; transform: translateY(0); }
 }
 @media (prefers-reduced-motion: reduce) {
-  .hero-bg-img { animation: none; }
+  .hero-bg-img, .hero-bg-img.active { animation: none; }
   .hero-badge-pill, .hero-title, .hero-subtitle, .hero-actions {
     animation: none;
     opacity: 1;
@@ -504,8 +617,13 @@ h1, h2, h3, h4, h5, h6 {
 /* Photo Cards Grid */
 .photo-categories-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  /* auto-fit collapses unused tracks instead of stretching a fixed 4-column
+     grid over the store's 3 real categories, which left a dead gap on wide
+     screens. */
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 1.5rem;
+  max-width: 1040px;
+  margin: 0 auto;
 }
 .photo-category-card {
   position: relative;
@@ -630,7 +748,7 @@ h1, h2, h3, h4, h5, h6 {
 .shop-cat-pill:hover:not(.active) {
   background: var(--bg-card-hover);
   border-color: rgba(216, 163, 75, 0.5);
-  color: #ffffff;
+  color: var(--text-white);
 }
 
 .shop-cat-pill.active {
@@ -784,7 +902,7 @@ h1, h2, h3, h4, h5, h6 {
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-sm);
   padding: 0.4rem 0.6rem;
-  color: #ffffff;
+  color: var(--text-white);
   font-size: 0.85rem;
 }
 .price-slider-bar {
@@ -1159,7 +1277,7 @@ h1, h2, h3, h4, h5, h6 {
 .cart-item-name {
   font-size: 0.95rem;
   font-weight: 700;
-  color: #ffffff;
+  color: var(--text-white);
   margin-bottom: 0.2rem;
 }
 .cart-item-prep-text {
@@ -1229,7 +1347,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 .dept-tab:hover {
   border-color: var(--border-gold);
-  color: #ffffff;
+  color: var(--text-white);
   background: var(--bg-card-hover);
 }
 .dept-tab.active {
@@ -1278,7 +1396,7 @@ h1, h2, h3, h4, h5, h6 {
 .store-info-card h4 {
   font-size: 1.05rem;
   font-weight: 700;
-  color: #ffffff;
+  color: var(--text-white);
   margin-bottom: 0.5rem;
 }
 .store-info-card p {
@@ -1624,6 +1742,10 @@ h1, h2, h3, h4, h5, h6 {
   padding: 0.65rem 2rem;
   border-radius: 18px;
   background: linear-gradient(135deg, #1b1916 0%, #232019 100%);
+  /* This chip's own background is always dark by design (in both themes),
+     so its text stays fixed white rather than following the themeable
+     --text-light token, which would go dark-on-dark in light mode. */
+  color: #ffffff;
   isolation: isolate;
   z-index: 1;
   border: 2px solid transparent;
@@ -1635,7 +1757,9 @@ h1, h2, h3, h4, h5, h6 {
   inset: -2.5px;
   border-radius: 20.5px;
   padding: 2.5px;
-  background: linear-gradient(90deg, #169c4a 0%, #d8a34b 25%, #ffffff 50%, #d8a34b 75%, #169c4a 100%);
+  /* Deep emerald to antique gold — no white flash, reads as burnished
+     metal instead of a neon sign. */
+  background: linear-gradient(90deg, #0c3b26 0%, #a97b2f 25%, #d8a34b 50%, #a97b2f 75%, #0c3b26 100%);
   background-size: 300% 100%;
   -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
@@ -1649,11 +1773,11 @@ h1, h2, h3, h4, h5, h6 {
   position: absolute;
   inset: -5px;
   border-radius: 23px;
-  background: linear-gradient(90deg, rgba(22, 163, 74, 0.35), rgba(216, 163, 75, 0.6), rgba(22, 163, 74, 0.35));
+  background: linear-gradient(90deg, rgba(12, 59, 38, 0.4), rgba(169, 123, 47, 0.45), rgba(12, 59, 38, 0.4));
   background-size: 200% 100%;
   filter: blur(8px);
   z-index: -2;
-  opacity: 0.75;
+  opacity: 0.55;
   animation: titleGlowPulse 3s ease-in-out infinite alternate;
 }
 @keyframes titleBorderShift {
@@ -1662,8 +1786,8 @@ h1, h2, h3, h4, h5, h6 {
   100% { background-position: 0% 50%; }
 }
 @keyframes titleGlowPulse {
-  0% { opacity: 0.4; filter: blur(6px); }
-  100% { opacity: 0.85; filter: blur(10px); }
+  0% { opacity: 0.3; filter: blur(6px); }
+  100% { opacity: 0.6; filter: blur(9px); }
 }
 @media (prefers-reduced-motion: reduce) {
   .section-title-lg::before,

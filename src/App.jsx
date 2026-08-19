@@ -249,7 +249,7 @@ const MEAT_PRODUCTS = [
   // beside it, so that line stays on "Call for price" until the store confirms.
   createProduct('c1', 'Whole Chicken', 'Chicken', null, { perLb: true, prepType: 'Whole', image: chickenWhole, badge: 'ZABIHA', description: 'Hand-slaughtered whole chicken. Cut up on request at no charge.' }),
   createProduct('c4', 'Chicken Boneless Breast', 'Chicken', 5.99, { perLb: true, prepType: 'Boneless', image: chickenBreast, badge: 'BONELESS', description: 'Skinless boneless breast fillets, trimmed.' }),
-  createProduct('c5', 'Chicken Boneless Thigh', 'Chicken', 4.99, { perLb: true, prepType: 'Boneless', badge: 'BONELESS', description: 'Skinless boneless thigh meat.' }),
+  createProduct('c5', 'Chicken Boneless Thigh', 'Chicken', 4.99, { perLb: true, prepType: 'Boneless', image: chickenThighs, badge: 'BONELESS', description: 'Skinless boneless thigh meat.' }),
   createProduct('c6', 'Chicken Drumsticks', 'Chicken', 2.69, { perLb: true, prepType: 'Bone-in', image: chickenDrumstick, badge: 'FAMILY FAVORITE', description: 'Fresh chicken drumsticks.' }),
   createProduct('c10', 'Chicken Qeema (Ground)', 'Chicken', 5.99, { perLb: true, prepType: 'Minced', image: chickenQeemaPng, badge: 'GROUND FRESH', description: 'Ground chicken for kebabs and keema.' }),
   createProduct('c11', 'Chicken Fajita Strips', 'Chicken', 5.99, { image: chickenFajitaStrips, perLb: true, prepType: 'Boneless', description: 'Boneless strips, cut for fajitas and stir-fry.' }),

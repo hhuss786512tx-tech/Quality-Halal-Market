@@ -33,12 +33,10 @@ import goatLambMix from './assets/goat_lamb_mix.webp';
 import goatLambLeg from './assets/goat_lamb_leg.webp';
 import goatLambHalf from './assets/goat_lamb_half.webp';
 import goatLambRibRack from './assets/goat_lamb_rib_rack.webp';
-import goatLambBoneless from './assets/goat_lamb_boneless.webp';
 import goatWhole from './assets/goat_whole.webp';
 import chickenWhole from './assets/chicken_whole.webp';
 import chickenPieces from './assets/chicken_pieces.webp';
 import chickenBreast from './assets/chicken_breast.webp';
-import chickenBonelessThigh from './assets/chicken_boneless_thigh.webp';
 import chickenLegQuarters from './assets/chicken_leg_quarters.webp';
 import chickenDrumstick from './assets/chicken_drumstick.webp';
 import chickenWings from './assets/chicken_wings.webp';
@@ -207,7 +205,7 @@ const MEAT_PRODUCTS = [
   createProduct('b13', 'Ground Beef, Regular', 'Beef', 6.99, { image: beefGroundRegular, perLb: true, prepType: 'Minced', badge: 'GROUND FRESH', description: 'Ground fresh at the counter.' }),
   createProduct('b14', 'Ground Beef, Lean', 'Beef', 7.49, { image: beefGroundLean, perLb: true, prepType: 'Minced', description: 'Leaner grind for kebabs and keema.' }),
   createProduct('b15', 'Ground Beef, Extra Lean', 'Beef', 7.99, { image: beefGroundXlean, perLb: true, prepType: 'Minced', badge: 'EXTRA LEAN', description: 'The leanest grind we make.' }),
-  createProduct('b16', 'Beef Pasanda', 'Beef', 7.99, { image: beefPasanda, perLb: true, prepType: 'Boneless', badge: 'DESI CUT', description: 'Thin flat slices cut for pasanda.' }),
+  createProduct('b16', 'Beef Pasanda', 'Beef', 7.99, { image: beefPasanda, perLb: true, prepType: 'Boneless', badge: 'DESI CUT', description: 'Thin flat slices cut for pasanda.', whiteBg: true }),
   createProduct('b17', 'Beef Bihari Cut', 'Beef', 7.99, { image: beefBihari, perLb: true, prepType: 'Boneless', badge: 'DESI CUT', description: 'Long thin strips cut for Bihari kebab.' }),
   createProduct('b18', 'Beef Sirloin Steak', 'Beef', 11.99, { image: beefSirloin, perLb: true, prepType: 'Steaks', description: 'Boneless sirloin, cut to order.' }),
 
@@ -230,7 +228,7 @@ const MEAT_PRODUCTS = [
   createProduct('gl6', 'Goat / Lamb Liver', 'Goat & Lamb', 5.99, { image: goatLambLiver, perLb: true, prepType: 'Organ', description: 'Fresh liver, cleaned.' }),
   createProduct('gl7', 'Goat / Lamb Kidneys', 'Goat & Lamb', 10.99, { perLb: true, prepType: 'Organ', image: goatKidneysPng, description: 'Fresh kidneys, cleaned.' }),
   createProduct('gl8', 'Goat / Lamb Qeema (Ground)', 'Goat & Lamb', 15.99, { image: goatLambQeema, perLb: true, prepType: 'Minced', badge: 'GROUND FRESH', description: 'Ground fresh at the counter for keema and kebabs.' }),
-  createProduct('gl9', 'Goat / Lamb Boneless', 'Goat & Lamb', 16.99, { perLb: true, prepType: 'Boneless', image: goatLambBoneless, badge: 'PREMIUM', description: 'Fully boned-out meat, trimmed.' }),
+  createProduct('gl9', 'Goat / Lamb Boneless', 'Goat & Lamb', 16.99, { perLb: true, prepType: 'Boneless', badge: 'PREMIUM', description: 'Fully boned-out meat, trimmed.' }),
   createProduct('gl10', 'Goat / Lamb Heart', 'Goat & Lamb', 5.99, { image: goatLambHeart, perLb: true, prepType: 'Organ', description: 'Fresh heart, cleaned and trimmed.' }),
   createProduct('gl11', 'Goat / Lamb Ribs', 'Goat & Lamb', 12.99, { image: goatLambRibs, perLb: true, prepType: 'Bone-in', badge: 'BONE-IN', description: 'Bone-in ribs for the grill or the pot.' }),
   createProduct('gl12', 'Goat / Lamb Putt & Neck', 'Goat & Lamb', 14.99, { image: goatLambPuttNeck, perLb: true, prepType: 'Bone-in', description: 'Putt and neck pieces, bone-in.' }),
@@ -251,7 +249,7 @@ const MEAT_PRODUCTS = [
   // beside it, so that line stays on "Call for price" until the store confirms.
   createProduct('c1', 'Whole Chicken', 'Chicken', null, { perLb: true, prepType: 'Whole', image: chickenWhole, badge: 'ZABIHA', description: 'Hand-slaughtered whole chicken. Cut up on request at no charge.' }),
   createProduct('c4', 'Chicken Boneless Breast', 'Chicken', 5.99, { perLb: true, prepType: 'Boneless', image: chickenBreast, badge: 'BONELESS', description: 'Skinless boneless breast fillets, trimmed.' }),
-  createProduct('c5', 'Chicken Boneless Thigh', 'Chicken', 4.99, { perLb: true, prepType: 'Boneless', image: chickenBonelessThigh, badge: 'BONELESS', description: 'Skinless boneless thigh meat.' }),
+  createProduct('c5', 'Chicken Boneless Thigh', 'Chicken', 4.99, { perLb: true, prepType: 'Boneless', badge: 'BONELESS', description: 'Skinless boneless thigh meat.' }),
   createProduct('c6', 'Chicken Drumsticks', 'Chicken', 2.69, { perLb: true, prepType: 'Bone-in', image: chickenDrumstick, badge: 'FAMILY FAVORITE', description: 'Fresh chicken drumsticks.' }),
   createProduct('c10', 'Chicken Qeema (Ground)', 'Chicken', 5.99, { perLb: true, prepType: 'Minced', image: chickenQeemaPng, badge: 'GROUND FRESH', description: 'Ground chicken for kebabs and keema.' }),
   createProduct('c11', 'Chicken Fajita Strips', 'Chicken', 5.99, { image: chickenFajitaStrips, perLb: true, prepType: 'Boneless', description: 'Boneless strips, cut for fajitas and stir-fry.' }),

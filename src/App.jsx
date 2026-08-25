@@ -381,8 +381,144 @@ const CATEGORY_ROUTE = { Beef: 'beef', 'Goat & Lamb': 'goat-lamb', Chicken: 'chi
 const getRouteFromHash = () => {
   if (typeof window === 'undefined') return 'home';
   const h = window.location.hash.replace(/^#\/?/, '');
+  if (h === 'privacy') return 'privacy';
   return ROUTE_CATEGORY[h] ? h : 'home';
 };
+
+// ----------------------------------------------------------------------------
+// PRIVACY POLICY — a standalone page (own hash route, own header/footer),
+// not tied to a meat category. Content reflects what this site actually does:
+// a browse-only catalog with no forms, accounts, checkout, or analytics — see
+// the "What This Site Does" section below before editing, so the policy
+// doesn't end up claiming to collect data the site never actually collects.
+// ----------------------------------------------------------------------------
+const PRIVACY_LAST_UPDATED = 'August 25, 2026';
+
+const PrivacyPolicyPage = ({ navigate, logoSrc }) => (
+  <div className="site-wrapper">
+    <header className="site-header">
+      <div className="container">
+        <div className="header-main">
+          <div className="brand-logo" style={{ cursor: 'pointer' }} onClick={() => navigate('home')}>
+            <img src={logoSrc} alt="Quality Halal Market" className="logo-mark-img" />
+            <div className="logo-text-group">
+              <h1>Quality Halal Market</h1>
+              <span>Cedar Park, TX • Hand-Cut Zabiha</span>
+            </div>
+          </div>
+          <button className="btn-outline-gold" onClick={() => navigate('home')}>
+            <span>← Back to Shop</span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <section className="about-us-section">
+      <div className="container" style={{ maxWidth: '820px' }}>
+        <span className="section-tag">Legal</span>
+        <h2 className="section-title-lg" style={{ textAlign: 'left', marginBottom: '0.25rem' }}>Privacy Policy</h2>
+        <p style={{ color: 'var(--text-muted)', marginBottom: '2rem' }}>Last updated: {PRIVACY_LAST_UPDATED}</p>
+
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', lineHeight: 1.7 }}>
+          <p>
+            Quality Halal Market ("we," "us," "our") operates this website as an online catalog and
+            store-information page for our butcher counter and grocery shop at 12920 West Parmer Lane
+            #106, Cedar Park, TX 78613. This Privacy Policy explains what information the site does —
+            and does not — collect from visitors.
+          </p>
+
+          <div>
+            <h3>What This Site Does</h3>
+            <p>
+              This website lets you browse our meat and grocery catalog, build a personal shopping list,
+              and view our hours, address, and contact information. There is no online checkout, no user
+              accounts, and no order-submission form of any kind. Placing an order requires calling the
+              store directly at (512) 260-7677.
+            </p>
+          </div>
+
+          <div>
+            <h3>Information We Do Not Collect</h3>
+            <p>
+              Because there are no forms, accounts, or checkout on this site, we do not collect your name,
+              address, payment information, or any other personal information through the website itself.
+              The "My List" shopping-list feature and your light/dark theme preference are stored only in
+              your own browser's local storage, which never leaves your device and is never sent to us or
+              to any third party.
+            </p>
+          </div>
+
+          <div>
+            <h3>If You Contact Us</h3>
+            <p>
+              If you call the phone number or email address listed on this site, or message us on Facebook,
+              any information you share with us that way (such as your name or order details) is handled
+              directly by our staff and is not collected or stored by this website.
+            </p>
+          </div>
+
+          <div>
+            <h3>Analytics and Cookies</h3>
+            <p>
+              This site does not run Google Analytics or any other visitor-tracking or advertising script,
+              and it does not set cookies. Standard web server logs from our hosting provider (GitHub
+              Pages) may record basic technical information such as IP address and browser type for
+              security and reliability purposes; we do not access or use these logs to track individual
+              visitors.
+            </p>
+          </div>
+
+          <div>
+            <h3>Third-Party Links</h3>
+            <p>
+              This site links out to our Facebook page and to Google Maps for directions. Those are
+              third-party services with their own privacy policies, which we encourage you to review
+              separately — we are not responsible for their practices.
+            </p>
+          </div>
+
+          <div>
+            <h3>Children's Privacy</h3>
+            <p>
+              This site does not knowingly collect information from anyone, including children, since it
+              collects no personal information at all through the website.
+            </p>
+          </div>
+
+          <div>
+            <h3>Changes to This Policy</h3>
+            <p>
+              If we ever add features that collect personal information — such as an online order form —
+              we will update this policy to describe what is collected and how it is used before that
+              feature goes live.
+            </p>
+          </div>
+
+          <div>
+            <h3>Contact Us</h3>
+            <p>
+              Questions about this policy can be directed to Quality Halal Market at{' '}
+              <a href="tel:+15122607677" style={{ color: 'var(--gold-accent)', fontWeight: 700 }}>(512) 260-7677</a>{' '}
+              or{' '}
+              <a href="mailto:QualityHalalMarket@gmail.com" style={{ color: 'var(--gold-accent)', fontWeight: 700 }}>QualityHalalMarket@gmail.com</a>.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer className="site-footer">
+      <div className="container">
+        <div className="footer-bottom">
+          <span>© {new Date().getFullYear()} Quality Halal Market</span>
+          <button className="btn-outline-gold" onClick={() => navigate('home')}>
+            <span>← Back to Shop</span>
+          </button>
+        </div>
+      </div>
+    </footer>
+  </div>
+);
 
 export default function App() {
   // 'home' (all meat) or one of the ROUTE_CATEGORY keys (its own page).
@@ -517,6 +653,10 @@ export default function App() {
     );
     return `$${product.price.toFixed(2)}${product.perLb ? ' / lb' : ''}`;
   };
+
+  if (route === 'privacy') {
+    return <PrivacyPolicyPage navigate={navigate} logoSrc={logo} />;
+  }
 
   return (
     <>
@@ -1040,6 +1180,12 @@ export default function App() {
                 <li><span><MapPin size={14} style={{ display: 'inline-flex', marginRight: '0.35rem', verticalAlign: 'middle' }} />12920 W Parmer Ln #106</span></li>
                 <li><span>Cedar Park, TX 78613</span></li>
                 <li><a href="https://www.facebook.com/QualityHalalMarket" target="_blank" rel="noopener noreferrer">Facebook</a></li>
+              </ul>
+            </div>
+            <div className="footer-col">
+              <h4>Legal</h4>
+              <ul>
+                <li><a href="#/privacy" onClick={(e) => { e.preventDefault(); navigate('privacy'); }}>Privacy Policy</a></li>
               </ul>
             </div>
           </div>

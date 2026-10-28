@@ -346,9 +346,9 @@ const MEAT_CATEGORIES = ['All', 'Beef', 'Goat & Lamb', 'Chicken'];
 const countIn = (cat) => MEAT_PRODUCTS.filter(p => p.category === cat).length;
 
 const PHOTO_CATEGORIES = [
-  { name: 'Beef', title: 'BEEF', count: `${countIn('Beef')} Cuts`, img: beefRibeye, badge: 'Fresh & Frozen' },
-  { name: 'Goat & Lamb', title: 'GOAT & LAMB', count: `${countIn('Goat & Lamb')} Cuts`, img: goatWhole, badge: 'Whole & Half Available' },
-  { name: 'Chicken', title: 'CHICKEN', count: `${countIn('Chicken')} Cuts`, img: chickenPieces, badge: 'Hand-Slaughtered' },
+  { name: 'Beef', title: 'Beef', count: `${countIn('Beef')} Cuts`, img: beefRibeye, badge: 'Fresh & Frozen' },
+  { name: 'Goat & Lamb', title: 'Goat & Lamb', count: `${countIn('Goat & Lamb')} Cuts`, img: goatWhole, badge: 'Whole & Half Available' },
+  { name: 'Chicken', title: 'Chicken', count: `${countIn('Chicken')} Cuts`, img: chickenPieces, badge: 'Hand-Slaughtered' },
 ];
 
 // Home hero rotation — reuses the same store photography as the category
@@ -656,6 +656,25 @@ export default function App() {
     });
   }, [activeMeatCat, searchQuery, priceMaxFilter, selectedPreps, onlyBoneIn, sortOption]);
 
+  // Scroll reveal. Re-runs whenever the rendered set changes so freshly
+  // filtered cards get observed too. Elements already on screen reveal at once.
+  useEffect(() => {
+    const els = document.querySelectorAll('[data-reveal]:not(.is-visible)');
+    if (els.length === 0) return;
+    if (typeof IntersectionObserver === 'undefined') {
+      els.forEach(el => el.classList.add('is-visible'));
+      return;
+    }
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) { e.target.classList.add('is-visible'); io.unobserve(e.target); }
+      });
+    }, { rootMargin: '0px 0px -40px 0px', threshold: 0 });
+    els.forEach(el => io.observe(el));
+    return () => io.disconnect();
+  }, [route, filteredProducts]);
+
+
   const cartSubtotal = useMemo(() => {
     return cart.reduce((acc, item) => acc + ((item.price ?? 0) * item.quantity), 0);
   }, [cart]);
@@ -774,7 +793,7 @@ export default function App() {
               >
                 {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
               </button>
-              <a href="tel:+15122607677" className="cart-header-btn" style={{ background: 'var(--gold-accent)', color: '#0b0a09' }}>
+              <a href="tel:+15122607677" className="cart-header-btn">
                 <Phone size={20} />
                 <span>Call to Order</span>
               </a>
@@ -824,7 +843,7 @@ export default function App() {
             {route === 'home' ? (
               <>
                 <div className="hero-badge-pill"><Sparkles size={14} /> Hand-Cut Daily • Zabiha Halal</div>
-                <h1 className="hero-title">Zabiha Halal Meat, Hand-Cut in Cedar Park</h1>
+                <h1 className="hero-title">Zabiha halal meat, <em>hand-cut</em> in Cedar Park</h1>
                 <p className="hero-subtitle">Hand-slaughtered beef, goat, lamb and chicken, fresh and frozen, cut and trimmed to order. Plus Indian, Pakistani and Mediterranean groceries, open every day on West Parmer Lane.</p>
                 <div className="hero-actions">
                   <button className="btn-primary-green" onClick={() => document.getElementById('shop-section')?.scrollIntoView({ behavior: 'smooth' })}>
@@ -834,10 +853,16 @@ export default function App() {
                   <button className="btn-outline-gold" onClick={() => document.getElementById('categories-section')?.scrollIntoView({ behavior: 'smooth' })}>
                     <span>Browse by Category</span>
                   </button>
-                  <a href="tel:+15122607677" className="btn-outline-gold" style={{ borderColor: 'var(--primary-green)', color: 'var(--emerald-bright)' }}>
+                  <a href="tel:+15122607677" className="btn-outline-gold">
                     <Phone size={18} /><span>Call (512) 260-7677</span>
                   </a>
                 </div>
+                <ul className="hero-stats" aria-label="At a glance">
+                  <li><strong>{MEAT_PRODUCTS.length} cuts</strong><span>On the board</span></li>
+                  <li><strong>10 AM – 9 PM</strong><span>Open every day</span></li>
+                  <li><strong>Cut to order</strong><span>At the counter</span></li>
+                  <li><strong>100% Zabiha</strong><span>Hand-slaughtered</span></li>
+                </ul>
               </>
             ) : (
               <>
@@ -852,7 +877,7 @@ export default function App() {
                   <button className="btn-outline-gold" onClick={() => navigate('home')}>
                     <span>← All Meat</span>
                   </button>
-                  <a href="tel:+15122607677" className="btn-outline-gold" style={{ borderColor: 'var(--primary-green)', color: 'var(--emerald-bright)' }}>
+                  <a href="tel:+15122607677" className="btn-outline-gold">
                     <Phone size={18} /><span>Call (512) 260-7677</span>
                   </a>
                 </div>
@@ -873,7 +898,7 @@ export default function App() {
             </div>
             <div className="photo-categories-grid">
               {PHOTO_CATEGORIES.map((cat, idx) => (
-                <div key={idx} className="photo-category-card" onClick={() => navigate(CATEGORY_ROUTE[cat.name])}>
+                <div key={idx} className="photo-category-card" data-reveal style={{ '--reveal-delay': `${idx * 90}ms` }} role="link" tabIndex={0} onClick={() => navigate(CATEGORY_ROUTE[cat.name])} onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); navigate(CATEGORY_ROUTE[cat.name]); } }}>
                   {cat.img
                     ? <img src={cat.img} alt={cat.title} className="photo-category-img" />
                     : <PhotoPlaceholder label={cat.title} category={cat.name} variant="tile" />}
@@ -993,16 +1018,17 @@ export default function App() {
               </div>
             ) : (
               <div className="products-grid-container cols-3">
-                {filteredProducts.map(p => (
-                  <div key={p.id} className="product-card">
+                {filteredProducts.map((p, i) => (
+                  <div key={p.id} className="product-card" data-reveal style={{ '--reveal-delay': `${(i % 3) * 70}ms` }}>
                     <div className={`product-img-wrapper ${p.whiteBg ? 'product-img-wrapper--blend' : ''}`}>
                       {p.image
                         ? <img src={p.image} alt={p.name} className="product-card-img" />
                         : <PhotoPlaceholder label={p.name} category={p.category} variant="card" />}
-                      <div className="card-badges-stack">
-                        <span className="badge-halal">ZABIHA HALAL</span>
-                        {p.badge && <span className="badge-sale">{p.badge}</span>}
-                      </div>
+                      {p.badge && (
+                        <div className="card-badges-stack">
+                          <span className="badge-sale">{p.badge}</span>
+                        </div>
+                      )}
                       <div className="quick-actions-bar">
                         <button className="action-icon-btn" title="Quick View" onClick={() => setQuickViewProduct(p)}><Eye size={16} /></button>
                       </div>
@@ -1130,35 +1156,48 @@ export default function App() {
         </div>
       )}
 
-      {/* STORE INFO */}
-      <section className="store-info-section">
+      {/* VISIT — one panel instead of four identical cards */}
+      <section className="visit-section" id="visit">
         <div className="container">
-          <div className="store-info-grid">
-            <div className="store-info-card">
-              <div className="store-info-icon"><MapPin size={28} /></div>
-              <h4>Visit Us</h4>
-              <p>12920 West Parmer Lane #106<br />Cedar Park, TX 78613</p>
-              <a href="https://maps.google.com/?q=12920+West+Parmer+Lane+%23106+Cedar+Park+TX+78613" target="_blank" rel="noopener noreferrer" className="btn-outline-gold" style={{ marginTop: '0.75rem', display: 'inline-flex', padding: '0.5rem 1.25rem', fontSize: '0.85rem' }}>
-                <MapPin size={14} /><span>Get Directions</span>
-              </a>
+          <div className="visit-panel" data-reveal>
+            <div className="visit-main">
+              <span className="section-tag">Visit the counter</span>
+              <p className="visit-address">12920 West Parmer Lane #106,<br />Cedar Park, TX 78613</p>
+              <div className="visit-hours">
+                <strong>10 AM – 9 PM</strong>
+                <span>open every day</span>
+              </div>
+              <div className="visit-actions">
+                <a href="tel:+15122607677" className="btn-primary-green">
+                  <Phone size={16} /><span>Call (512) 260-7677</span>
+                </a>
+                <a href="https://maps.google.com/?q=12920+West+Parmer+Lane+%23106+Cedar+Park+TX+78613" target="_blank" rel="noopener noreferrer" className="btn-outline-gold">
+                  <MapPin size={16} /><span>Get directions</span>
+                </a>
+              </div>
             </div>
-            <div className="store-info-card">
-              <div className="store-info-icon"><Clock size={28} /></div>
-              <h4>Store Hours</h4>
-              <p><strong>Open Daily:</strong> 10 AM – 9 PM</p>
-            </div>
-            <div className="store-info-card">
-              <div className="store-info-icon"><Phone size={28} /></div>
-              <h4>Call Us</h4>
-              <p><strong>Phone:</strong> (512) 260-7677<br /><strong>Fax:</strong> (512) 260-7734<br /><strong>Email:</strong> QualityHalalMarket@gmail.com</p>
-              <a href="tel:+15122607677" className="btn-primary-green" style={{ marginTop: '0.75rem', display: 'inline-flex', padding: '0.5rem 1.25rem', fontSize: '0.85rem' }}>
-                <Phone size={14} /><span>Call Now</span>
-              </a>
-            </div>
-            <div className="store-info-card">
-              <div className="store-info-icon"><ShieldCheck size={28} /></div>
-              <h4>Halal Assurance</h4>
-              <p>100% hand-slaughtered Zabiha Halal. Integrity and transparency in every cut.</p>
+            <div className="visit-side">
+              <div className="visit-side-item">
+                <div className="visit-side-icon"><ShieldCheck size={18} /></div>
+                <div>
+                  <h3>Halal assurance</h3>
+                  <p>Every cut is 100% hand-slaughtered Zabiha halal. Ask at the counter and we'll walk you through it.</p>
+                </div>
+              </div>
+              <div className="visit-side-item">
+                <div className="visit-side-icon"><Phone size={18} /></div>
+                <div>
+                  <h3>Phone &amp; fax</h3>
+                  <p><a href="tel:+15122607677">(512) 260-7677</a><br />Fax (512) 260-7734</p>
+                </div>
+              </div>
+              <div className="visit-side-item">
+                <div className="visit-side-icon"><Store size={18} /></div>
+                <div>
+                  <h3>Email</h3>
+                  <p><a href="mailto:QualityHalalMarket@gmail.com">QualityHalalMarket@gmail.com</a></p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -1171,7 +1210,7 @@ export default function App() {
           invented; it only states what's already established elsewhere on the site. */}
       <section className="about-us-section">
         <div className="container">
-          <div className="about-us-grid">
+          <div className="about-us-grid" data-reveal>
             <div className="about-us-copy">
               <span className="section-tag">About Us</span>
               <h2 className="section-title-lg" style={{ textAlign: 'left' }}>A Family-Owned Halal Butcher in Cedar Park</h2>
@@ -1195,7 +1234,7 @@ export default function App() {
               <div className="store-info-icon" style={{ width: '64px', height: '64px' }}>
                 <Users size={30} />
               </div>
-              <h3>Run By The Community, For The Community</h3>
+              <h3>Run by the community, for the community</h3>
               <p>No corporate supply chain — just a local shop that hand-cuts every order and stands behind it.</p>
             </div>
           </div>
@@ -1210,7 +1249,7 @@ export default function App() {
             <h2 className="section-title-lg">Halal Meat FAQ</h2>
             <p className="section-desc">Quick answers about our meat, hours and ordering. Still stuck? Tap "Ask the Butcher" or call us.</p>
           </div>
-          <div className="faq-list">
+          <div className="faq-list" data-reveal>
             {FAQ_ITEMS.map(item => (
               <details key={item.q} className="faq-item">
                 <summary>{item.q}</summary>

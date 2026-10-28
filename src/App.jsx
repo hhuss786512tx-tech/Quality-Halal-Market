@@ -10,6 +10,7 @@ import {
   Sun, Moon
 } from 'lucide-react';
 import IntroOverlay from './components/IntroOverlay';
+import ShopHelper from './components/ShopHelper';
 
 // Imported Assets
 import heroBanner from './assets/hero_banner_original.jpg';
@@ -361,9 +362,49 @@ const HOME_HERO_IMAGES = [
 
 // Hero copy for each category's own page.
 const CATEGORY_PAGE_COPY = {
-  Beef: { title: 'Fresh & Frozen Beef', subtitle: 'Hand-slaughtered Zabiha beef, cut to order — from everyday curry cuts to ribeye and filet mignon.' },
-  'Goat & Lamb': { title: 'Fresh Goat & Lamb', subtitle: 'Whole, half, or cut to order — bone-in, boneless, and every specialty cut on the board.' },
-  Chicken: { title: 'Fresh & Frozen Chicken', subtitle: 'Hand-slaughtered Zabiha chicken, cut up on request at no charge.' },
+  Beef: { title: 'Halal Beef in Cedar Park', subtitle: 'Hand-slaughtered Zabiha beef, fresh and frozen. Curry cubes, nihari, keema, ribeye and filet mignon, cut the way you ask.' },
+  'Goat & Lamb': { title: 'Halal Goat & Lamb in Cedar Park', subtitle: 'Whole or half goat and lamb cut to your instructions, plus chops, leg, qeema, ribs and every specialty cut on the board.' },
+  Chicken: { title: 'Halal Chicken in Cedar Park', subtitle: 'Hand-slaughtered Zabiha chicken, fresh and frozen. Whole birds cut up on request at no charge.' },
+};
+
+// <title> per page. Hash routes share one URL for Google, but the right title
+// still shows in the browser tab and when someone shares a category link.
+const DEFAULT_TITLE = 'Zabiha Halal Meat & Butcher in Cedar Park, TX | Quality Halal Market';
+const ROUTE_TITLE = {
+  beef: 'Halal Beef Cuts & Prices, Cedar Park TX | Quality Halal Market',
+  'goat-lamb': 'Halal Goat & Lamb, Whole or Cut to Order | Quality Halal Market',
+  chicken: 'Zabiha Halal Chicken, Cedar Park TX | Quality Halal Market',
+  privacy: 'Privacy Policy | Quality Halal Market',
+};
+
+// Visible FAQ. The same questions are mirrored as FAQPage JSON-LD in
+// index.html; edit both together so the structured data matches the page.
+const FAQ_ITEMS = [
+  { q: 'Is your meat Zabiha halal?', a: 'Yes. Every cut on our counter, including beef, goat, lamb and chicken, is 100% hand-slaughtered Zabiha halal.' },
+  { q: 'What are your store hours?', a: 'We are open every day from 10 AM to 9 PM.' },
+  { q: 'Where is Quality Halal Market?', a: '12920 West Parmer Lane #106, Cedar Park, TX 78613.' },
+  { q: 'How do I place an order?', a: 'Call the store at (512) 260-7677. You can build a shopping list on this website and read it to us over the phone. The website does not take online orders or payments.' },
+  { q: 'Can I order a whole or half goat or lamb?', a: 'Yes. Whole and half goat or lamb are $13.99 per pound and cut to your instructions. Please call ahead so we can have it ready.' },
+  { q: 'Will you cut the meat the way I want?', a: 'Yes. Meat is cut and trimmed to order at the counter, and we cut up a whole chicken on request at no charge.' },
+  { q: 'Do you sell meat for nihari and paya?', a: 'Yes. We carry fresh nihari cut ($8.99/lb), frozen beef paya ($4.99/lb), goat paya with skin ($5.99/lb) and beef marrow bones ($3.99/lb).' },
+  { q: 'Do you sell groceries too?', a: 'Yes. We stock Indian, Pakistani and Mediterranean groceries: rice, flour and lentils, spices, dairy, frozen and canned foods, sweets and snacks. Call for current prices.' },
+];
+
+// The shopping list persists in this browser only (the Privacy Policy says so).
+const LIST_KEY = 'qhm-list';
+const loadList = () => {
+  try {
+    const saved = JSON.parse(localStorage.getItem(LIST_KEY) || '[]');
+    // Re-hydrate from the live catalog so a stale saved price can never show.
+    return saved
+      .map(({ id, quantity }) => {
+        const p = MEAT_PRODUCTS.find(x => x.id === id);
+        return p && quantity > 0 ? { ...p, quantity } : null;
+      })
+      .filter(Boolean);
+  } catch {
+    return [];
+  }
 };
 
 // Ribbon thumbnails — only categories with a real store photo get one.
@@ -392,7 +433,7 @@ const getRouteFromHash = () => {
 // the "What This Site Does" section below before editing, so the policy
 // doesn't end up claiming to collect data the site never actually collects.
 // ----------------------------------------------------------------------------
-const PRIVACY_LAST_UPDATED = 'August 25, 2026';
+const PRIVACY_LAST_UPDATED = 'October 27, 2026';
 
 const PrivacyPolicyPage = ({ navigate, logoSrc }) => (
   <div className="site-wrapper">
@@ -402,7 +443,7 @@ const PrivacyPolicyPage = ({ navigate, logoSrc }) => (
           <div className="brand-logo" style={{ cursor: 'pointer' }} onClick={() => navigate('home')}>
             <img src={logoSrc} alt="Quality Halal Market" className="logo-mark-img" />
             <div className="logo-text-group">
-              <h1>Quality Halal Market</h1>
+              <p className="brand-name">Quality Halal Market</p>
               <span>Cedar Park, TX • Hand-Cut Zabiha</span>
             </div>
           </div>
@@ -416,7 +457,7 @@ const PrivacyPolicyPage = ({ navigate, logoSrc }) => (
     <section className="about-us-section">
       <div className="container" style={{ maxWidth: '820px' }}>
         <span className="section-tag">Legal</span>
-        <h2 className="section-title-lg" style={{ textAlign: 'left', marginBottom: '0.25rem' }}>Privacy Policy</h2>
+        <h1 className="section-title-lg" style={{ textAlign: 'left', marginBottom: '0.25rem' }}>Privacy Policy</h1>
         <p style={{ color: 'var(--text-muted)', marginBottom: '2rem' }}>Last updated: {PRIVACY_LAST_UPDATED}</p>
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', lineHeight: 1.7 }}>
@@ -444,7 +485,9 @@ const PrivacyPolicyPage = ({ navigate, logoSrc }) => (
               address, payment information, or any other personal information through the website itself.
               The "My List" shopping-list feature and your light/dark theme preference are stored only in
               your own browser's local storage, which never leaves your device and is never sent to us or
-              to any third party.
+              to any third party. The "Ask the Butcher" helper answers from information already on this
+              page, inside your browser; the questions you type into it are not sent to us or to anyone
+              else, and are cleared when you close the page.
             </p>
           </div>
 
@@ -534,7 +577,7 @@ export default function App() {
   // before a mobile visitor sees any meat.
   const [isSidebarOpen, setIsSidebarOpen] = useState(() => typeof window === 'undefined' || window.innerWidth > 768);
 
-  const [cart, setCart] = useState([]);
+  const [cart, setCart] = useState(loadList);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [quickViewProduct, setQuickViewProduct] = useState(null);
 
@@ -547,6 +590,16 @@ export default function App() {
     document.documentElement.setAttribute('data-theme', theme);
     localStorage.setItem('qhm-theme', theme);
   }, [theme]);
+
+  useEffect(() => {
+    try {
+      localStorage.setItem(LIST_KEY, JSON.stringify(cart.map(({ id, quantity }) => ({ id, quantity }))));
+    } catch { /* private mode / storage full: the list just won't persist */ }
+  }, [cart]);
+
+  useEffect(() => {
+    document.title = ROUTE_TITLE[route] ?? DEFAULT_TITLE;
+  }, [route]);
 
   // Home hero slideshow — advances on a timer, crossfades in CSS.
   const [heroSlide, setHeroSlide] = useState(0);
@@ -615,14 +668,9 @@ export default function App() {
   );
 
   const handleAddToCart = (product) => {
-    const existingIndex = cart.findIndex(ci => ci.id === product.id);
-    if (existingIndex > -1) {
-      const updated = [...cart];
-      updated[existingIndex].quantity += 1;
-      setCart(updated);
-    } else {
-      setCart([...cart, { ...product, quantity: 1 }]);
-    }
+    setCart(prev => prev.some(ci => ci.id === product.id)
+      ? prev.map(ci => ci.id === product.id ? { ...ci, quantity: ci.quantity + 1 } : ci)
+      : [...prev, { ...product, quantity: 1 }]);
     setIsCartOpen(true);
     if (quickViewProduct) setQuickViewProduct(null);
   };
@@ -704,7 +752,7 @@ export default function App() {
             <div className="brand-logo" style={{ cursor: 'pointer' }} onClick={() => navigate('home')}>
               <img src={logo} alt="Quality Halal Market" className="logo-mark-img" />
               <div className="logo-text-group">
-                <h1>Quality Halal Market</h1>
+                <p className="brand-name">Quality Halal Market</p>
                 <span>Cedar Park, TX • Hand-Cut Zabiha</span>
               </div>
             </div>
@@ -776,15 +824,15 @@ export default function App() {
             {route === 'home' ? (
               <>
                 <div className="hero-badge-pill"><Sparkles size={14} /> Hand-Cut Daily • Zabiha Halal</div>
-                <h2 className="hero-title">Your Premium Halal Meat Butcher Counter</h2>
-                <p className="hero-subtitle">Hand-slaughtered Zabiha beef, goat, lamb, and chicken — fresh and frozen. Custom cut and trimmed to order at the counter.</p>
+                <h1 className="hero-title">Zabiha Halal Meat, Hand-Cut in Cedar Park</h1>
+                <p className="hero-subtitle">Hand-slaughtered beef, goat, lamb and chicken, fresh and frozen, cut and trimmed to order. Plus Indian, Pakistani and Mediterranean groceries, open every day on West Parmer Lane.</p>
                 <div className="hero-actions">
                   <button className="btn-primary-green" onClick={() => document.getElementById('shop-section')?.scrollIntoView({ behavior: 'smooth' })}>
                     <span>Shop Meat Counter</span>
                     <ArrowRight size={18} />
                   </button>
                   <button className="btn-outline-gold" onClick={() => document.getElementById('categories-section')?.scrollIntoView({ behavior: 'smooth' })}>
-                    <span>Explore Collections</span>
+                    <span>Browse by Category</span>
                   </button>
                   <a href="tel:+15122607677" className="btn-outline-gold" style={{ borderColor: 'var(--primary-green)', color: 'var(--emerald-bright)' }}>
                     <Phone size={18} /><span>Call (512) 260-7677</span>
@@ -794,7 +842,7 @@ export default function App() {
             ) : (
               <>
                 <div className="hero-badge-pill"><Sparkles size={14} /> Hand-Cut Daily • Zabiha Halal</div>
-                <h2 className="hero-title">{CATEGORY_PAGE_COPY[activeMeatCat]?.title ?? activeMeatCat}</h2>
+                <h1 className="hero-title">{CATEGORY_PAGE_COPY[activeMeatCat]?.title ?? activeMeatCat}</h1>
                 <p className="hero-subtitle">{CATEGORY_PAGE_COPY[activeMeatCat]?.subtitle}</p>
                 <div className="hero-actions">
                   <button className="btn-primary-green" onClick={() => document.getElementById('shop-section')?.scrollIntoView({ behavior: 'smooth' })}>
@@ -820,8 +868,8 @@ export default function App() {
           <div className="container">
             <div className="section-header-center">
               <span className="section-tag">Explore By Category</span>
-              <h3 className="section-title-lg">Fresh Cut Meat Market</h3>
-              <p className="section-desc">Select a category to filter our inventory.</p>
+              <h2 className="section-title-lg">Shop Halal Meat by Category</h2>
+              <p className="section-desc">Every cut and price on our counter board, sorted by beef, goat and lamb, and chicken.</p>
             </div>
             <div className="photo-categories-grid">
               {PHOTO_CATEGORIES.map((cat, idx) => (
@@ -987,7 +1035,7 @@ export default function App() {
         <div className="modal-overlay" onClick={() => setQuickViewProduct(null)}>
           <div className="modal-content-box" onClick={(e) => e.stopPropagation()}>
             <button className="modal-close-btn" onClick={() => setQuickViewProduct(null)}><X size={20} /></button>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2rem' }}>
+            <div className="quickview-grid">
               <div>
                 {quickViewProduct.image
                   ? <div className={`product-img-wrapper ${quickViewProduct.whiteBg ? 'product-img-wrapper--blend' : ''}`} style={{ height: '340px', borderRadius: 'var(--radius-md)' }}>
@@ -1126,12 +1174,12 @@ export default function App() {
           <div className="about-us-grid">
             <div className="about-us-copy">
               <span className="section-tag">About Us</span>
-              <h3 className="section-title-lg" style={{ textAlign: 'left' }}>Family-Owned, Cedar Park Since Day One</h3>
+              <h2 className="section-title-lg" style={{ textAlign: 'left' }}>A Family-Owned Halal Butcher in Cedar Park</h2>
               <p>
-                Quality Halal Market is a family-owned butcher shop and grocer serving Cedar Park
-                and the surrounding community. Every cut on our counter is 100% hand-slaughtered
-                Zabiha halal, trimmed and prepared fresh to order — nothing pre-packaged, nothing
-                guessed at.
+                Quality Halal Market is a family-owned halal butcher shop and grocery store on West
+                Parmer Lane in Cedar Park, a short drive from Leander, Round Rock and Northwest Austin.
+                Every cut on our counter is 100% hand-slaughtered Zabiha halal, trimmed and prepared
+                fresh to order.
               </p>
               <p>
                 We started this shop to give our neighbors a butcher counter they can trust: honest
@@ -1147,9 +1195,28 @@ export default function App() {
               <div className="store-info-icon" style={{ width: '64px', height: '64px' }}>
                 <Users size={30} />
               </div>
-              <h4>Run By The Community, For The Community</h4>
+              <h3>Run By The Community, For The Community</h3>
               <p>No corporate supply chain — just a local shop that hand-cuts every order and stands behind it.</p>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ — mirrored as FAQPage JSON-LD in index.html */}
+      <section className="faq-section" id="faq">
+        <div className="container" style={{ maxWidth: '860px' }}>
+          <div className="section-header-center">
+            <span className="section-tag">Questions</span>
+            <h2 className="section-title-lg">Halal Meat FAQ</h2>
+            <p className="section-desc">Quick answers about our meat, hours and ordering. Still stuck? Tap "Ask the Butcher" or call us.</p>
+          </div>
+          <div className="faq-list">
+            {FAQ_ITEMS.map(item => (
+              <details key={item.q} className="faq-item">
+                <summary>{item.q}</summary>
+                <p>{item.a}</p>
+              </details>
+            ))}
           </div>
         </div>
       </section>
@@ -1161,9 +1228,9 @@ export default function App() {
             <div className="footer-col">
               <div className="brand-logo" style={{ marginBottom: '1rem' }}>
                 <img src={logo} alt="Quality Halal Market" className="logo-mark-img" />
-                <div className="logo-text-group"><h1>Quality Halal Market</h1><span>Premium Meats & Groceries</span></div>
+                <div className="logo-text-group"><p className="brand-name">Quality Halal Market</p><span>Halal Meat & Groceries</span></div>
               </div>
-              <p>Your premier source for 100% hand-slaughtered Zabiha halal meat and Indian, Pakistani & Mediterranean groceries.</p>
+              <p>Hand-slaughtered Zabiha halal meat and Indian, Pakistani & Mediterranean groceries in Cedar Park, TX. Open daily 10 AM – 9 PM.</p>
             </div>
             <div className="footer-col">
               <h4>Meat</h4>
@@ -1197,6 +1264,8 @@ export default function App() {
           </div>
         </div>
       </footer>
+
+      <ShopHelper products={MEAT_PRODUCTS} onAddToList={handleAddToCart} />
     </div>
     </>
   );

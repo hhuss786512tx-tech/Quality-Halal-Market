@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://hhuss786512tx-tech.github.io/Quality-Halal-Market/sitemap.xml

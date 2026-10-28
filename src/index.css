@@ -2620,3 +2620,151 @@ h1, h2, h3, h4, h5, h6 {
   background: rgba(20, 16, 10, 0.08);
   color: var(--text-light);
 }
+
+/* ============================================================================
+   HOME RESHAPE 2026-10-28 — store first, catalog on its own page.
+   ============================================================================ */
+.order-strip-section { padding: 0 0 4rem; }
+.order-strip {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--border-subtle);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  margin-top: -2.5rem;
+  position: relative;
+  z-index: 11;
+  box-shadow: var(--shadow-lg);
+}
+.order-strip li {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+  padding: 1.6rem 1.75rem;
+  background: var(--bg-card);
+}
+.order-step-num {
+  flex-shrink: 0;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-serif);
+  font-weight: 700;
+  font-size: 1rem;
+  color: #0b0a09;
+  background: var(--gold-accent);
+}
+:root[data-theme='light'] .order-step-num { color: #ffffff; }
+.order-strip h3 {
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text-white);
+  margin-bottom: 0.3rem;
+  letter-spacing: -0.005em;
+}
+.order-strip p { font-size: 0.92rem; line-height: 1.6; color: var(--text-muted); }
+.order-strip p a { color: var(--gold-accent); font-weight: 600; }
+.order-strip p a:hover { color: var(--gold-light); }
+.proof-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem 1.75rem;
+  margin-top: 1.25rem;
+  padding: 0 0.5rem;
+}
+.proof-row a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.86rem;
+  color: var(--text-muted);
+  transition: color 0.18s ease;
+}
+.proof-row a svg { color: var(--gold-accent); }
+.proof-row a:hover { color: var(--text-white); }
+.proof-row a:focus-visible { outline: 2px solid var(--gold-accent); outline-offset: 3px; border-radius: 4px; }
+
+.store-photos-section { padding: 0 0 4rem; }
+.store-photos-strip {
+  display: grid;
+  grid-template-columns: 1.6fr 1fr 1fr;
+  gap: 0.9rem;
+  height: 320px;
+}
+.store-photos-strip img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: var(--radius-md);
+}
+
+.featured-section { padding: 1rem 0 5rem; }
+.section-header-split {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 2rem;
+  margin-bottom: 2.5rem;
+}
+.section-header-split .section-header-center { margin-bottom: 0; }
+.section-header-split > .btn-outline-gold { flex-shrink: 0; margin-bottom: 0.4rem; }
+.products-grid-container.cols-4 { grid-template-columns: repeat(4, 1fr); }
+.featured-section .product-img-wrapper { height: 200px; }
+
+.grocery-section { padding: 1rem 0 5rem; }
+.grocery-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 1.25rem;
+}
+.grocery-col {
+  background: var(--bg-card);
+  border-radius: var(--radius-md);
+  padding: 1.4rem 1.4rem 1.5rem;
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.03) inset, 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+.grocery-col h3 {
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--gold-accent);
+  margin-bottom: 0.9rem;
+  padding-bottom: 0.7rem;
+  border-bottom: 1px solid var(--border-subtle);
+}
+.grocery-col ul { list-style: none; display: flex; flex-direction: column; gap: 0.45rem; }
+.grocery-col li { font-size: 0.92rem; color: var(--text-light); }
+
+@media (max-width: 1024px) {
+  .products-grid-container.cols-4 { grid-template-columns: repeat(2, 1fr); }
+  .grocery-grid { grid-template-columns: repeat(3, 1fr); }
+  .store-photos-strip { grid-template-columns: 1fr 1fr; height: auto; }
+  .store-photos-strip img { height: 220px; }
+  .store-photos-strip img:first-child { grid-column: 1 / -1; height: 300px; }
+}
+@media (max-width: 768px) {
+  .order-strip { grid-template-columns: 1fr; margin-top: 0; }
+  .order-strip li { padding: 1.25rem 1.35rem; }
+  .order-strip-section { padding: 1.75rem 0 3rem; }
+  .section-header-split { flex-direction: column; align-items: flex-start; gap: 1rem; margin-bottom: 1.75rem; }
+  .featured-section, .grocery-section { padding-bottom: 3.5rem; }
+}
+@media (max-width: 640px) {
+  .products-grid-container.cols-4 { grid-template-columns: 1fr; }
+  .featured-section .product-img-wrapper { height: 220px; }
+  .grocery-grid { grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+  .grocery-col { padding: 1.1rem 1rem; }
+  .grocery-col li { font-size: 0.86rem; }
+  .store-photos-strip img, .store-photos-strip img:first-child { height: 200px; }
+}
+/* The order strip overlaps the bottom of the hero by 2.5rem; keep the slide
+   dots above it. */
+@media (min-width: 769px) { .hero-dots { bottom: 4rem; } }

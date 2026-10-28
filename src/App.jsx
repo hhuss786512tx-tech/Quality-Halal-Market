@@ -1,5 +1,3 @@
-// Build timestamp: 1786581001Z — forced rebuild v2
-const CACHE_BUST = '20260812-1933';
 import React, { useState, useMemo, useEffect } from 'react';
 import {
   Phone, X, ShieldCheck, ArrowRight, MapPin,
@@ -7,7 +5,7 @@ import {
   Sliders, Search,
   Eye, RefreshCw, Sparkles,
   Filter, ShoppingBag, Store, Beef, Milk, Wheat, Package, Drumstick, Ham, Camera, Users,
-  Sun, Moon
+  Sun, Moon, MessageCircle
 } from 'lucide-react';
 import IntroOverlay from './components/IntroOverlay';
 import ShopHelper from './components/ShopHelper';
@@ -325,8 +323,6 @@ const GROCERY_SNACKS = [
   createProduct('gk7', 'Baklava', 'Sweets & Snacks', null, { description: 'Layered filo pastry with nuts and honey.' }),
 ];
 
-const ALL_GROCERY = [...GROCERY_RICE, ...GROCERY_SPICES, ...GROCERY_DAIRY, ...GROCERY_FROZEN, ...GROCERY_SNACKS];
-
 // Grocery sub-tabs. Defined at module scope — it's a static catalog grouping,
 // so it never needs to be recreated per render.
 const GROCERY_SUB_CATEGORIES = [
@@ -362,6 +358,7 @@ const HOME_HERO_IMAGES = [
 
 // Hero copy for each category's own page.
 const CATEGORY_PAGE_COPY = {
+  All: { title: 'Every cut on the board, with prices', subtitle: 'Beef, goat, lamb and chicken, fresh and frozen. Filter by cut style, sort by price, and build your list before you call.' },
   Beef: { title: 'Halal Beef in Cedar Park', subtitle: 'Hand-slaughtered Zabiha beef, fresh and frozen. Curry cubes, nihari, keema, ribeye and filet mignon, cut the way you ask.' },
   'Goat & Lamb': { title: 'Halal Goat & Lamb in Cedar Park', subtitle: 'Whole or half goat and lamb cut to your instructions, plus chops, leg, qeema, ribs and every specialty cut on the board.' },
   Chicken: { title: 'Halal Chicken in Cedar Park', subtitle: 'Hand-slaughtered Zabiha chicken, fresh and frozen. Whole birds cut up on request at no charge.' },
@@ -371,6 +368,7 @@ const CATEGORY_PAGE_COPY = {
 // still shows in the browser tab and when someone shares a category link.
 const DEFAULT_TITLE = 'Zabiha Halal Meat & Butcher in Cedar Park, TX | Quality Halal Market';
 const ROUTE_TITLE = {
+  shop: 'All Halal Meat Cuts & Prices, Cedar Park TX | Quality Halal Market',
   beef: 'Halal Beef Cuts & Prices, Cedar Park TX | Quality Halal Market',
   'goat-lamb': 'Halal Goat & Lamb, Whole or Cut to Order | Quality Halal Market',
   chicken: 'Zabiha Halal Chicken, Cedar Park TX | Quality Halal Market',
@@ -389,6 +387,18 @@ const FAQ_ITEMS = [
   { q: 'Do you sell meat for nihari and paya?', a: 'Yes. We carry fresh nihari cut ($8.99/lb), frozen beef paya ($4.99/lb), goat paya with skin ($5.99/lb) and beef marrow bones ($3.99/lb).' },
   { q: 'Do you sell groceries too?', a: 'Yes. We stock Indian, Pakistani and Mediterranean groceries: rice, flour and lentils, spices, dairy, frozen and canned foods, sweets and snacks. Call for current prices.' },
 ];
+
+// Home page curation. FEATURED_IDS are the cuts people ask for most at a desi
+// butcher counter; ids must exist in MEAT_PRODUCTS. STORE_PHOTOS stays empty
+// until the store supplies real photos of the shop (no stock stand-ins here).
+// WHATSAPP_NUMBER stays null until the store confirms the line is on WhatsApp.
+const FEATURED_IDS = ['gl4', 'gl5', 'gl8', 'b9', 'b13', 'b11', 'c4', 'c6'];
+const FEATURED_PRODUCTS = FEATURED_IDS.map(id => MEAT_PRODUCTS.find(p => p.id === id)).filter(Boolean);
+const STORE_PHOTOS = [];
+const WHATSAPP_NUMBER = null;
+const MAPS_URL = 'https://maps.google.com/?q=Quality+Halal+Market+12920+West+Parmer+Lane+%23106+Cedar+Park+TX+78613';
+const ZABIHAH_URL = 'https://www.zabihah.com/biz/Cedar-Park/Quality-Halal-Market/nGRxhjbVav';
+const FACEBOOK_URL = 'https://www.facebook.com/QualityHalalMarket';
 
 // The shopping list persists in this browser only (the Privacy Policy says so).
 const LIST_KEY = 'qhm-list';
@@ -423,6 +433,7 @@ const getRouteFromHash = () => {
   if (typeof window === 'undefined') return 'home';
   const h = window.location.hash.replace(/^#\/?/, '');
   if (h === 'privacy') return 'privacy';
+  if (h === 'shop') return 'shop';
   return ROUTE_CATEGORY[h] ? h : 'home';
 };
 
@@ -566,7 +577,8 @@ const PrivacyPolicyPage = ({ navigate, logoSrc }) => (
 export default function App() {
   // 'home' (all meat) or one of the ROUTE_CATEGORY keys (its own page).
   const [route, setRoute] = useState(getRouteFromHash);
-  const activeMeatCat = route === 'home' ? 'All' : ROUTE_CATEGORY[route];
+  const isCatalog = route !== 'home' && route !== 'privacy';
+  const activeMeatCat = route === 'home' || route === 'shop' ? 'All' : ROUTE_CATEGORY[route];
   const [searchQuery, setSearchQuery] = useState('');
   const [sortOption, setSortOption] = useState('default');
   const [priceMaxFilter, setPriceMaxFilter] = useState(PRICE_MAX);
@@ -613,7 +625,7 @@ export default function App() {
 
   // Keep `route` in sync with the URL (back/forward buttons, a pasted link).
   useEffect(() => {
-    const onHashChange = () => setRoute(getRouteFromHash());
+    const onHashChange = () => { setRoute(getRouteFromHash()); setSearchQuery(''); window.scrollTo(0, 0); };
     window.addEventListener('hashchange', onHashChange);
     return () => window.removeEventListener('hashchange', onHashChange);
   }, []);
@@ -720,6 +732,41 @@ export default function App() {
     );
     return `$${product.price.toFixed(2)}${product.perLb ? ' / lb' : ''}`;
   };
+
+  // One card markup for the home "featured" grid and the catalog grid.
+  // `cols` only drives the reveal stagger so each row cascades left to right.
+  const renderProductCard = (p, i, cols) => (
+    <div key={p.id} className="product-card" data-reveal style={{ '--reveal-delay': `${(i % cols) * 70}ms` }}>
+      <div className={`product-img-wrapper ${p.whiteBg ? 'product-img-wrapper--blend' : ''}`}>
+        {p.image
+          ? <img src={p.image} alt={p.name} className="product-card-img" loading="lazy" />
+          : <PhotoPlaceholder label={p.name} category={p.category} variant="card" />}
+        {p.badge && (
+          <div className="card-badges-stack">
+            <span className="badge-sale">{p.badge}</span>
+          </div>
+        )}
+        <div className="quick-actions-bar">
+          <button className="action-icon-btn" title="Quick View" onClick={() => setQuickViewProduct(p)}><Eye size={16} /></button>
+        </div>
+      </div>
+      <div className="product-card-body">
+        <span className="product-sku-tag" style={{ color: p.marketPrice ? 'var(--gold-accent)' : undefined }}>
+          {p.marketPrice ? 'MARKET PRICE' : p.category.toUpperCase()}
+        </span>
+        <h3 className="product-title">{p.name}</h3>
+        <div className="product-pricing-wrap">
+          <span className="current-price">{formatPrice(p)}</span>
+          {p.originalPrice && <span className="old-price">${p.originalPrice.toFixed(2)}</span>}
+        </div>
+        <div className="card-bottom-controls">
+          <button className="btn-add-cart-card" onClick={() => handleAddToCart(p)}>
+            <ShoppingCart size={16} /><span>Add to List</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  );
 
   if (route === 'privacy') {
     return <PrivacyPolicyPage navigate={navigate} logoSrc={logo} />;
@@ -846,16 +893,13 @@ export default function App() {
                 <h1 className="hero-title">Zabiha halal meat, <em>hand-cut</em> in Cedar Park</h1>
                 <p className="hero-subtitle">Hand-slaughtered beef, goat, lamb and chicken, fresh and frozen, cut and trimmed to order. Plus Indian, Pakistani and Mediterranean groceries, open every day on West Parmer Lane.</p>
                 <div className="hero-actions">
-                  <button className="btn-primary-green" onClick={() => document.getElementById('shop-section')?.scrollIntoView({ behavior: 'smooth' })}>
-                    <span>Shop Meat Counter</span>
-                    <ArrowRight size={18} />
-                  </button>
-                  <button className="btn-outline-gold" onClick={() => document.getElementById('categories-section')?.scrollIntoView({ behavior: 'smooth' })}>
-                    <span>Browse by Category</span>
-                  </button>
-                  <a href="tel:+15122607677" className="btn-outline-gold">
+                  <a href="tel:+15122607677" className="btn-primary-green">
                     <Phone size={18} /><span>Call (512) 260-7677</span>
                   </a>
+                  <button className="btn-outline-gold" onClick={() => navigate('shop')}>
+                    <span>All {MEAT_PRODUCTS.length} cuts &amp; prices</span>
+                    <ArrowRight size={18} />
+                  </button>
                 </div>
                 <ul className="hero-stats" aria-label="At a glance">
                   <li><strong>{MEAT_PRODUCTS.length} cuts</strong><span>On the board</span></li>
@@ -874,8 +918,8 @@ export default function App() {
                     <span>Shop {activeMeatCat}</span>
                     <ArrowRight size={18} />
                   </button>
-                  <button className="btn-outline-gold" onClick={() => navigate('home')}>
-                    <span>← All Meat</span>
+                  <button className="btn-outline-gold" onClick={() => navigate(route === 'shop' ? 'home' : 'shop')}>
+                    <span>{route === 'shop' ? '← Home' : '← All cuts'}</span>
                   </button>
                   <a href="tel:+15122607677" className="btn-outline-gold">
                     <Phone size={18} /><span>Call (512) 260-7677</span>
@@ -887,14 +931,85 @@ export default function App() {
         </div>
       </section>
 
-      {/* CATEGORIES SHOWCASE — home only; each category has its own page now */}
+      {/* HOME: how ordering works, in one strip */}
+      {route === 'home' && (
+        <section className="order-strip-section" aria-label="How to order">
+          <div className="container">
+            <ol className="order-strip" data-reveal>
+              <li>
+                <span className="order-step-num">1</span>
+                <div>
+                  <h3>Pick your cuts</h3>
+                  <p>Every price on our board is on this site. Tap "Add to List" as you go.</p>
+                </div>
+              </li>
+              <li>
+                <span className="order-step-num">2</span>
+                <div>
+                  <h3>Call us with your list</h3>
+                  <p><a href="tel:+15122607677">(512) 260-7677</a>, 10 AM to 9 PM. Whole or half goat? Call a day ahead.</p>
+                </div>
+              </li>
+              <li>
+                <span className="order-step-num">3</span>
+                <div>
+                  <h3>Pick up at the counter</h3>
+                  <p>Cut and trimmed to order. 12920 W Parmer Ln #106, next to HEB.</p>
+                </div>
+              </li>
+            </ol>
+            <div className="proof-row" data-reveal>
+              <a href={MAPS_URL} target="_blank" rel="noopener noreferrer"><MapPin size={14} /><span>Reviews &amp; directions on Google</span></a>
+              <a href={ZABIHAH_URL} target="_blank" rel="noopener noreferrer"><ShieldCheck size={14} /><span>Halal status confirmed on Zabihah</span></a>
+              <a href={FACEBOOK_URL} target="_blank" rel="noopener noreferrer"><Users size={14} /><span>Facebook</span></a>
+              {WHATSAPP_NUMBER && (
+                <a href={`https://wa.me/${WHATSAPP_NUMBER}`} target="_blank" rel="noopener noreferrer"><MessageCircle size={14} /><span>WhatsApp your list</span></a>
+              )}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* HOME: real store photos, rendered only once the store supplies them */}
+      {route === 'home' && STORE_PHOTOS.length > 0 && (
+        <section className="store-photos-section" aria-label="Inside the store">
+          <div className="container">
+            <div className="store-photos-strip" data-reveal>
+              {STORE_PHOTOS.map(ph => <img key={ph.src} src={ph.src} alt={ph.alt} loading="lazy" />)}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* HOME: most asked-for cuts, then the door to the full catalog */}
+      {route === 'home' && (
+        <section id="featured-section" className="featured-section">
+          <div className="container">
+            <div className="section-header-split">
+              <div className="section-header-center">
+                <span className="section-tag">Most asked for</span>
+                <h2 className="section-title-lg">The cuts people come in for</h2>
+                <p className="section-desc">Goat mix for curry, qeema for kebabs, nihari cut with the bone in. Prices straight off the counter board.</p>
+              </div>
+              <button className="btn-outline-gold" onClick={() => navigate('shop')}>
+                <span>All {MEAT_PRODUCTS.length} cuts &amp; prices</span><ArrowRight size={16} />
+              </button>
+            </div>
+            <div className="products-grid-container cols-4">
+              {FEATURED_PRODUCTS.map((p, i) => renderProductCard(p, i, 4))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* HOME: category tiles */}
       {route === 'home' && (
         <section id="categories-section" className="categories-showcase-section">
           <div className="container">
             <div className="section-header-center">
-              <span className="section-tag">Explore By Category</span>
-              <h2 className="section-title-lg">Shop Halal Meat by Category</h2>
-              <p className="section-desc">Every cut and price on our counter board, sorted by beef, goat and lamb, and chicken.</p>
+              <span className="section-tag">Browse by animal</span>
+              <h2 className="section-title-lg">Beef, goat &amp; lamb, chicken</h2>
+              <p className="section-desc">Each page lists every cut and price on the board for that animal, fresh and frozen.</p>
             </div>
             <div className="photo-categories-grid">
               {PHOTO_CATEGORIES.map((cat, idx) => (
@@ -917,13 +1032,39 @@ export default function App() {
         </section>
       )}
 
+      {/* HOME: grocery shelves. No shelf prices have been supplied, so this is
+          a stock list, not a price list; the copy says so. */}
+      {route === 'home' && (
+        <section className="grocery-section" id="grocery">
+          <div className="container">
+            <div className="section-header-center">
+              <span className="section-tag">Groceries</span>
+              <h2 className="section-title-lg">Indian, Pakistani &amp; Mediterranean shelves</h2>
+              <p className="section-desc">Rice, atta, dals, spices, dairy, frozen and sweets. Shelf prices change, so call to check stock and price.</p>
+            </div>
+            <div className="grocery-grid" data-reveal>
+              {GROCERY_SUB_CATEGORIES.map(group => (
+                <div key={group.key} className="grocery-col">
+                  <h3>{group.label}</h3>
+                  <ul>
+                    {group.data.map(item => <li key={item.id}>{item.name}</li>)}
+                  </ul>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* CATALOG PAGES ONLY: ribbon, toolbar, grid */}
+      {isCatalog && (<>
       {/* CATEGORY RIBBON — also doubles as primary nav between the home page
           and each meat's own page; pills navigate rather than just filter. */}
       <section id="shop-section" className="shop-cat-ribbon-section">
         <div className="container">
           <div className="shop-cat-ribbon-wrap">
             {MEAT_CATEGORIES.map(cat => (
-              <button key={cat} className={`shop-cat-pill ${activeMeatCat === cat ? 'active' : ''}`} onClick={() => navigate(cat === 'All' ? 'home' : CATEGORY_ROUTE[cat])}>
+              <button key={cat} className={`shop-cat-pill ${activeMeatCat === cat ? 'active' : ''}`} onClick={() => navigate(cat === 'All' ? 'shop' : CATEGORY_ROUTE[cat])}>
                 {cat === 'All' ? (
                   <div className="shop-cat-icon-thumb" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'var(--primary-green)', border: '1.5px solid var(--gold-accent)' }}>
                     <ShoppingBag size={16} color="var(--gold-accent)" />
@@ -1018,43 +1159,13 @@ export default function App() {
               </div>
             ) : (
               <div className="products-grid-container cols-3">
-                {filteredProducts.map((p, i) => (
-                  <div key={p.id} className="product-card" data-reveal style={{ '--reveal-delay': `${(i % 3) * 70}ms` }}>
-                    <div className={`product-img-wrapper ${p.whiteBg ? 'product-img-wrapper--blend' : ''}`}>
-                      {p.image
-                        ? <img src={p.image} alt={p.name} className="product-card-img" />
-                        : <PhotoPlaceholder label={p.name} category={p.category} variant="card" />}
-                      {p.badge && (
-                        <div className="card-badges-stack">
-                          <span className="badge-sale">{p.badge}</span>
-                        </div>
-                      )}
-                      <div className="quick-actions-bar">
-                        <button className="action-icon-btn" title="Quick View" onClick={() => setQuickViewProduct(p)}><Eye size={16} /></button>
-                      </div>
-                    </div>
-                    <div className="product-card-body">
-                      <span className="product-sku-tag" style={{ color: p.marketPrice ? 'var(--gold-accent)' : 'var(--text-muted)' }}>
-                        {p.marketPrice ? 'MARKET PRICE' : p.category.toUpperCase()}
-                      </span>
-                      <h3 className="product-title">{p.name}</h3>
-                      <div className="product-pricing-wrap">
-                        <span className="current-price">{formatPrice(p)}</span>
-                        {p.originalPrice && <span className="old-price">${p.originalPrice.toFixed(2)}</span>}
-                      </div>
-                      <div className="card-bottom-controls">
-                        <button className="btn-add-cart-card" onClick={() => handleAddToCart(p)}>
-                          <ShoppingCart size={16} /><span>Add to List</span>
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                ))}
+                {filteredProducts.map((p, i) => renderProductCard(p, i, 3))}
               </div>
             )}
           </section>
         </div>
       </main>
+      </>)}
 
       {/* QUICK VIEW MODAL */}
       {quickViewProduct && (
@@ -1208,6 +1319,7 @@ export default function App() {
           been provided yet. Replace the copy below with the real thing (and add a
           photo of the owner or the counter) before this goes live. Nothing here is
           invented; it only states what's already established elsewhere on the site. */}
+      {route === 'home' && (
       <section className="about-us-section">
         <div className="container">
           <div className="about-us-grid" data-reveal>
@@ -1240,6 +1352,7 @@ export default function App() {
           </div>
         </div>
       </section>
+      )}
 
       {/* FAQ — mirrored as FAQPage JSON-LD in index.html */}
       <section className="faq-section" id="faq">
@@ -1274,6 +1387,7 @@ export default function App() {
             <div className="footer-col">
               <h4>Meat</h4>
               <ul>
+                <li><a href="#/shop" onClick={(e) => { e.preventDefault(); navigate('shop'); }}>All cuts &amp; prices</a></li>
                 <li><a href="#/beef" onClick={(e) => { e.preventDefault(); navigate('beef'); }}>Beef</a></li>
                 <li><a href="#/goat-lamb" onClick={(e) => { e.preventDefault(); navigate('goat-lamb'); }}>Goat & Lamb</a></li>
                 <li><a href="#/chicken" onClick={(e) => { e.preventDefault(); navigate('chicken'); }}>Chicken</a></li>
